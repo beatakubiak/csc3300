@@ -1,4 +1,5 @@
-\documentclass[12pt]{exam}
+\documentclass[12pt,answers]{exam}
+
 \input{preamble.tex}
 
 \begin{document}
@@ -49,8 +50,8 @@ True or False: In the given University Database, a course can have itself as a p
 \question[2]
 True or False: In the \textbf{section} relation, the \textit{course\_id} and \textit{sec\_id} attributes must always have distinct values from one another.
 \begin{checkboxes}
-    \CorrectChoice True
-    \choice False
+    \choice True
+    \CorrectChoice False
 \end{checkboxes}
 \end{minipage}
 
@@ -87,8 +88,8 @@ True or False: When invoked subsequently, the following sequence of commands wil
 \end{minipage}
 
 \begin{minipage}{\linewidth}
-\question[2]
-True or False: If the grade attribute was part of the current primary key of the \textbf{takes} relation, 
+\question[3]
+True or False: If the \textit{grade} attribute was part of the current primary key of the \textbf{takes} relation, 
 then a student could receive more than one grade for a given course section in a given semester and year.
 \begin{checkboxes}
     \CorrectChoice True
@@ -116,7 +117,7 @@ attribute of this tuple is equal to the value of the \textit{i\_id} attribute of
 \end{minipage}
 
 \begin{minipage}{\linewidth}
-\question[2]
+\question[3]
 Consider the following modifications to the University Database schema:  
 \begin{enumerate}[label=\textbullet]
     \item Remove the \textbf{teaches} table
@@ -160,7 +161,7 @@ True or False: In the University Database, a student and their advisor are alway
 \section*{Part II — Multiple choice (choose one)}
 
 \begin{minipage}{\linewidth}
-\question[2]
+\question[3]
 Assume that there are no tuples in any of the relation instances of the University Database. 
 What is the minimal number of tuples that need to be added to the database before one tuple 
 can be added to the table \textbf{teaches}?
@@ -174,7 +175,7 @@ can be added to the table \textbf{teaches}?
 \end{minipage}
 
 \begin{minipage}{\linewidth}
-\question[2]
+\question[3]
 What is the key structure of the \textbf{section} relation?
 
 \begin{checkboxes}
