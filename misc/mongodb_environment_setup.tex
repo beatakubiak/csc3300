@@ -1,0 +1,114 @@
+\documentclass[9pt]{article}
+
+\usepackage[margin=0.2in]{geometry}
+\usepackage{enumitem}
+\usepackage{courier}
+\usepackage{listings}
+\usepackage{fancyhdr}
+
+\lstset{
+  basicstyle=\ttfamily\footnotesize,
+  breaklines=true
+}
+
+
+\begin{document}
+
+\noindent
+\textbf{Database Management Systems}%
+\hfill%
+\textit{Configuration of the development environment for MongoDB}\\
+Beata Kubiak, Instructor
+
+\medskip
+
+%-------------- SECTION 1 -------------------%
+\section*{1. MongoDB Community Server}
+
+\begin{itemize}[leftmargin=*, itemsep=2pt]
+  \item Download the \textbf{ZIP} package (not MSI) from: \texttt{https://www.mongodb.com/try/download/community}.
+  \item Extract the ZIP (e.g.\ to \verb|c:\Users\your-username\Desktop|).
+  \item Create a data folder, e.g.:
+        \begin{flushleft}
+        \verb|c:\Users\your-username\Desktop\mongodb-windows-x86_64-8.2.1\data|
+        \end{flushleft}
+  \item Inside the folder where you extracted the server, there is a subfolder named \texttt{bin}; this is where \verb|mongod.exe| is located.
+  \item Start the server from the \texttt{bin} folder:
+\end{itemize}
+
+\begin{lstlisting}
+mongod.exe --dbpath c:\Users\your-username\Desktop\mongodb-windows-x86_64-8.2.1\data
+\end{lstlisting}
+
+\noindent Your server is running now.  
+The next time, start the server in the same way: run \verb|mongod.exe| with your data path.
+
+%-------------- SECTION 2 -------------------%
+\section*{2. MongoDB Database Tools}
+
+\begin{itemize}[leftmargin=*, itemsep=2pt]
+  \item Download the \textbf{ZIP} package (not MSI) from: \texttt{https://www.mongodb.com/try/download/database-tools}.
+  \item Extract the ZIP (e.g.\ to \verb|c:\Users\your-username\Desktop|).
+\end{itemize}
+
+%-------------- SECTION 3 -------------------%
+\section*{3. Sample Databases}
+
+\begin{itemize}[leftmargin=*, itemsep=2pt]
+  \item Download the archive:  
+        \texttt{https://atlas-education.s3.amazonaws.com/sampledata.archive}
+  \item With the server running, restore the archive as follows.
+\end{itemize}
+
+\noindent The binary \verb|mongorestore.exe| will be located in a directory such as:
+\begin{flushleft}
+\verb|c:\Users\your-username\Desktop\mongodb-database-tools-windows-x86_64-100.13.0\bin|
+\end{flushleft}
+
+\noindent If \verb|sampledata.archive| is in your Downloads folder, run the command from
+\verb|c:\Users\your-username\Downloads| as shown:
+
+\begin{lstlisting}
+c:\Users\your-username\Downloads>c:\Users\your-username\Desktop\mongodb-database-tools-windows-x86_64-100.13.0\bin\mongorestore --archive=sampledata.archive
+\end{lstlisting}
+
+\noindent This loads all sample databases (including \verb|sample_mflix|).
+
+%-------------- SECTION 4 -------------------%
+\section*{4. VS Code Setup}
+
+\begin{itemize}[leftmargin=*, itemsep=2pt]
+  \item Install the extension: \textbf{MongoDB for VS Code}.
+  \item In the ``MongoDB'' panel, click \textit{Add Connection}.  
+        VS Code will show the correct URL: \texttt{mongodb://localhost:27017}.  
+        Click \textbf{OK}.
+  \item Click \textit{Create MongoDB Playground}.  
+        VS Code creates a file with example code; replace it with:
+\end{itemize}
+
+\begin{lstlisting}
+use('sample_mflix');
+db.getCollectionNames();
+\end{lstlisting}
+
+\begin{itemize}[leftmargin=*, itemsep=2pt]
+  \item Run the Playground file from VS Code; the result should be:
+\end{itemize}
+
+\begin{lstlisting}
+[
+  "movies",
+  "theaters",
+  "users",
+  "embedded_movies",
+  "comments",
+  "sessions"
+]
+\end{lstlisting}
+
+\begin{itemize}[leftmargin=*, itemsep=2pt]
+  \item After running the file, you may save it (e.g.\ as \verb|mflix_exploration.mongodb.js|) in any folder where you plan to store your Playground scripts. VS Code will treat that folder as the workspace for MongoDB Playgrounds.
+\end{itemize}
+
+
+\end{document}
