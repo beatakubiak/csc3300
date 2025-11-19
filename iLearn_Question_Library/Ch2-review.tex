@@ -2,5 +2,242 @@
 \input{preamble.tex}
 
 \begin{document}
-TODO
+\noindent Name:\ \makebox[3in]{\hrulefill}
+\begin{questions}
+
+% ------------------ TRUE/FALSE SECTION ------------------
+\section*{Part I — True/False}
+
+\begin{minipage}{\linewidth}
+\question[2]
+True or False: In a relation instance, all tuples must have non-\textit{null} values 
+for attributes that are part of the primary key.
+\begin{checkboxes}
+    \CorrectChoice True
+    \choice False
+\end{checkboxes}
+\end{minipage}
+
+\begin{minipage}{\linewidth}
+\question[2]
+True or False: \{\textit{course\_id}, \textit{title}\} is a candidate key for the relation \textbf{course}.
+\begin{checkboxes}
+    \choice True
+    \CorrectChoice False
+\end{checkboxes}
+\end{minipage}
+
+\begin{minipage}{\linewidth}
+\question[2]
+True or False: The \textbf{takes} relation has exactly 5 foreign keys.
+\begin{checkboxes}
+    \choice True
+    \CorrectChoice False
+\end{checkboxes}
+\end{minipage}
+
+\begin{minipage}{\linewidth}
+\question[2]
+True or False: In the given University Database, a course can have itself as a prerequisite.
+\begin{checkboxes}
+    \CorrectChoice True
+    \choice False
+\end{checkboxes}
+\end{minipage}
+
+\begin{minipage}{\linewidth}
+\question[2]
+True or False: In the \textbf{section} relation, the \textit{course\_id} and \textit{sec\_id} attributes must always have distinct values from one another.
+\begin{checkboxes}
+    \CorrectChoice True
+    \choice False
+\end{checkboxes}
+\end{minipage}
+
+\begin{minipage}{\linewidth}
+\question[2]
+True or False: It is possible for the University Database to have exactly one tuple in each of its tables.
+\begin{checkboxes}
+    \CorrectChoice True
+    \choice False
+\end{checkboxes}
+\end{minipage}
+
+\begin{minipage}{\linewidth}
+\question[2]
+True or False: In the University Database, the course ID can be 'GoodLuck'.
+\begin{checkboxes}
+    \CorrectChoice True
+    \choice False
+\end{checkboxes}
+\end{minipage}
+
+\begin{minipage}{\linewidth}
+\question[2]
+True or False: When invoked subsequently, the following sequence of commands will execute successfully on a database instance with no tuples in any of the tables:
+\begin{enumerate}
+  \item \texttt{insert into course values ('3300', 'DBMS', null, 3);}
+  \item \parbox[t]{0.9\linewidth}{\ttfamily
+    insert into section values ('3300', '001', 'Fall', 2022, null, null, 'A');}
+\end{enumerate}
+\begin{checkboxes}
+    \CorrectChoice True
+    \choice False
+\end{checkboxes}
+\end{minipage}
+
+\begin{minipage}{\linewidth}
+\question[2]
+True or False: If the grade attribute was part of the current primary key of the \textbf{takes} relation, 
+then a student could receive more than one grade for a given course section in a given semester and year.
+\begin{checkboxes}
+    \CorrectChoice True
+    \choice False
+\end{checkboxes}
+\end{minipage}
+
+\begin{minipage}{\linewidth}
+\question[2]
+True or False: In any instance of the University Database, if the \textbf{instructor} relation contains 0 tuples, then the \textbf{teaches} relation also contains 0 tuples.
+\begin{checkboxes}
+    \CorrectChoice True
+    \choice False
+\end{checkboxes}
+\end{minipage}
+
+\begin{minipage}{\linewidth}
+\question[2]
+True or False: A tuple is inserted into the \textbf{instructor} relation only if the value of the \textit{ID} 
+attribute of this tuple is equal to the value of the \textit{i\_id} attribute of some tuple in the \textbf{advisor} relation.
+\begin{checkboxes}
+    \choice True
+    \CorrectChoice False
+\end{checkboxes}
+\end{minipage}
+
+\begin{minipage}{\linewidth}
+\question[2]
+Consider the following modifications to the University Database schema:  
+\begin{enumerate}[label=\textbullet]
+    \item Remove the \textbf{teaches} table
+    \item Add an attribute \texttt{i\_id} to the \textbf{section} table
+    \item Make \texttt{i\_id} a foreign key referencing the \textbf{instructor} table
+\end{enumerate}
+True or False: In the modified schema, each section can be taught by at most one instructor.
+\begin{checkboxes}
+    \CorrectChoice True
+    \choice False
+\end{checkboxes}
+\end{minipage}
+
+\begin{minipage}{\linewidth}
+\question[2]
+True or False: The University Database allows for a classroom to exist without any course sections ever being assigned to it.
+\begin{checkboxes}
+    \CorrectChoice True
+    \choice False
+\end{checkboxes}
+\end{minipage}
+
+\begin{minipage}{\linewidth}
+\question[2]
+True or False: In the \textbf{advisor} relation, it is permissible for a tuple to have a null value for the \textit{i\_ID} attribute.
+\begin{checkboxes}
+    \CorrectChoice True
+    \choice False
+\end{checkboxes}
+\end{minipage}
+
+\begin{minipage}{\linewidth}
+\question[2]
+True or False: In the University Database, a student and their advisor are always affiliated with the same department.
+\begin{checkboxes}
+    \choice True
+    \CorrectChoice False
+\end{checkboxes}
+\end{minipage}
+% ------------------ MULTIPLE CHOICE SECTION ------------------
+\section*{Part II — Multiple choice (choose one)}
+
+\begin{minipage}{\linewidth}
+\question[2]
+Assume that there are no tuples in any of the relation instances of the University Database. 
+What is the minimal number of tuples that need to be added to the database before one tuple 
+can be added to the table \textbf{teaches}?
+
+\begin{checkboxes}
+    \choice 2
+    \CorrectChoice 3
+    \choice 4
+    \choice 5
+\end{checkboxes}
+\end{minipage}
+
+\begin{minipage}{\linewidth}
+\question[2]
+What is the key structure of the \textbf{section} relation?
+
+\begin{checkboxes}
+    \CorrectChoice It has one primary key and two foreign keys.
+    \choice It has four primary keys and two foreign keys
+    \choice It has four primary keys and three foreign keys.
+    \choice It has one primary key and three foreign keys
+\end{checkboxes}
+\end{minipage}
+
+% ------------------ MULTIPLE SELECT SECTION ------------------
+\section*{Part III — Multiple select (select all that apply)}
+
+\begin{minipage}{\linewidth}
+\question[4]
+Choose superkey(s) of the relation \texttt{section}. (Select all that apply.)
+
+\begin{checkboxes}
+    \CorrectChoice \{\texttt{course\_id}, \texttt{sec\_id}, \texttt{semester}, \texttt{year}\}
+    \CorrectChoice \{\texttt{course\_id}, \texttt{sec\_id}, \texttt{semester}, \texttt{year}, \texttt{building}, \texttt{room\_no}\}
+    \choice \{\texttt{building}, \texttt{room\_no}\}
+    \CorrectChoice \{\texttt{course\_id}, \texttt{sec\_id}, \texttt{semester}, \texttt{year}, \texttt{building}, \texttt{room\_no}, \texttt{time\_slot\_id}\}
+\end{checkboxes}
+\begin{solution}
+A superkey must uniquely identify a tuple.  
+The primary key \{\texttt{course\_id}, \texttt{sec\_id}, \texttt{semester}, \texttt{year}\} does this, 
+and any superset of it remains a superkey.  
+However, \{\texttt{building}, \texttt{room\_no}\} alone cannot guarantee uniqueness across all sections.
+\end{solution}
+\end{minipage}
+
+\begin{minipage}{\linewidth}
+\question[4]
+Under the condition that the insertion does not violate any primary key constraints, into which table(s) 
+can a tuple always be inserted, regardless of the current database instance? (Select all that apply.)
+
+\begin{checkboxes}
+    \choice advisor
+    \CorrectChoice classroom
+    \CorrectChoice course
+    \choice prereq
+\end{checkboxes}
+\end{minipage}
+
+\begin{minipage}{\linewidth}
+\question[4]
+Consider the following specification of user requirements for a Library Database:
+For each book copy, the following data is stored: title, edition, number of pages, and barcode. 
+When a member checks out a book copy, its barcode is scanned and linked to the member’s account. 
+When the book copy is returned, the barcode is scanned again, and the book is marked as available for borrowing.  
+\\\newline
+Consider storing title (\texttt{title}), edition (\texttt{edition}), number of pages (\texttt{pages\_no}), and barcode (\texttt{barcode}) for a book copy in a single table.  
+\\\newline
+Which of the following statements are true? (Select all that apply.)
+
+\begin{checkboxes}
+    \CorrectChoice The title may be stored redundantly, leading to data duplication. 
+    \CorrectChoice The \{\texttt{barcode}\} is a candidate key
+    \choice \{\texttt{barcode}, \texttt{title}\} is a candidate key
+    \CorrectChoice \{\texttt{barcode}, \texttt{title}\} is a super key.
+\end{checkboxes}
+\end{minipage}
+
+\end{questions}
+
 \end{document}
