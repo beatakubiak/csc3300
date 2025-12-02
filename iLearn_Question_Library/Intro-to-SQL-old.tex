@@ -1,6 +1,157 @@
-\documentclass[12pt]{exam}
+\documentclass[12pt, addpoints]{exam}
 \input{preamble.tex}
 
 \begin{document}
-TODO
+\noindent Name:\ \makebox[3in]{\hrulefill}\hfill Points Scored: \underline{\hspace{3em}} / \numpoints
+\begin{questions}
+
+% ------------------ TRUE/FALSE SECTION ------------------
+\section*{Part I — True/False}
+
+\begin{minipage}{\linewidth}
+\question[2]
+True or False: An instructor can teach two different course sections, in a given semester and year, in two different classrooms in the same time slot.\par\vspace{0.5em}
+\begin{checkboxes}
+    \CorrectChoice True
+    \choice False
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\begin{minipage}{\linewidth}
+\question[2]
+True or False: A scalar query returns only one tuple with at least one attribute.\par\vspace{0.5em}
+\begin{checkboxes}
+    \CorrectChoice True
+    \choice False
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\begin{minipage}{\linewidth}
+\question[2]
+True or False: Command: \\ delete from instructor; \\ deletes the table \textit{\textbf{instructor}} from the schema of the University database.\par\vspace{0.5em}
+\begin{checkboxes}
+    \choice True
+    \CorrectChoice False
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\begin{minipage}{\linewidth}
+\question[4]
+True or False: Below commands will run, when invoked subsequently, on any instance of the University database.\par\vspace{0.5em}
+\begin{verbatim}
+insert into department values ('Sanitation', 'BrunerHall', '70000');
+insert into instructor values ('1', 'Brown', 'Sanitation', '100000');
+insert into student values ('100', 'Blue', 'Sanitation', '120');
+insert into takes values ('100', 'CS-101', '1', 'Fall', '2009', null);
+insert into teaches values ('1', 'CS-101', '1', 'Fall', '2009');
+\end{verbatim}
+\begin{checkboxes}
+    \choice True
+    \CorrectChoice False
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\begin{minipage}{\linewidth}
+\question[2]
+True or False: Below two queries produce the same result for any instance of the University database.\par\vspace{0.5em}
+\begin{verbatim}
+select distinct course_id
+from course
+
+select course_id
+from course
+\end{verbatim}
+\begin{checkboxes}
+    \CorrectChoice True
+    \choice False
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\begin{minipage}{\linewidth}
+\question[2]
+True or False: Below query returns at most one tuple on any instance of the University database.\par\vspace{0.5em}
+\begin{verbatim}
+select course_id from course where course_id = 128;
+\end{verbatim}
+\begin{checkboxes}
+    \choice True
+    \CorrectChoice False
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+% ------------------ MULTIPLE SELECT SECTION ------------------
+\section*{Part III — Multiple select (select all that apply)}
+
+\begin{minipage}{\linewidth}
+\question[4]
+Assume all occurrences of "\texttt{ON DELETE SET NULL}" and "\texttt{ON DELETE CASCADE}" are removed from the definition of each table in the University database. 
+Then, it is a case that a department textbf{cannot} be deleted if:\par\vspace{0.5em}
+\begin{verbatim}
+HINT:
+Remove all occurrences of "ON DELETE SET NULL" and "ON DELETE CASCADE" 
+from the script university_schema_MySQL.sql, drop the university schema 
+and run the new version of university_schema_MySQL.sql, and then 
+smallRelationsInsertFile_MySQL.sql if you want to find the solution to 
+this problem with the MySQL server.&nbsp;
+\end{verbatim}
+(Select all that apply)\par\vspace{0.5em}
+\begin{checkboxes}
+    \CorrectChoice there is instructor associated with it.
+    \CorrectChoice there is student associated with it.
+    \CorrectChoice there is course associated with it.
+    \choice its office is in the building in which there are classrooms.
+\end{checkboxes}
+%---\begin{solution}
+%--- format for giving solution descriptions
+%---\end{solution}
+\end{minipage}\vspace{1em}
+
+\begin{minipage}{\linewidth}
+\question[8]
+Assume there are only the following instructors in the University database.\par\vspace{0.5em}
+\begin{verbatim}
+Brown with id 0, associated with the Computer Science Dept. earning $32K per year.
+Green with id 1, associated with the Computer Science Dept. earning $37K per year.
+Bailey with id 2, associated with the Computer Science Dept. earning $32K per year.
+Cox with id 3, associated with the Psychology Dept. earning $42K per year.
+Wu with id 4, associated with the Psychology Dept. earning $40K per year.
+\end{verbatim}
+(Select all statements that are true)\par\vspace{0.5em}
+\begin{checkboxes}
+    \CorrectChoice Below query returns 4 tuples.
+    \begin{verbatim}
+    select salary, count(*)
+    from instructor
+    group by salary
+    \end{verbatim}
+
+    \choice Below query returns 1 tuple.
+    \begin{verbatim}
+    select count(*)
+    from instructor
+    group by dept_name
+    \end{verbatim}
+
+    \CorrectChoice Below query returns a tuple with dept\_name equal to 'Psychology'.
+    \begin{verbatim}
+    select dept_name, avg(salary) 
+    from instructor
+    group by dept_name
+    having avg(salary)>33700
+    \end{verbatim}
+
+    \CorrectChoice Below query returns names of departments which average salary is above average.
+    \begin{verbatim}
+    select dept_name
+    from instructor
+    group by dept_name
+    having avg(salary)> (select avg(salary) from instructor)
+    \end{verbatim}
+\end{checkboxes}
+%---\begin{solution}
+%--- format for giving solution descriptions
+%---\end{solution}
+\end{minipage}\vspace{1em}
+
+\end{questions}
 \end{document}
