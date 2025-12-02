@@ -1,6 +1,44 @@
-\documentclass[12pt]{exam}
+\documentclass[12pt, addpoints]{exam}
 \input{preamble.tex}
 
 \begin{document}
-TODO
+\noindent Name:\ \makebox[3in]{\hrulefill}\hfill Points Scored: \underline{\hspace{3em}} / \numpoints
+\begin{questions}
+
+% ------------------ MULTIPLE CHOICE SECTION ------------------
+
+\section*{Part II — Multiple choice (choose one)}
+
+\begin{minipage}{\linewidth}
+\question[1]
+Which relations have to be joined in order to retrieve from the db. titles of courses a student with a given \textit{ID} took??\par\vspace{0.5em}
+\begin{checkboxes}
+    \CorrectChoice takes, section and course
+    \CorrectChoice student, takes, section, course
+    \CorrectChoice student, takes, course
+    \CorrectChoice takes, course
+    \choice neither of the given options
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+% ------------------ MULTIPLE SELECT SECTION ------------------
+\section*{Part III — Multiple select (select all that apply)}
+
+\begin{minipage}{\linewidth}
+\question[1]
+A relation, say R, may include among its attributes the primary key of another relation, say S. 
+This attribute is called a \fillin[][8em] from R, referencing S.\par
+(Select all that apply)\par\vspace{0.5em}
+\begin{checkboxes}
+    \choice primary key
+    \CorrectChoice foreign key
+    \choice superkey
+    \choice superkey
+\end{checkboxes}
+%---\begin{solution}
+%--- format for giving solution descriptions
+%---\end{solution}
+\end{minipage}\vspace{1em}
+
+\end{questions}
 \end{document}
