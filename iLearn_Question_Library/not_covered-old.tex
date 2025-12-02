@@ -1,6 +1,84 @@
-\documentclass[12pt]{exam}
+\documentclass[12pt, addpoints]{exam}
 \input{preamble.tex}
 
 \begin{document}
-TODO
+\noindent Name:\ \makebox[3in]{\hrulefill}\hfill Points Scored: \underline{\hspace{3em}} / \numpoints
+\begin{questions}
+
+% ------------------ TRUE/FALSE SECTION ------------------
+\section*{Part I — True/False}
+
+\begin{minipage}{\linewidth}
+\question[2]
+True or False: If the DDL command creating table course was changed to the below one, then a functional dependency
+\textbf{\textit{title $\rightarrow$ dept\_name}} would hold on the table course.\par\vspace{0.5em}
+\begin{verbatim}
+create table course
+(course_id varchar(8), 
+title varchar(50), 
+dept_name varchar(20),
+credits numeric(2,0) check (credits > 0),
+primary key (course_id),
+unique(title),
+foreign key (dept_name) references department(dept_name) on delete set null
+);
+\end{verbatim}
+\begin{checkboxes}
+    \CorrectChoice True
+    \choice False
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\begin{minipage}{\linewidth}
+\question[2]
+True or False: The decomposition is a Lossless Join Decomposition if the natural join of the relations 
+in the decomposition produces the relation with all attributes of the original relation.\par\vspace{0.5em}
+\begin{checkboxes}
+    \choice True
+    \CorrectChoice False
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+% ------------------ MULTIPLE SELECT SECTION ------------------
+\section*{Part III — Multiple select (select all that apply)}
+
+\begin{minipage}{\linewidth}
+\question[4]
+Which of the following functional dependencies hold on the University Database?\par
+(Select all that apply)\par\vspace{0.5em}
+\begin{checkboxes}
+    \choice \textbf{\textit{ID $\rightarrow$ grade}}
+    \choice \textbf{\textit{course\_id $\rightarrow$ prereq\_id}}
+    \choice \textbf{\textit{building, room\_number $\rightarrow$ course\_id, sec\_id, semester, year}}
+    \CorrectChoice \textbf{\textit{course\_id $\rightarrow$ title}}
+\end{checkboxes}
+%---\begin{solution}
+%--- format for giving solution descriptions
+%---\end{solution}
+\end{minipage}\vspace{1em}
+
+\begin{minipage}{\linewidth}
+\question[4]
+Consider the following relation disk\_drive(serial\_number, manufacturer, model, batch, capacity, retailer). 
+Each tuple in the relation disk\_drive contains information about a disk drive with a unique serial\_number, made by a manufacturer, 
+with a particular model, released in a certain batch, which has a certain storage capacity, and is sold by a certain retailer. 
+For example, the tuple disk\_drive (1978619, WesternDigital, A2235X, 765234, 500, CompUSA) specifies that WesternDigital 
+made a disk drive with serial number 1978619, model number A2235X in batch 765235 with 500GB that is sold by CompUSA.\par
+Which functional dependencies capture the following two requirements?\par\vspace{0.5em}
+1. All disk drives in a particular batch are the same model.\par
+2. All disk drives of a particular model of a particular manufacturer have exactly the same capacity.\par\vspace{0.5em}
+(Select all that apply)\par\vspace{0.5em}
+\begin{checkboxes}
+    \CorrectChoice batch $\rightarrow$ model
+    \CorrectChoice model, manufacturer $\rightarrow$ capacity
+    \choice model $\rightarrow$ capacity
+    \choice manufacturer $\rightarrow$ capacity
+    \choice model $\rightarrow$ batch
+\end{checkboxes}
+%---\begin{solution}
+%--- format for giving solution descriptions
+%---\end{solution}
+\end{minipage}\vspace{1em}
+
+\end{questions}
 \end{document}
