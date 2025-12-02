@@ -1,6 +1,346 @@
-\documentclass[12pt]{exam}
+\documentclass[12pt, addpoints]{exam}
 \input{preamble.tex}
 
 \begin{document}
-TODO
+
+\noindent Name:\ \makebox[3in]{\hrulefill}\hfill Points Scored: \underline{\hspace{3em}} / \numpoints
+\begin{questions}
+
+% ------------------ TRUE/FALSE SECTION ------------------
+\section*{Part I — True/False}
+
+\begin{minipage}{\linewidth}
+\question[2]
+True or False: Definition of the \texttt{prereq} table could be changed from\par\vspace{0.5em}
+\begin{verbatim}
+create table prereq
+(course_id          varchar(8),
+ prereq_id          varchar(8),
+ primary key (course_id, prereq_id),
+ foreign key (course_id) 
+   references course(course_id)
+   on delete cascade,
+ foreign key (prereq_id)
+   references course(course_id)
+);
+\end{verbatim}
+\vspace{0.5em}
+to\par\vspace{0.5em}
+\begin{verbatim}
+create table prereq
+(course_id          varchar(8),
+ prereq_id          varchar(8),
+ primary key (course_id, prereq_id),
+ foreign key (course_id) 
+   references course(course_id)
+   on delete cascade,
+ foreign key (prereq_id)
+   references course(course_id)
+   on delete set null
+);
+\end{verbatim}
+\vspace{0.5em}
+\begin{checkboxes}
+    \choice True
+    \CorrectChoice False
+\end{checkboxes}
+\end{minipage}
+
+\begin{minipage}{\linewidth}
+\question[2]
+True or False: The following two inserts can be invoked, one after another, on a database instance with no tuples in any of the tables\par\vspace{0.5em}
+\begin{verbatim}
+insert into course values ('3300', 'DBMS', null, 3);
+insert into section values ('3300', '001', 'Fall', 2022, null, null, 'A');
+\end{verbatim}
+\begin{checkboxes}
+    \CorrectChoice True
+    \choice False
+\end{checkboxes}
+\end{minipage}
+
+\begin{minipage}{\linewidth}
+\question[2]
+True or False: Query that starts with \texttt{'select count(*) from'} is an example of a scalar query.\par\vspace{0.5em}
+\begin{checkboxes}
+    \choice True
+    \CorrectChoice False
+\end{checkboxes}
+\end{minipage}
+
+\begin{minipage}{\linewidth}
+\question[2]
+True or False: Below two queries are equivalent (return the same data on any instance of the University database)?\par\vspace{0.5em}
+\begin{verbatim}
+select * from section natural right outer join course
+
+select * from section natural join course
+\end{verbatim}
+\begin{checkboxes}
+    \choice True
+    \CorrectChoice False
+\end{checkboxes}
+\end{minipage}
+
+\begin{minipage}{\linewidth}
+\question[2]
+True or False: The view shown below is updatable, meaning you can insert new rows into the base tables through it.\par\vspace{0.5em}
+\begin{verbatim}
+create view instructor_info as 
+select ID, name, building 
+from instructor, department 
+where instructor.dept_name = department.dept_name;
+\end{verbatim}
+\begin{checkboxes}
+    \choice True
+    \CorrectChoice False
+\end{checkboxes}
+\end{minipage}
+
+\begin{minipage}{\linewidth}
+\question[2]
+True or False: When deleting a tuple from the \textbf{advisor} relation, the tuple itself is not removed; instead, its \textbf{i\_id} attribute is set to NULL.\par\vspace{0.5em}
+\begin{checkboxes}
+    \choice True
+    \CorrectChoice False
+\end{checkboxes}
+\end{minipage}
+
+\begin{minipage}{\linewidth}
+\question[2]
+True or False: Materialized views are temporary views that exist only for the duration of the current database session.\par\vspace{0.5em}
+\begin{checkboxes}
+    \choice True
+    \CorrectChoice False
+\end{checkboxes}
+\end{minipage}
+
+\begin{minipage}{\linewidth}
+\question[2]
+True or False: A single command is, by default, executed in one transaction, ensuring that changes are either committed entirely or rolled back entirely.\par\vspace{0.5em}
+\begin{checkboxes}
+    \CorrectChoice True
+    \choice False
+\end{checkboxes}
+\end{minipage}
+
+% ------------------ MULTIPLE CHOICE SECTION ------------------
+\section*{Part II — Multiple choice (choose one)}
+
+\begin{minipage}{\linewidth}
+\question[3]
+What is the maximal number of tables from which tuple(s) can be automatically deleted with the deletion of a course?\par\vspace{0.5em}
+\begin{checkboxes}
+    \CorrectChoice 4
+    \choice 8
+    \choice 1
+    \choice 3
+\end{checkboxes}
+\end{minipage}
+
+\begin{minipage}{\linewidth}
+\question[3]
+If there are 5 tuples in the \textbf{advisor} relation and 7 tuples in the \textbf{instructor} relation, 
+then what is the minimal number of tuples the below query can return?\par\vspace{0.5em}
+
+\texttt{select * from advisor full outer join instructor on (id = i\_id)}\par\vspace{0.5em}
+
+\begin{checkboxes}
+    \choice 5
+    \CorrectChoice 7
+    \choice 0
+    \choice 12
+\end{checkboxes}
+\end{minipage}
+
+\begin{minipage}{\linewidth}
+\question[3]
+What does the below query return?\par\vspace{0.5em}
+
+\texttt{select takes.ID, teaches.ID from takes join teaches using (course\_id, sec\_id, semester, year)}\par
+\texttt{group by takes.ID, teaches.ID having count(teaches.ID)>2}\par\vspace{0.5em}
+
+\begin{checkboxes}
+    \CorrectChoice IDs of students along with IDs of instructors who taught them more than 2 course sections.
+    \choice IDs of students along with IDs of their instructors who taught more than 2 course sections
+    \choice IDs of students along with IDs of their instructors who taught more than 2 sections of a course they shared
+    \choice IDs of students along with IDs of instructors who taught more than 2 course sections.
+\end{checkboxes}
+\end{minipage}
+
+\begin{minipage}{\linewidth}
+\question[3]
+Which query returns sorted data from the \textit{time\_slot} relation by \texttt{time\_slot\_id} and then day.\par\vspace{0.5em}
+
+\begin{checkboxes}
+    \choice select * from time\_slot order by time\_slot\_id, day;
+    \CorrectChoice with temp(day, no) as ((select 'W', 3) union (select 'H', 4) union (select 'F', 5) union
+(select 'M', 1) union (select 'T', 2)) select * from time\_slot natural join temp order by time\_slot\_id, no;
+    \choice with temp(day, no) as ((select 'W', 3) union (select 'H', 4) union
+(select 'F', 5) union (select 'M', 1) union (select 'T', 2))
+select * from time\_slot natural join temp order by no, time\_slot\_id;
+    \choice select * from time\_slot order by day, time\_slot\_id;
+\end{checkboxes}
+\end{minipage}
+
+% ------------------ MULTIPLE SELECT SECTION ------------------
+\section*{Part III — Multiple select (select all that apply)}
+
+\begin{minipage}{\linewidth}
+\question[4]
+Choose tables from which tuples can not be deleted via deletes from other tables.\par\vspace{0.5em}
+(Select all that apply)\par\vspace{0.5em}
+\begin{checkboxes}
+    \choice section
+    \CorrectChoice classroom
+    \choice takes
+    \choice teaches
+    \CorrectChoice time\_slot
+    \CorrectChoice course
+    \choice prereq
+    \CorrectChoice student
+    \CorrectChoice instructor
+    \CorrectChoice department
+    \choice advisor
+\end{checkboxes}
+%---\begin{solution}
+%--- format for giving solution descriptions
+%---\end{solution}
+\end{minipage}
+
+\begin{minipage}{\linewidth}
+\question[4]
+Assume that all the below commands were run on a University database and server with users: Grey, Amit, Green and Brown. 
+Which users, if any, have permission to find out for each student of the 'Comp. Sci.' 
+Department the number of course sections he failed (received a grade 'F' for).\par\vspace{0.5em}
+
+\texttt{create role teaching\_assistant;}\par
+\texttt{create role lecturer;}\par
+\texttt{create role dean;}\par\vspace{0.5em}
+\texttt{grant select on takes to teaching\_assistant;}\par
+\texttt{grant update on takes to teaching\_assistant;}\par\vspace{0.5em}
+\texttt{grant select on student to lecturer;}\par
+\texttt{grant select on instructor to dean;}\par
+\texttt{grant teaching\_assistant to lecturer;}\par
+\texttt{grant lecturer to dean;}\par\vspace{0.5em}
+\texttt{grant dean to Grey;}\par
+\texttt{grant dean to Amit;}\par
+\texttt{grant update on instructor to Amit;}\par\vspace{0.5em}
+\texttt{grant lecturer to Brown;}\par
+\texttt{grant update on student to Brown;}\par\vspace{0.5em}
+\texttt{grant teaching\_assistant to Green;}\par
+
+(Select all that apply)\par\vspace{0.5em}
+\begin{checkboxes}
+    \CorrectChoice Amit
+    \CorrectChoice Brown
+    \choice Green
+    \CorrectChoice Grey
+\end{checkboxes}
+%---\begin{solution}
+%--- format for giving solution descriptions
+%---\end{solution}
+\end{minipage}
+
+\begin{minipage}{\linewidth}
+\question[4]
+Which of the given statements are true of a view?\par\vspace{0.5em}
+
+(Select all that apply)\par\vspace{0.5em}
+\begin{checkboxes}
+    \CorrectChoice Some reasons for creating views are security and convenience.
+    \CorrectChoice Whenever we evaluate a query in which a view relation occurs, that view relation is replaced with the saved query expression that defines that view.
+    \choice A view is not reusable.
+    \choice Whenever we define a view, the database system stores the result of evaluation of the query expression that defines the view, rather than the definition of the view.
+\end{checkboxes}
+%---\begin{solution}
+%--- format for giving solution descriptions
+%---\end{solution}
+\end{minipage}
+
+\begin{minipage}{\linewidth}
+\question[4]
+Choose constraints on a single relation.\par\vspace{0.5em}
+
+(Select all that apply)\par\vspace{0.5em}
+\begin{checkboxes}
+    \CorrectChoice not null
+    \CorrectChoice primary key
+    \choice foreign key
+    \CorrectChoice unique
+\end{checkboxes}
+%---\begin{solution}
+%--- format for giving solution descriptions
+%---\end{solution}
+\end{minipage}
+
+\begin{minipage}{\linewidth}
+\question[4]
+Which query/queries will use some index?\par\vspace{0.5em}
+
+(Select all that apply)\par\vspace{0.5em}
+\begin{checkboxes}
+    \CorrectChoice select * from instructor where ID = '10101'
+    \choice select * from instructor where ID = 10101
+    \choice select * from instructor where ID = 0001
+    \choice select * from instructor where name = 'Wu'
+\end{checkboxes}
+%---\begin{solution}
+%--- format for giving solution descriptions
+%---\end{solution}
+\end{minipage}
+
+\begin{minipage}{\linewidth}
+\question[4]
+Considering the provided (below) commands executed on a University database and server with users Grey, Amit, Green, and Brown, 
+which user(s) have the authority to enter student's \textbf{grade}, for some course section, and also update his \textbf{tot\_cred}.\par\vspace{0.5em}
+
+\texttt{create role 'teaching\_assistant'@'localhost';}\par
+\texttt{create role 'lecturer'@'localhost';}\par
+\texttt{create role 'dean'@'localhost';}\par\vspace{0.5em}
+\texttt{grant select on university.takes to 'teaching\_assistant'@'localhost';}\par
+\texttt{grant update on university.takes to 'teaching\_assistant'@'localhost';}\par\vspace{0.5em}
+\texttt{grant select on university.student to 'lecturer'@'localhost';}\par
+\texttt{grant select on university.instructor to 'dean'@'localhost';}\par
+\texttt{grant 'teaching\_assistant'@'localhost' to 'lecturer'@'localhost';}\par
+\texttt{grant 'lecturer'@'localhost' to 'dean'@'localhost';}\par\vspace{0.5em}
+\texttt{grant 'dean'@'localhost' to 'Grey'@'localhost';}\par
+\texttt{grant 'dean'@'localhost' to 'Amit'@'localhost';}\par
+\texttt{grant update on university.instructor to 'Amit'@'localhost';}\par\vspace{0.5em}
+\texttt{grant 'lecturer'@'localhost' to 'Brown'@'localhost';}\par
+\texttt{grant update on university.student to 'Brown'@'localhost';}\par
+\texttt{grant 'teaching\_assistant'@'localhost' to 'Green'@'localhost';}\par\vspace{0.5em}
+
+\textbf{Hint: } To test it in MYSQL you need to invoke the following commands.\par\vspace{0.5em}
+SET DEFAULT ROLE ALL TO 'Brown'@'localhost';\par
+SET DEFAULT ROLE ALL TO 'Grey'@'localhost';\par
+SET DEFAULT ROLE ALL TO 'Amit'@'localhost';\par
+SET DEFAULT ROLE ALL TO 'Green'@'localhost'\par
+(More on that in the MYSQL documentation under MySQL :: MySQL 8.0 Reference Manual :: 8.2.10 Using Roles .)\par\vspace{0.5em}
+You \textbf{must} do the following \textbf{after logging in as each user} (Amit, Grey, Brown, or Green):\par\vspace{0.5em}
+\textbf{Activate all roles granted to the user}: SET ROLE ALL;\par
+\textbf{Select the university database}: USE university;\par
+(Select all that apply)\par\vspace{0.5em}
+\begin{checkboxes}
+    \choice Amit
+    \CorrectChoice Brown
+    \choice Green
+    \choice Grey
+\end{checkboxes}
+%---\begin{solution}
+%--- format for giving solution descriptions
+%---\end{solution}
+\end{minipage}
+
+% ------------------ Fill In The Blank SECTION ------------------
+\section*{Part IV — Fill In The Blank}
+
+\begin{minipage}{\linewidth}
+\question[2]
+A \fillin[][8em] \ifprintanswers\textbf{(transaction)}\fi is treated as a logical unit of work on the database and can have one of two outcomes. 
+If it completes successfully, it is said to have \fillin[][8em] \ifprintanswers\textbf{(committed)}\fi. 
+If it does not execute successfully, it is \fillin[][8em] \ifprintanswers\textbf{(aborted, rolled back, undone)}\fi.
+\end{minipage}
+\end{questions}
+
 \end{document}
