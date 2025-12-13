@@ -1,6 +1,177 @@
-\documentclass[12pt]{exam}
+\documentclass[12pt, addpoints, answers]{exam}
 \input{preamble.tex}
 
+% Header/footer formatting
+\pagestyle{headandfoot}
+\runningheadrule
+\firstpageheadrule
+\firstpageheader{Database Management Systems}{SQL-old}{Fall 2025}
+\runningheader{}{SQL-old}{}
+\runningfooter{}{}{}
+
 \begin{document}
-TODO
+\noindent Name:\ \makebox[3in]{\hrulefill}\hfill Points Scored: \underline{\hspace{3em}} / \numpoints
+\begin{questions}
+
+% ------------------ TRUE/FALSE SECTION ------------------
+\section*{Part I — True/False}
+
+\begin{minipage}{\linewidth}
+\question[2]
+True or False: The below two queries are equivalent. In other words, the below two queries return the same data 
+regardless of what is the database instance.\par
+\begin{verbatim}
+select dept_name, avg(budget)
+from department
+group by dept_name
+
+select dept_name, budget
+from department
+\end{verbatim}\par\vspace{0.5em}
+\begin{checkboxes}
+    \CorrectChoice True
+    \choice False
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\begin{minipage}{\linewidth}
+\question[2]
+True or False: The below two queries are equivalent. In other words, the below two queries return the same 
+data regardless of what is the database instance.\par
+\begin{verbatim}
+select *
+from section natural left outer join course
+
+select *
+from section natural join course
+\end{verbatim}\par\vspace{0.5em}
+\begin{checkboxes}
+    \CorrectChoice True
+    \choice False
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\begin{minipage}{\linewidth} %Table was defective tried to clean up the formatting for easier reading
+\question[3]
+True or False: The following query retrieves the \textit{course\_id} or \textit{course\_ids} of the most popular course or courses at the 
+university, taken by the largest number of students. 
+\begin{verbatim}
+with temp1(course_id, no) as
+(select course_id, count(*) from takes group by course_id),
+temp2 (no) as (select max(no) from temp1)
+select course_id from temp1 natural join temp2;
+\end{verbatim}
+Is the below query is equivalent?\par\vspace{0.5em}
+\begin{verbatim}
+select course_id from 
+(select course_id, count(*) no from takes group by course_id) as temp1
+    natural join 
+(select max(no) as no from 
+(select course_id, count(*) no from takes group by course_id) as temp3) 
+as temp2;
+\end{verbatim}\par\vspace{0.5em}
+\begin{checkboxes}
+    \CorrectChoice True
+    \choice False
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+% ------------------ MULTIPLE CHOICE SECTION ------------------
+
+\section*{Part II — Multiple choice (choose one)}
+
+\begin{minipage}{\linewidth}
+\question[3]
+What is the minimal number of tables that need to be reached out to in order to retrieve \textit{ID}s and 
+\textit{names} of students and \textit{ID}'s and \textit{names} of their teachers (past of present)?\par\vspace{0.5em}
+\begin{checkboxes}
+    \choice 2
+    \choice 3
+    \CorrectChoice 4
+    \choice 5
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\begin{minipage}{\linewidth}
+\question[6]
+Which query or queries return \textit{IDs, names} and \textit{dept\_names} of students that didn’t take any course sections.\par\vspace{0.5em}
+\begin{checkboxes}
+    \choice select ID, name, dept\_name from student where not exists (select * from takes where ID \texttt{=} student.ID)
+    \choice select student.ID, name, dept\_name from student, takes where student.ID \texttt{<>} takes.ID
+    \choice select ID, name, dept\_name from student where ID not in (select ID from takes)
+    \CorrectChoice select ID, name, dept\_name from student where (select count(*) from takes where takes.ID \texttt{=} student.ID) \texttt{=}  0
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\begin{minipage}{\linewidth}
+\question[3]
+Given there are 5 tuples in the 'advisor' relation and 7 tuples in the 'instructor' relation, 
+determine the maximum possible number of tuples that the following SQL query can return.\par\vspace{0.5em}
+\begin{verbatim}
+select *
+from advisor full outer join instructor on (id = i_id)
+\end{verbatim}\par\vspace{0.5em}
+\begin{checkboxes}
+    \choice 7
+    \choice 35
+    \CorrectChoice 12
+    \choice 5
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+% ------------------ MULTIPLE SELECT SECTION ------------------
+\section*{Part III — Multiple select (select all that apply)}
+
+\begin{minipage}{\linewidth}
+\question[6]
+\textit{IDs, names} and major departments (\textit{dept\_name}) of students who have not received a grade of A in any of their courses.\par\vspace{0.5em}
+(Select all that apply)\par\vspace{0.5em}
+\begin{checkboxes}
+    \choice select ID, name, dept\_name from student where not exists \\ 
+    (select * from takes where student.ID = takes.ID and not (grade \texttt{=} 'A'))
+    \choice select ID, name, dept\_name from student where exists \\
+    (select * from takes where grade \texttt{<>} 'A')
+    \CorrectChoice select ID, name, dept\_name from student where not exists \\
+    (select * from takes where student.ID \texttt{=} takes.ID and grade\texttt{=}'A')
+    \CorrectChoice select ID, name, dept\_name from student where 'A' \texttt{<>} all \\
+    (select grade from takes where student.ID \texttt{=} takes.ID)
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\begin{minipage}{\linewidth}
+\question[8]
+Which query or queries retrieve ids and names of students who has taken at least one Comp. Sci. course.\par\vspace{0.5em}
+(Select all that apply)\par\vspace{0.5em}
+\begin{checkboxes}
+    \CorrectChoice select ID, name from student as s where (select count(*) \\
+    from takes natural join course where dept\_name \texttt{=} 'Comp. Sci.' and s.ID \texttt{=} takes.ID) \texttt{>=} 1
+
+    \CorrectChoice select ID, name from (select ID from takes natural join course where dept\_name \texttt{=} 'Comp. Sci.'
+    group by ID having count(*) \texttt{>=} 1) as temp natural join student
+
+    \CorrectChoice select student.ID, name from  
+    (select ID from takes natural join course where dept\_name \texttt{=} 'Comp. Sci.' group by ID having count(*) \texttt{>=} 1) 
+    as temp, student where temp.ID \texttt{=} student.ID
+
+    \choice select ID, name from takes natural join course natural join student where dept\_name \texttt{=} 'Comp. Sci.'
+    group by ID, name having count(*) \texttt{>=} 1
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\begin{minipage}{\linewidth}
+\question[4]
+What is true about the below query?\par
+\begin{verbatim}
+select ID from student natural join course where course_id = '3300'
+\end{verbatim}
+(Select all that apply)\par\vspace{0.5em}
+\begin{checkboxes}
+    \choice It returns IDs of students who took course 3300.
+    \CorrectChoice It returns IDs of students who are associated with the same department course 3300 is.
+    \choice It doesn't work.
+    \choice The number of tuples returned by this query is not greater than the number of tuples in the student relation.
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\end{questions}
 \end{document}
