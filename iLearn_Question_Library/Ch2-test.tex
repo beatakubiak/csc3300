@@ -1,6 +1,288 @@
-\documentclass[12pt]{exam}
+\documentclass[12pt, addpoints, answers]{exam}
 \input{preamble.tex}
 
+% Header/footer formatting
+\pagestyle{headandfoot}
+\runningheadrule
+\firstpageheadrule
+\firstpageheader{Database Management Systems}{Test 2}{Fall 2025}
+\runningheader{}{Test 2}{}
+\runningfooter{}{}{}
+
 \begin{document}
-TODO
+\noindent Name:\ \makebox[3in]{\hrulefill}\hfill Points Scored: \underline{\hspace{3em}} / \numpoints
+\begin{questions}
+
+% ------------------ TRUE/FALSE SECTION ------------------
+\section*{Part I — True/False}
+
+\begin{minipage}{\linewidth}
+\question[2]
+True or False: In the University Database, a valid grade for a course section is 'OK'.\par\vspace{0.5em}
+\begin{checkboxes}
+    \CorrectChoice True
+    \choice False
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\begin{minipage}{\linewidth}
+\question[2]
+True or False: The University Database allows multiple classrooms in the same building to share the same room number.\par\vspace{0.5em}
+\begin{checkboxes}
+    \choice True
+    \CorrectChoice False
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\begin{minipage}{\linewidth}
+\question[2]
+True or False: The University Database allows multiple classrooms in the same building to share the same room number.\par\vspace{0.5em}
+\begin{checkboxes}
+    \choice True
+    \CorrectChoice False
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\begin{minipage}{\linewidth}
+\question[2]
+True or False: In the University Database, a \textit{course\_id} can be an empty string ('').\par\vspace{0.5em}
+\begin{checkboxes}
+    \CorrectChoice True
+    \choice False
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\begin{minipage}{\linewidth}
+\question[2]
+True or False: A student can be registered for more than one section of the same course in a given semester and year.\par\vspace{0.5em}
+\begin{checkboxes}
+    \CorrectChoice True
+    \choice False
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\begin{minipage}{\linewidth}
+\question[2]
+True or False: In the University Database, each instructor can serve as an advisor to at most one student.\par\vspace{0.5em}
+\begin{checkboxes}
+    \choice True
+    \CorrectChoice False
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\begin{minipage}{\linewidth}
+\question[2]
+True or False: In the University Database, there can be a classroom in which no course sections were ever taught.\par\vspace{0.5em}
+\begin{checkboxes}
+    \CorrectChoice True
+    \choice False
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\begin{minipage}{\linewidth}
+\question[2]
+True or False: The number of tuples in the \textbf{advisor} relation can exceed the number of tuples in the \textbf{studen} relation.\par\vspace{0.5em}
+\begin{checkboxes}
+    \choice True
+    \CorrectChoice False
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\begin{minipage}{\linewidth}
+\question[2]
+True or False: The \textbf{section} relation has exactly 3 foreign keys.\par\vspace{0.5em}
+\begin{checkboxes}
+    \choice True
+    \CorrectChoice False
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\begin{minipage}{\linewidth}
+\question[2]
+True or False: If \textit{room\_no} attribute of a \textbf{classroom} relation was removed from a primary key \\(not a table though),
+then in each building on campus there could be at most one classroom.\par\vspace{0.5em}
+\begin{checkboxes}
+    \CorrectChoice True
+    \choice False
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\begin{minipage}{\linewidth}
+\question[2]
+True or False: The University Database maintains a record of all past advisors for each student.\par\vspace{0.5em}
+\begin{checkboxes}
+    \choice True
+    \CorrectChoice False
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\begin{minipage}{\linewidth}
+\question[2]
+True or False: In the University Database, courses with the same name can only exist if they are offered by distinct departments.\par\vspace{0.5em}
+\begin{checkboxes}
+    \choice True
+    \CorrectChoice False
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\begin{minipage}{\linewidth}
+\question[2]
+It can be the case that in the database there are only the following 2 tuples:\par\vspace{0.5em}
+
+\begin{tabular}{|l|l|l|l|}
+\hline
+\multicolumn{4}{|c|}{\textbf{student}} \\
+\hline
+ID & name & dept\_name & tot\_cred \\
+\hline
+0 & Green & Comp. Sci. & 3 \\
+\hline
+\end{tabular}
+\par\vspace{0.5em}
+\begin{tabular}{|l|l|l|l|l|l|}
+\hline
+\multicolumn{6}{|c|}{\textbf{takes}} \\
+\hline
+ID & course\_id & sec\_id & semester & year & grade \\
+\hline
+0 & 3300 & 002 & Spring & 2023 & A \\
+\hline
+\end{tabular}
+
+\vspace{0.5em}
+\begin{checkboxes}
+    \choice True
+    \CorrectChoice False
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\begin{minipage}{\linewidth}
+\question[2]
+True or False: SQL prevents any insert to the database that violates an integrity constraint.\par\vspace{0.5em}
+\begin{checkboxes}
+    \CorrectChoice True
+    \choice False
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\begin{minipage}{\linewidth}
+\question[2]
+True or False: A tuple is inserted into the \textbf{advisor} relation only if the value of the \textit{i\_ID} attribute of this tuple is equal 
+to the value of the \textit{ID} attribute of some tuple in the \textbf{instructor} relation. \par\vspace{0.5em}
+\begin{checkboxes}
+    \CorrectChoice True
+    \choice False
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+% ------------------ MULTIPLE CHOICE SECTION ------------------
+
+\section*{Part II — Multiple choice (choose one)}
+
+\begin{minipage}{\linewidth}
+\question[3]
+Assume that there are no tuples in any of the relation instances of the University Database. 
+What is the minimal number of tuples that need to be added to the database before one tuple can be added to the table \textbf{section}?\par\vspace{0.5em}
+\begin{checkboxes}
+    \choice 0
+    \CorrectChoice 1
+    \choice 2
+    \choice 5
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\begin{minipage}{\linewidth}
+\question[3]
+With only 5 tuples in the \textbf{instructor} relation, 2 tuples in the \textbf{section} table, and no tuples in the \textbf{teaches} relation, 
+what is the maximum number of tuples that can be added to the \textbf{teaches} table without violating any foreign key constraints?\par\vspace{0.5em}
+\begin{checkboxes}
+    \choice 0
+    \CorrectChoice 1
+    \choice 2
+    \choice 5
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+% ------------------ MULTIPLE SELECT SECTION ------------------
+\section*{Part III — Multiple select (select all that apply)}
+
+\begin{minipage}{\linewidth}
+\question[4]
+Choose superkey(s) of the relation \textbf{takes}. (Select all that apply.) \par\vspace{0.5em}
+\begin{checkboxes}
+    \choice \{\textit{course\_id, sec\_id, semester, year}\}
+    \CorrectChoice \{ID, \textit{course\_id, sec\_id, semester, year}\}
+    \CorrectChoice If \{ID, \textit{course\_id, sec\_id, semester, year, grade}\}
+    \choice \{ID, \textit{grade}\}
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\begin{minipage}{\linewidth}
+\question[4]
+An ISBN (International Standard Book Number) is a unique identifier for books, allowing them to be easily identified and tracked in databases 
+and systems worldwide. An ISBN is assigned to each edition and variation (e.g., hardcover, paperback, e-book) of a book.\par\vspace{1em}
+
+Consider the following specification of user requirements for a Library Database: For each book copy, the following data is stored: 
+title (\textit{title}), edition (\textit{edition}), number of pages (\textit{page\_no}), barcode (\textit{barcode}), variation (e.g., hardcover, paperback) 
+(\textit{variation}), and ISBN (\textit{isbn}). When a member checks out a book copy, its barcode is scanned and linked to the member’s account. 
+When the book copy is returned, the barcode is scanned again, and the book is marked as available for borrowing.\par\vspace{1em}
+
+To organize this data, assume the following relational database schema:\par\vspace{1em}
+
+BOOK (\textit{title, edition, pages\_no, variation, isbn})\par
+BOOK\_COPY (\textit{variation, isbn, edition, barcode})\par\vspace{1em}
+
+Assume that the attributes variation, isbn, and edition in the BOOK table hold the same data (have the same meaning) as the attributes variation, 
+isbn, and edition in the BOOK\_COPY table.\par\vspace{1em}
+
+Which of the following statements are true? (Select all that apply.)
+\par\vspace{0.5em}
+\begin{checkboxes}
+    \CorrectChoice \{\textit{isbn, edition, variation}\} is a candidate key in the BOOK table.
+    \CorrectChoice If \{\textit{variation, isbn, edition}\} was the primary key of BOOK, then \{\textit{variation, isbn, edition}\} 
+    could be a foreign key in the BOOK\_COPY table.
+    \choice \{\textit{ISBN}\} is a candidate key in the BOOK table.
+    \CorrectChoice \{\textit{barcode}\} is a candidate key in the BOOK\_COPY table.
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\begin{minipage}{\linewidth}
+\question[4]
+In which order can the following commands be invoked on an empty University Database instance? (Select all that apply.)
+
+\vspace{0.5em}
+
+\begin{tabular}{|l|p{0.73\linewidth}|}
+\hline
+0 & insert into instructor values ('98345', 'Kim', 'Elec. Eng.', '80000') \\
+\hline
+1 & insert into classroom values ('Taylor', '3128', '70') \\
+\hline
+2 & insert into department values ('Elec. Eng.', 'Taylor', '85000') \\
+\hline
+3 & insert into section values ('EE-181', '1', 'Spring', '2009', 'Taylor', '3128', 'C') \\
+\hline
+4 & insert into student values ('70557', 'Snow', 'Physics', '0') \\
+\hline
+5 & insert into course values ('EE-181', 'Intro. to Digital Systems', 'Elec. Eng.', '3') \\
+\hline
+6 & insert into department values ('Physics', 'Watson', '70000') \\
+\hline
+7 & insert into time\_slot values ('C', 'M', '11', '0', '11', '50') \\
+\hline
+8 & insert into takes values ('70557', 'EE-181', '1', 'Spring', '2009', 'B') \\
+\hline
+9 & insert into teaches values ('98345', 'EE-181', '1', 'Spring', '2009') \\
+\hline
+\end{tabular}
+\par\vspace{0.5em}
+\begin{checkboxes}
+    \CorrectChoice 6, 2, 0, 5, 4, 7, 1, 3, 8, 9
+    \CorrectChoice 6, 2, 0, 5, 4, 1, 3, 8, 9, 7
+    \choice 6, 2, 0, 5, 4, 7, 3, 1, 8, 9
+    \CorrectChoice 6, 2, 0, 5, 4, 7, 1, 3, 9, 8
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\end{questions}
 \end{document}
