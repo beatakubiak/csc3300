@@ -1,6 +1,200 @@
-\documentclass[12pt]{exam}
+\documentclass[12pt, addpoints, answers]{exam}
 \input{preamble.tex}
 
+% Header/footer formatting
+\pagestyle{headandfoot}
+\runningheadrule
+\firstpageheadrule
+\firstpageheader{Database Management Systems}{Ch 8 Old}{Fall 2025}
+\runningheader{}{Ch 8 Old}{}
+\runningfooter{}{}{}
+
 \begin{document}
-TODO
+\noindent Name:\ \makebox[3in]{\hrulefill}\hfill Points Scored: \underline{\hspace{3em}} / \numpoints
+\begin{questions}
+
+% ------------------ TRUE/FALSE SECTION ------------------
+\section*{Part I — True/False}
+
+\begin{minipage}{\linewidth}
+\question[2]
+True or False: In the result of the provided query, there might be instructors whose information (ID, name, dept\_name, salary) is not included.\par\vspace{0.5em}
+\begin{verbatim}
+select * from instructor natural left outer join teaches
+\end{verbatim}
+\begin{checkboxes}
+    \choice True
+    \CorrectChoice False
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\begin{minipage}{\linewidth}
+\question[2]
+True or False: Below two queries are equivalent (return the same data on any instance of the University database)?\par\vspace{0.5em}
+\begin{verbatim}
+select * from section natural right outer join course
+
+select * from section natural join course
+\end{verbatim}
+\begin{checkboxes}
+    \choice True
+    \CorrectChoice False
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\begin{minipage}{\linewidth}
+\question[2]
+True or False: Deletion of a tuple from the \textbf{department} relation may result in the deletion of some tuples from other relations.\par\vspace{0.5em}
+\begin{checkboxes}
+    \choice True
+    \CorrectChoice False
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\begin{minipage}{\linewidth}
+\question[2]
+True or False: Once a transaction has executed commit work, its effects can no longer be undone by rollback work.\par\vspace{0.5em}
+\begin{checkboxes}
+    \CorrectChoice True
+    \choice False
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\begin{minipage}{\linewidth}
+\question[2]
+True or False: Consider a view created with the following command.\par\vspace{0.5em}
+\begin{verbatim}
+create view faculty as
+select id, name, dept_name
+from instructor
+\end{verbatim}
+The following two queries return the same data for any instance of the University database.\par\vspace{0.5em}
+\begin{verbatim}
+select count(*) from instructor
+select count(*) from faculty
+\end{verbatim}
+\begin{checkboxes}
+    \choice True
+    \CorrectChoice False
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\begin{minipage}{\linewidth}
+\question[2]
+True or False: Definition of the \textit{prereq} table could be changed from: \par\vspace{0.5em}
+\begin{verbatim}
+create table prereq
+(course_id        varchar(8), 
+prereq_id        varchar(8),
+primary key (course_id, prereq_id),
+foreign key (course_id) references course(course_id) on delete cascade,
+foreign key (prereq_id) references course(course_id)
+);
+\end{verbatim}
+to\par\vspace{0.5em}
+\begin{verbatim}
+create table prereq
+(course_id        varchar(8), 
+prereq_id        varchar(8),
+primary key (course_id, prereq_id),
+foreign key (course_id) references course(course_id) on delete cascade,
+foreign key (prereq_id) references course(course_id) on delete cascade
+);
+\end{verbatim}
+\begin{checkboxes}
+    \CorrectChoice True
+    \choice False
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\begin{minipage}{\linewidth}
+\question[2]
+True or False: Deleting a tuple from the \textbf{instructor} relation can result in setting value(s) of some attribute(s) 
+of some tuples in the \textbf{advisor} relation to NULL.\par\vspace{0.5em}
+\begin{checkboxes}
+    \CorrectChoice True
+    \choice False
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\begin{minipage}{\linewidth}
+\question[2]
+True or False: If we try to delete a tuple from the \textbf{advisor} relation, the tuple is not deleted. 
+Instead, \textbf{i\_id} of this tuple is set to NULL.\par\vspace{0.5em}
+\begin{checkboxes}
+    \choice True
+    \CorrectChoice False
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\begin{minipage}{\linewidth}
+\question[3]
+True or False: Consider the following scenario involving a view definition and an insertion operation. 
+The count of rows returned by the last command remains unchanged before and after the insertion. Is it true or false?\par\vspace{0.5em}
+\begin{verbatim}
+create view history_instructors as
+select * 
+from instructor
+where dept_name= 'History';
+
+insert into history_instructors values ('25566', 'Brown', 'Biology', 100000);
+
+select count(*) from history_instructors;
+\end{verbatim}
+\begin{checkboxes}
+    \CorrectChoice True
+    \choice False
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+% ------------------ MULTIPLE CHOICE SECTION ------------------
+
+\section*{Part II — Multiple choice (choose one)}
+
+\begin{minipage}{\linewidth}
+\question[2]
+If there are 5 tuples in the \textbf{advisor} relation and 7 tuples in the \textbf{instructor} relation, 
+then what is the minimal number of tuples the below query can return?\par\vspace{0.5em}
+\begin{verbatim} 
+  select * from advisor full outer join instructor on (id = i_id)
+\end{verbatim}
+\begin{checkboxes}
+    \choice 5
+    \CorrectChoice 7
+    \choice 8
+    \choice 12
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\begin{minipage}{\linewidth}
+\question[3]
+What is the length of the longest chain of cascading deletes in the Univesrity database?\par\vspace{0.5em}
+If deletion of a tuple from relation A can result in deletion of some tuple(s) from relation B, 
+but deletion of a tuple from B can't result in deletion of tuple(s) from other relations, then the chain of cascading deletes, 
+that starts at A, is of length 1.\par\vspace{0.5em}
+\begin{checkboxes}
+    \choice 1
+    \CorrectChoice 2
+    \choice 3
+    \choice 4
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+% ------------------ MULTIPLE SELECT SECTION ------------------
+\section*{Part III — Multiple select (select all that apply)}
+
+\begin{minipage}{\linewidth}
+\question[4]
+Which of the given statements are true of a view?\par\vspace{0.5em}
+\begin{checkboxes}
+    \CorrectChoice Some reasons for creating views are security and convenience.
+    \CorrectChoice Whenever we evaluate a query in which a view relation occurs, that view relation is replaced 
+    with the saved query expression that defines that view.
+    \choice A view is not reusable.
+    \choice Whenever we define a view, the database system stores the result of evaluation of the query 
+    expression that defines the view, rather than the definition of the view.
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\end{questions}
 \end{document}
