@@ -1,6 +1,75 @@
-\documentclass[12pt]{exam}
+\documentclass[12pt, addpoints, answers]{exam}
 \input{preamble.tex}
 
+% Header/footer formatting
+\pagestyle{headandfoot}
+\runningheadrule
+\firstpageheadrule
+\firstpageheader{Database Management Systems}{Ch 4 Review}{Fall 2025}
+\runningheader{}{Ch 4 Review}{}
+\runningfooter{}{}{}
+
 \begin{document}
-TODO
+\noindent Name:\ \makebox[3in]{\hrulefill}\hfill Points Scored: \underline{\hspace{3em}} / \numpoints
+\begin{questions}
+
+% ------------------ TRUE/FALSE SECTION ------------------
+\section*{Part I — True/False}
+
+\begin{minipage}{\linewidth}
+\question[2]
+In the result of the provided query, there might be instructors whose information (\textit{ID, name, dept\_name, salary}) is not included.\par\vspace{0.5em}
+\begin{verbatim}
+select * from instructor natural left outer join teaches
+\end{verbatim}
+\begin{checkboxes}
+    \choice True
+    \CorrectChoice False
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+% ------------------ MULTIPLE SELECT SECTION ------------------
+\section*{Part III — Multiple select (select all that apply)}
+
+\begin{minipage}{\linewidth}
+\question[6]
+Which of the following queries return the names of \textit{all} buildings at the university? 
+Ignore any repeated building names in the results. \par\vspace{1em}
+(Select all that apply)\par\vspace{0.5em}
+\begin{checkboxes}
+    \CorrectChoice
+    \begin{verbatim}
+select building
+from department
+left outer join classroom using (building)
+union
+select building
+from department
+right outer join classroom using (building);
+    \end{verbatim}
+    \choice
+    \begin{verbatim}
+select department.building
+from department join classroom;
+    \end{verbatim}
+    \CorrectChoice
+    \begin{verbatim}
+select building
+from department natural join classroom
+union
+select building
+from department where building not in (select building from classroom)
+union
+select building
+from classroom where building not in (select building from department);
+    \end{verbatim}
+    \choice
+    \begin{verbatim}
+select building
+from department natural join classroom;
+    \end{verbatim}
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\end{questions}
 \end{document}
