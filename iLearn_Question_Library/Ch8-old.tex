@@ -1,6 +1,70 @@
-\documentclass[12pt]{exam}
+\documentclass[12pt, addpoints, answers]{exam}
 \input{preamble.tex}
 
+% Header/footer formatting
+\pagestyle{headandfoot}
+\runningheadrule
+\firstpageheadrule
+\firstpageheader{Database Management Systems}{Ch 8 Old}{Fall 2025}
+\runningheader{}{Ch 8 Old}{}
+\runningfooter{}{}{}
+
 \begin{document}
-TODO
+\noindent Name:\ \makebox[3in]{\hrulefill}\hfill Points Scored: \underline{\hspace{3em}} / \numpoints
+\begin{questions}
+
+% ------------------ TRUE/FALSE SECTION ------------------
+\section*{Part I — True/False}
+
+\begin{minipage}{\linewidth}
+\question[2]
+True or False: It is not always possible that all the tables of a schema are in BCNF 
+(Boyce-Codd Normal Form) and functional dependencies are preserved.\par\vspace{0.5em}
+\begin{checkboxes}
+    \CorrectChoice True
+    \choice False
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+
+% ------------------ MULTIPLE CHOICE SECTION ------------------
+
+\section*{Part II — Multiple choice (choose one)}
+
+\begin{minipage}{\linewidth}
+\question[4]
+What is a lossless join decomposition (LJD) of a relation?\textbf{section}?\par\vspace{0.5em}
+\begin{checkboxes} 
+    \CorrectChoice The decomposition is a LJD if the natural join of the relations in the decomposition produces the original relation.
+    \choice The decomposition is a LJD if the natural join of the relations in the decomposition produces the relation with all attributes of the original relation.
+    \choice The decomposition is a LJD if there does not exist a functional dependency X->Y, such that X U Y is not a subset of any R.
+    \choice The decomposition is a LJD if there exists a functional dependency X->Y holding on a decomposed relation and primary key of one of the new relations is X.
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+% ------------------ MULTIPLE SELECT SECTION ------------------
+\section*{Part III — Multiple select (select all that apply)}
+
+\begin{minipage}{\linewidth}
+\question[4]
+Consider the following relation disk\_drive(serial\_number, manufacturer, model, batch, capacity, retailer). 
+Each tuple in the relation disk\_drive contains information about a disk drive with a unique serial\_number, made by a manufacturer,
+with a particular model, released in a certain batch, which has a certain storage capacity, and is sold by a certain retailer. 
+For example, the tuple disk\_drive (1978619, WesternDigital, A2235X, 765234, 500, CompUSA) specifies that WesternDigital 
+made a disk drive with serial number 1978619, model number A2235X in batch 765235 with 500GB that is sold by CompUSA.
+Which functional dependencies capture the following two requirements?\par\vspace{0.5em}
+\begin{enumerate}
+    \item The manufacturer and serial number uniquely identify a disk drive.
+    \item A model number is registered by a manufacturer and hence can’t be used by another manufacturer.
+\end{enumerate}
+(Select all that apply)\par\vspace{0.5em}
+\begin{checkboxes}
+    \CorrectChoice manufacturer, serial\_number \texttt{->} model, batch, capacity, retailer
+    \CorrectChoice model \texttt{->} manufacturer
+    \choice manufacturer \texttt{->} model
+    \choice manufacturer \texttt{->} serial\_number
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\end{questions}
 \end{document}
