@@ -1,6 +1,177 @@
-\documentclass[12pt]{exam}
+\documentclass[12pt, addpoints, answers]{exam}
 \input{preamble.tex}
 
+% Header/footer formatting
+\pagestyle{headandfoot}
+\runningheadrule
+\firstpageheadrule
+\firstpageheader{Database Management Systems}{Mic}{Fall 2025}
+\runningheader{}{Misc}{}
+\runningfooter{}{}{}
+
 \begin{document}
-TODO
+\noindent Name:\ \makebox[3in]{\hrulefill}\hfill Points Scored: \underline{\hspace{3em}} / \numpoints
+\begin{questions}
+
+% ------------------ TRUE/FALSE SECTION ------------------
+\section*{Part I — True/False}
+
+\begin{minipage}{\linewidth}
+\question[2]
+True or False: SQL Server ensures that any update operation on the database will be rejected if it violates an integrity constraint.\par\vspace{0.5em}
+\begin{checkboxes}
+    \CorrectChoice True
+    \choice False
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\begin{minipage}{\linewidth}
+\question[2]
+True or False: The command "delete from instructor" deletes the entire \textbf{instructor} table from the University Database schema.\par\vspace{0.5em}
+\begin{checkboxes}
+    \choice True
+    \CorrectChoice False
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\begin{minipage}{\linewidth}
+\question[3]
+True or False: In a given semester and year, an instructor can teach two different course sections in different classrooms during the same time slot.\par\vspace{0.5em}
+\begin{checkboxes}
+    \CorrectChoice True
+    \choice False
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\begin{minipage}{\linewidth}
+\question[4]
+True or False: When invoked subsequently, the following sequence of commands will execute successfully on any instance of the University Database:\par\vspace{0.5em}
+\begin{enumerate}
+    \item insert into department values ('Sanitation', 'BrunerHall', '70000')
+    \item insert into instructor values ('1', 'Brown', 'Sanitation', '100000')
+    \item insert into student values ('100', 'Blue', 'Sanitation', '120')
+    \item insert into takes values ('100', 'CS-101', '1', 'Fall', '2009', null)
+    \item insert into teaches values ('1', 'CS-101', '1', 'Fall', '2009')
+\end{enumerate}
+\begin{checkboxes}
+    \choice True
+    \CorrectChoice False
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\begin{minipage}{\linewidth}
+\question[3]
+True or False: The following two queries are equivalent, that is, they produce the same result, for any instance of the University Database:\par\vspace{0.5em}
+\begin{enumerate}
+    \item select course\_id from section \\ intersect \\ select course\_id from course
+    \item select distinct course\_id from section
+\end{enumerate}
+\begin{checkboxes}
+    \CorrectChoice True
+    \choice False
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+% ------------------ MULTIPLE CHOICE SECTION ------------------
+
+\section*{Part II — Multiple choice (choose one)}
+
+\begin{minipage}{\linewidth}
+\question[4]
+Which query returns only the IDs and names of instructors who granted a grade of 'A' to some student?\par\vspace{0.5em}
+\begin{checkboxes} 
+    \CorrectChoice 
+    \begin{verbatim}
+select i.ID, name
+from instructor as i, teaches as tc, takes as tk
+where i.ID = tc.ID and
+tc.course_id = tk.course_id and
+tc.sec_id = tk.sec_id and
+tc.semester = tk.semester and
+tc.year = tk.year and 
+grade = 'A'
+    \end{verbatim}
+    \choice \begin{verbatim}
+select s.ID, s.name
+from instructor as i, teaches as tc, takes as tk, student as s
+where i.ID = tc.ID and
+tc.course_id = tk.course_id and
+tc.sec_id = tk.sec_id and
+tc.semester = tk.semester and
+tc.year = tk.year and 
+tk.ID = s.ID and
+grade = 'A'
+    \end{verbatim}
+    \choice \begin{verbatim}
+select i.ID, i.name
+from instructor as i, teaches as tc, takes as tk, student as s
+where i.ID = tc.ID and
+tc.course_id = tk.course_id and
+tc.sec_id = tk.sec_id and
+tk.ID = s.ID and
+grade = 'A'
+    \end{verbatim}
+    \choice \begin{verbatim}
+select i.ID, name, dept_name, salary
+from instructor as i, teaches as tc, takes as tk
+where i.ID = tc.ID and
+tc.course_id = tk.course_id and
+tc.sec_id = tk.sec_id and
+tc.semester = tk.semester and
+tc.year = tk.year and 
+grade = 'A'
+    \end{verbatim}
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+% ------------------ MULTIPLE SELECT SECTION ------------------
+\section*{Part III — Multiple select (select all that apply)}
+
+\begin{minipage}{\linewidth}
+\question[6]
+A department can not be deleted if:\par\vspace{0.5em}
+\begin{checkboxes}
+    \CorrectChoice there is instructor associated with it.
+    \CorrectChoice there is student associated with it.
+    \CorrectChoice there is course associated with it.
+    \choice its office is in the building in which there are classrooms.
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\begin{minipage}{\linewidth}
+\question[4]
+Which query returns only the IDs and names of instructors whose yearly salary is greater 
+than the budget of the department they are working for?\par\vspace{0.5em}
+(Select all that apply)\par\vspace{0.5em}
+\begin{checkboxes} 
+    \CorrectChoice 
+    \begin{verbatim}
+select ID, name
+from instructor as i, department as d
+where i.dept_name = d.dept_name and
+i.salary > d.budget
+    \end{verbatim}
+    \choice 
+    \begin{verbatim}
+select distinct ID, name
+from instructor as i, department as d
+where i.salary > d.budget
+    \end{verbatim}
+    \CorrectChoice
+    \begin{verbatim}
+select ID, name
+from instructor as i, department as d
+where i.dept_name = d.dept_name and
+i.salary > d.budget and i.salary is not null
+    \end{verbatim}
+    \choice 
+    \begin{verbatim}
+select distinct ID, name
+from instructor as i, department as d
+where i.salary > d.budget and i.salary is not null
+    \end{verbatim}
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\end{questions}
 \end{document}
