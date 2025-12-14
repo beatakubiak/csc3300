@@ -1,6 +1,560 @@
-\documentclass[12pt]{exam}
+\documentclass[12pt, addpoints, answers]{exam}
 \input{preamble.tex}
 
+% Header/footer formatting
+\pagestyle{headandfoot}
+\runningheadrule
+\firstpageheadrule
+\firstpageheader{Database Management Systems}{Ch4 Old}{Fall 2025}
+\runningheader{}{Ch4 Old}{}
+\runningfooter{}{}{}
+
 \begin{document}
-TODO
+\noindent Name:\ \makebox[3in]{\hrulefill}\hfill Points Scored: \underline{\hspace{3em}} / \numpoints
+\begin{questions}
+
+% ------------------ TRUE/FALSE SECTION ------------------
+\section*{Part I — True/False}
+
+\begin{minipage}{\linewidth}
+\question[2]
+True or False: The DBMS will utilize an index to retrieve the result of the following query:\par
+\begin{verbatim}
+select * 
+from course
+where course_id = 3300
+\end{verbatim}
+\begin{checkboxes}
+    \choice True
+    \CorrectChoice False
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\begin{minipage}{\linewidth}
+\question[2]
+True or False: Deletion of a tuple from the \textbf{department} relation may result in the deletion of some tuples from other relations.\par\vspace{0.5em}
+\begin{checkboxes}
+    \choice True
+    \CorrectChoice False
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\begin{minipage}{\linewidth}
+\question[2]
+True or False: Indices are data structures used to speed up access to records with specified values for index attributes.\par\vspace{0.5em}
+\begin{checkboxes}
+    \CorrectChoice True
+    \choice False
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\begin{minipage}{\linewidth}
+\question[2]
+True or False: It is possible to delete successfully any tuple from any relation of any University Database instance.\par\vspace{0.5em}
+\begin{checkboxes}
+    \choice True
+    \CorrectChoice False
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\begin{minipage}{\linewidth}
+\question[2]
+True or False: If we try to delete a tuple from the \textbf{advisor} relation, the tuple is not deleted. Instead, \textbf{i\_id} of this tuple is set to NULL.\par\vspace{0.5em}
+\begin{checkboxes}
+    \choice True
+    \CorrectChoice False
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\begin{minipage}{\linewidth}
+\question[2]
+True or False: Deletion of a tuple from the \textbf{department} relation may result in the deletion of some tuple(s) from other relation(s).\par\vspace{0.5em}
+\begin{checkboxes}
+    \choice True
+    \CorrectChoice False
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\begin{minipage}{\linewidth}
+\question[2]
+True or False: Deleting a tuple from the \textbf{instructor} relation can result in setting value(s) of some attribute(s) 
+of some tuples in the \textbf{advisor} relation to NULL.\par\vspace{0.5em}
+\begin{checkboxes}
+    \CorrectChoice True
+    \choice False
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\begin{minipage}{\linewidth}
+\question[3]
+True or False: The first list of statements is equivalent to the last statement 
+(they update the database in the same way and each of them is executed atomically).\par
+\begin{verbatim}
+start transaction;
+update department set budget = budget - 500 where dept_name = 'Biology';
+update department set budget = budget + 500 where dept_name = 'Comp. Sci.';
+commit;
+
+update department withdraw, department deposit
+set withdraw.budget = withdraw.budget - 500,
+    deposit.budget = deposit.budget + 500
+where withdraw.dept_name = 'Biology' and deposit.dept_name = 'Comp. Sci.';
+\end{verbatim}
+\begin{checkboxes}
+    \CorrectChoice True
+    \choice False
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\begin{minipage}{\linewidth}
+\question[2]
+True or False: Consider relation R with attributes A, B, C, D. Constraint \textit{unique} (A, B) on this relation 
+ensures that no two of its tuples have the same values for attributes A and B.\par\vspace{0.5em}
+\begin{checkboxes}
+    \CorrectChoice True
+    \choice False
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\begin{minipage}{\linewidth}
+\question[2]
+True or False: Once a transaction has executed commit work, its effects can no longer be undone by rollback work.\par\vspace{0.5em}
+\begin{checkboxes}
+    \CorrectChoice True
+    \choice False
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\begin{minipage}{\linewidth}
+\question[2]
+True or False: View names can be used in a query wherever a relation name is allowed.\par\vspace{0.5em}
+\begin{checkboxes}
+    \CorrectChoice True
+    \choice False
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\begin{minipage}{\linewidth}
+\question[2]
+True or False: Consider a view created with the following command.\par\vspace{0.5em}
+\begin{verbatim}
+create view faculty as
+select id, name, dept_name
+from instructor
+\end{verbatim}
+The following two queries return the same data for any instance of the University database.\par\vspace{0.5em}
+\begin{verbatim}
+select count(*) from instructor
+select count(*) from faculty
+\end{verbatim}
+\begin{checkboxes}
+    \CorrectChoice True
+    \choice False
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\begin{minipage}{\linewidth}
+\question[2]
+True or False: Definition of the \textit{prereq} table could be changed from: \par\vspace{0.5em}
+\begin{verbatim}
+create table prereq
+(course_id        varchar(8), 
+prereq_id        varchar(8),
+primary key (course_id, prereq_id),
+foreign key (course_id) references course(course_id) on delete cascade,
+foreign key (prereq_id) references course(course_id)
+);
+\end{verbatim}
+to\par\vspace{0.5em}
+\begin{verbatim}
+create table prereq
+(course_id        varchar(8), 
+prereq_id        varchar(8),
+primary key (course_id, prereq_id),
+foreign key (course_id) references course(course_id) on delete cascade,
+foreign key (prereq_id) references course(course_id) on delete cascade
+);
+\end{verbatim}
+\begin{checkboxes}
+    \CorrectChoice True
+    \choice False
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\begin{minipage}{\linewidth}
+\question[3]
+True or False: Consider the following scenario involving a view definition and an insertion operation. 
+The count of rows returned by the last command remains unchanged before and after the insertion. Is it true or false?\par\vspace{0.5em}
+\begin{verbatim}
+create view history_instructors as
+select * 
+from instructor
+where dept_name= 'History';
+
+insert into history_instructors values ('25566', 'Brown', 'Biology', 100000);
+
+select count(*) from history_instructors;
+\end{verbatim}
+\begin{checkboxes}
+    \CorrectChoice True
+    \choice False
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\begin{minipage}{\linewidth}
+\question[2]
+True or False: Deleting a tuple from the \textbf{student} relation can result in setting value(s) of some attribute(s) 
+of some tuples in the \textbf{advisor} relation to NULL.\par\vspace{0.5em}
+\begin{checkboxes}
+    \choice True
+    \CorrectChoice False
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\begin{minipage}{\linewidth}
+\question[2]
+True or False: The DBMS will utilize an index to retrieve the result of the following query:\par\vspace{0.5em}
+\begin{verbatim}
+select * 
+from student 
+where id = 12345
+\end{verbatim}
+HINT: MYSQL: explain\par\vspace{0.5em}
+\begin{checkboxes}
+    \choice True
+    \CorrectChoice False
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\begin{minipage}{\linewidth}
+\question[2]
+True or False: A user of the database can have only one role assigned to them.\par\vspace{0.5em}
+\begin{checkboxes}
+    \choice True
+    \CorrectChoice False
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\begin{minipage}{\linewidth}
+\question[2]
+True or False: An index can be created on more than one attribute (column) of a table.\par\vspace{0.5em}
+HINT: Below is a command that creates and index on the name attribute of the table student.\par\vspace{0.5em}
+\begin{verbatim}
+create index studentName_index on student(name)
+\end{verbatim}
+\begin{checkboxes}
+    \CorrectChoice True
+    \choice False
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+% ------------------ MULTIPLE CHOICE SECTION ------------------
+
+\section*{Part II — Multiple choice (choose one)}
+
+\begin{minipage}{\linewidth}
+\question[3]
+What is the effect of addition of:\par
+\begin{verbatim}
+unique (s_ID, i_ID)
+\end{verbatim}
+to the definition of the \textbf{advisor} relation?\par\vspace{0.5em}
+\begin{checkboxes}
+    \CorrectChoice None.
+    \choice Every student is able to have at most one advisor and every instructor is able to have at most one advisee
+    \choice \textbf{i\_ID} attribute can't have value null.
+    \choice \textbf{s\_ID} and \textbf{i\_ID} can not both be null.
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\begin{minipage}{\linewidth}
+\question[2]
+The database provides an abstraction of a transaction as being \underline{\hspace{4em}}, that is indivisible.\par\vspace{0.5em}
+\begin{checkboxes}
+    \choice committed
+    \CorrectChoice atomic
+    \choice efficient
+    \choice consistent
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\begin{minipage}{\linewidth}
+\question[2]
+The \underline{\hspace{4em}} clause provides a way of defining a temporary view whose definition is available only to the query in which the clause occurs.\par\vspace{0.5em}
+\begin{checkboxes}
+    \choice using
+    \choice view
+    \choice as
+    \CorrectChoice with
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\begin{minipage}{\linewidth}
+\question[3]
+What is the length of the longest chain of cascading deletes in the Univesrity database?\par\vspace{0.5em}
+If deletion of a tuple from relation A can result in deletion of some tuple(s) from relation B, 
+but deletion of a tuple from B can't result in deletion of tuple(s) from other relations, then the chain of cascading deletes, 
+that starts at A, is of length 1.\par\vspace{0.5em}
+\begin{checkboxes}
+    \choice 1
+    \CorrectChoice 2
+    \choice 3
+    \choice 4
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\begin{minipage}{\linewidth}
+\question[3]
+Excluding constraints related to attribute domains, how many additional constraints are imposed on the attributes of 
+the "department" relation in the University database?\par\vspace{0.5em}
+\begin{checkboxes}
+    \CorrectChoice 2
+    \choice 1
+    \choice 0
+    \choice 4
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\begin{minipage}{\linewidth}
+\question[3]
+What is the maximal number of tables from which tuple(s) can be automatically deleted with the deletion of a \textbf{student}?\par\vspace{0.5em}
+\begin{checkboxes}
+    \choice 1
+    \choice 0
+    \CorrectChoice 2
+    \choice 4
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+% ------------------ MULTIPLE SELECT SECTION ------------------
+\section*{Part III — Multiple select (select all that apply)}
+
+\begin{minipage}{\linewidth}
+\question[5]
+Consider the following view, named myView, defined in the University database.\par\vspace{0.5em}
+\begin{verbatim}
+create view myView(dept_name, course_id, amount) as
+       select dept_name, course_id, count(*)
+       from course natural join section
+       group by dept_name, course_id;
+\end{verbatim}
+Which of the given SQL statements are allowed on the view?\par\vspace{0.5em}
+\begin{checkboxes}
+    \CorrectChoice select dept\_name, course\_id from myView
+    \CorrectChoice select * from course where course\_id in (select course\_id from myView)
+    \CorrectChoice select course\_id, amount from myView where amount \texttt{=} (select min(amount) from myView)
+    \choice create view nextView(course\_id) as select course\_id, title from myView where amount \texttt{>=} 2
+    \choice insert into myView values ('Physics', 'PHY-101', 1)
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\begin{samepage}
+\question[4]
+Considering the commands shown below were executed on a University database server with users Grey, Amit, Green, and Brown,
+which user(s) have the authority to move all Computer Science Department students who enrolled in CS-190 during the Spring 2009 
+semester to section 2 of the course (assume section 2 has already been created)?\par\vspace{0.5em}
+In other words, which user(s) can successfully execute the following query?\par
+(Select all that apply)\par\vspace{0.5em}
+\begin{verbatim}
+update takes
+set sec_id = 2
+where id in (select id from student where dept_name = 'Comp. Sci.')
+and course_id = 'CS-190'
+and semester ='Spring'
+and year = 2009
+\end{verbatim}
+Executed Commands:\par\vspace{0.5em}
+\begin{verbatim}
+create role 'teaching_assistant'@'localhost';
+create role 'lecturer'@'localhost';
+create role 'dean'@'localhost';
+
+grant select on university.takes to 'teaching_assistant'@'localhost';
+grant update on university.takes to 'teaching_assistant'@'localhost';
+
+grant select on university.student to 'lecturer'@'localhost';
+
+grant select on university.instructor to 'dean'@'localhost';
+
+grant 'teaching_assistant'@'localhost' to 'lecturer'@'localhost';
+grant 'lecturer'@'localhost' to 'dean'@'localhost';
+
+grant 'dean'@'localhost' to 'Grey'@'localhost';
+grant 'dean'@'localhost' to 'Amit'@'localhost';
+grant update on university.instructor to 'Amit'@'localhost';
+
+grant 'lecturer'@'localhost' to 'Brown'@'localhost';
+grant update on university.student to 'Brown'@'localhost';
+
+grant 'teaching_assistant'@'localhost' to 'Green'@'localhost';
+\end{verbatim}
+
+Hint: \\
+To test this scenario in MySQL, make sure to enable the default roles for each user by executing:\par\vspace{0.5em}
+\begin{verbatim}
+SET DEFAULT ROLE ALL TO  'Brown'@'localhost';
+SET DEFAULT ROLE ALL TO  'Grey'@'localhost';
+SET DEFAULT ROLE ALL TO  'Amit'@'localhost';
+SET DEFAULT ROLE ALL TO  'Green'@'localhost';
+\end{verbatim}
+(More on that in the MYSQL documentation under MySQL :: MySQL 8.0 Reference Manual :: 8.2.10 Using Roles .)
+Important: To correctly test this scenario, each user must run the following two commands after logging in, before executing the UPDATE query:\par\vspace{0.5em}
+\begin{verbatim}
+1. Activate all granted roles for the current session:
+SET ROLE ALL;
+
+2. Select the appropriate database:
+USE university;
+\end{verbatim}
+\begin{checkboxes}
+    \CorrectChoice Amit
+    \CorrectChoice Brown
+    \choice Green
+    \CorrectChoice Grey
+\end{checkboxes}
+\vspace{1em}
+\end{samepage}
+
+\begin{minipage}{\linewidth}
+\question[6]
+Consider the following view, named myView, defined in the University database.\par\vspace{0.5em}
+\begin{verbatim}
+create view myView as
+select name, dept_name
+from instructor;
+\end{verbatim}
+Which of the given SQL statements are allowed on the view?\par\vspace{0.5em}
+\begin{checkboxes}
+    \CorrectChoice select name, dept\_name from myView
+    \CorrectChoice select * from department natural join myView
+    \CorrectChoice create view nextView as select dept\_name, count(*) from myView group by dept\_name
+    \choice insert into myView values ('Grey', 'Comp. Sci.')
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\begin{samepage}
+\question[6]
+Which statements, if any, are true about the below trigger?\par\vspace{0.5em}
+\begin{verbatim}
+create trigger credits_earned 
+after update on takes
+for each row
+begin
+    if (new.grade <> 'F' and new.grade is not null and 
+        (old.grade = 'F' or old.grade is null)) 
+    then
+        update student
+        set tot_cred = tot_cred + (select credits
+                                   from course
+                                   where course.course_id = new.course_id)
+        where student.id = new.id;
+    end if;
+end
+\end{verbatim}
+
+\begin{checkboxes}
+\CorrectChoice The following query will result in as many updates of some \textit{total\_credit} values of \textbf{student} 
+as there are nulls for the \textit{grade} attribute of \textbf{takes}.
+\textit{update takes set grade = 'D' where grade = null}
+
+\choice The trigger body will be executed at least once when the query \textit{delete from takes where grade is null} 
+is executed, provided some students have ungraded course sections.
+
+\choice Assume that there are only the following tuples in the database.
+
+\textbf{student}
+
+\begin{tabular}{|l|l|l|l|}
+\hline
+id & name & dept\_name & tot\_cred \\
+\hline
+'5' & 'Brown' & null & 0 \\
+\hline
+\end{tabular}
+
+\textbf{course}
+
+\begin{tabular}{|l|l|l|l|}
+\hline
+course\_id & title & dept\_name & credits \\
+\hline
+'3300' & 'DBMS' & null & 3 \\
+\hline
+\end{tabular}
+
+\textbf{section}
+
+\begin{tabular}{|l|l|l|l|l|l|l|}
+\hline
+course\_id & sec\_id & semester & year & building & room\_number & time\_slot\_id \\
+\hline
+'3300' & '1' & 'Fall' & 2024 & null & null & null \\
+\hline
+\end{tabular}
+
+\textbf{takes}
+
+\begin{tabular}{|l|l|l|l|l|l|}
+\hline
+id & course\_id & sec\_id & semester & year & grade \\
+\hline
+'5' & '3300' & '1' & 'Fall' & 2024 & null \\
+\hline
+\end{tabular}
+\begin{verbatim}
+update student set tot_cred = tot_cred + 
+(select sum(credits) from course natural 
+join takes where takes.id = student.id and 
+student.id = '5' and grade = null)
+\end{verbatim}
+\choice Assume that there are only the following tuples in the database.
+
+\textbf{student}
+
+\begin{tabular}{|l|l|l|l|}
+\hline
+id & name & dept\_name & tot\_cred \\
+\hline
+'5' & 'Brown' & null & 0 \\
+\hline
+\end{tabular}
+
+\textbf{course}
+
+\begin{tabular}{|l|l|l|l|}
+\hline
+course\_id & title & dept\_name & credits \\
+\hline
+'3300' & 'DBMS' & null & 3 \\
+\hline
+\end{tabular}
+
+\textbf{section}
+
+\begin{tabular}{|l|l|l|l|l|l|l|}
+\hline
+course\_id & sec\_id & semester & year & building & room\_number & time\_slot\_id \\
+\hline
+'3300' & '1' & 'Fall' & 2024 & null & null & null \\
+\hline
+\end{tabular}
+
+\textbf{takes}
+
+\begin{tabular}{|l|l|l|l|l|l|}
+\hline
+id & course\_id & sec\_id & semester & year & grade \\
+\hline
+'5' & '3300' & '1' & 'Fall' & 2024 & '' \\
+\hline
+\end{tabular}
+
+The following update command will execute the body of the \textit{credits\_earned} trigger.
+\begin{verbatim}
+update takes set grade = 'D' where id = '5' and grade = null
+\end{verbatim}
+\end{checkboxes}
+\end{samepage}
+
+\end{questions}
 \end{document}
