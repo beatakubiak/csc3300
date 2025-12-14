@@ -1,6 +1,102 @@
-\documentclass[12pt]{exam}
+\documentclass[12pt, addpoints, answers]{exam}
 \input{preamble.tex}
 
+% Header/footer formatting
+\pagestyle{headandfoot}
+\runningheadrule
+\firstpageheadrule
+\firstpageheader{Database Management Systems}{Relational Algebra}{Fall 2025}
+\runningheader{}{Relational Algebra}{}
+\runningfooter{}{}{}
+
 \begin{document}
-TODO
+\noindent Name:\ \makebox[3in]{\hrulefill}\hfill Points Scored: \underline{\hspace{3em}} / \numpoints
+\begin{questions}
+
+% ------------------ TRUE/FALSE SECTION ------------------
+\section*{Part I — True/False}
+
+\begin{minipage}{\linewidth}
+\question[1]
+True or False: The below two queries return exactly the same data for any database instance.\par\vspace{1em}
+$\pi$student.ID, takes.course\_id ($\sigma$student.ID = takes.ID (student $\times$ takes))\par\vspace{1em}
+$\pi$ID, course\_id (student $\bowtie$ takes)\par\vspace{0.5em}
+\begin{checkboxes}
+    \CorrectChoice True
+    \choice False
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\begin{minipage}{\linewidth}
+\question[1]
+For any nonempty relation instances r and s, r $\times$ s returns more than 0 tuples if r and s have at least one common attribute 
+(same name and compatible types).\par\vspace{1em}
+\begin{checkboxes}
+    \CorrectChoice True
+    \choice False
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+
+% ------------------ MULTIPLE CHOICE SECTION ------------------
+
+\section*{Part II — Multiple choice (choose one)}
+
+\begin{minipage}{\linewidth}
+\question[1]
+Consider two relations: student and takes. Assume there are 5 tuples in the student relation and 6 tuples in the takes relation. 
+How many tuples will be in the result of the following relational algebra query?\textbf{section}?\par\vspace{1em}
+\textbf{student $\bowtie$ takes}\par\vspace{1em}
+\begin{checkboxes} 
+    \CorrectChoice 6
+    \choice 5
+    \choice 11
+    \choice None of the gabove.
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+% ------------------ MULTIPLE SELECT SECTION ------------------
+\section*{Part III — Multiple select (select all that apply)}
+
+\begin{minipage}{\linewidth}
+\question[1]
+Which relational algebra queries, if any, return ids and names of students who have advisors from another department?\par\vspace{0.5em}
+(Select all that apply)\par\vspace{0.5em}
+\begin{checkboxes}
+    \choice $\pi$student.ID, student.name ($\sigma$student.dept\_name $\neq$ instructor.dept\_name (student $\bowtie$ advisor $\bowtie$ instructor))
+    \CorrectChoice $\pi$student.ID, student.name ($\sigma$student.dept\_name $\neq$ instructor.dept\_name $\land$ student.ID \texttt{=} advisor.s\_id $\land$ 
+    instructor.ID \texttt{=} advisor.i\_id (student $\times$ advisor $\times$ instructor))
+    \choice $\pi$student.ID, student.name ($\sigma$student.dept\_name $\neq$ instructor.dept\_name (student $\times$ advisor $\times$ instructor))
+    \choice $\pi$student.ID, student.name ($\sigma$student.dept\_name $\neq$ instructor.dept\_name (($\pi$ID, name, dept\_name student) 
+    $\times$ advisor $\times$ ($\pi$ID, dept\_name instructor)))
+    \choice None of the gabove.
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\begin{minipage}{\linewidth}
+\question[1]
+Which of the following relational algebra queries, if any, returns only the ids of courses that don't have prerequisites?\par\vspace{0.5em}
+\begin{checkboxes}
+    \choice course - prereq
+    \choice $\pi$prereq\_id (course $\bowtie$ prereq)
+    \CorrectChoice $\pi$course\_id course - $\pi$course\_id prereq
+    \choice $\pi$course\_id (course $\bowtie$ prereq)
+    \choice None of the gabove.
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\begin{minipage}{\linewidth}
+\question[1]
+Which query, if any, is equivalent to the following one?\par\vspace{1em}
+$\pi$ID, name, dept\_name, building ($\sigma$ dept\_name \texttt{=} 'Comp. Sci.' (student $\bowtie$ department))\par\vspace{0.5em}
+\begin{checkboxes}
+    \CorrectChoice $\sigma$ dept\_name \texttt{=} 'Comp. Sci.' ($\pi$ID, name, dept\_name, building (student $\bowtie$ department))
+    \CorrectChoice $\pi$ID, name, dept\_name, building (($\sigma$ dept\_name \texttt{=} 'Comp. Sci.' student) $\bowtie$ department)
+    \CorrectChoice $\pi$ID, name, dept\_name, building (student $\bowtie$ ($\sigma$ dept\_name \texttt{=} 'Comp. Sci.' department))
+    \choice $\sigma$ dept\_name \texttt{=} 'Comp. Sci.' (student $\bowtie$ ($\pi$ID, name, dept\_name, building department))
+    \choice None of the gabove.
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\end{questions}
 \end{document}
