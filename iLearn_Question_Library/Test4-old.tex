@@ -86,7 +86,7 @@ How many tables will be created in the database for the model depicted in the be
     
     % Publisher table (top center, closer to author)
     \node[box, fill=cyan!30, minimum height=0.6cm, minimum width=2cm, right=3cm of author_header] (publisher_header) {publisher};
-    \node[box, fill=white, below=0cm of publisher_header.south, anchor=north, minimum height=1.5cm, minimum width=2cm] (publisher_body) {name\\address\\phone\\URL};
+    \node[box, fill=white, below=0cm of publisher_header.south, anchor=north, minimum height=1.5cm, minimum width=2cm] (publisher_body) {\underline{name}\\address\\phone\\URL};
     
     % Published_by diamond
     \node[decision, below=0.5cm of publisher_body, fill=cyan!20] (published_by) {published\_by};
@@ -106,7 +106,7 @@ How many tables will be created in the database for the model depicted in the be
     
     % Customer table (above basket_of)
     \node[box, fill=cyan!30, minimum height=0.6cm, minimum width=2cm, above=4cm of basket_of] (customer_header) {customer};
-    \node[box, fill=white, below=0cm of customer_header.south, anchor=north, minimum height=1.4cm, minimum width=2cm] (customer_body) {email\\name\\address\\phone};
+    \node[box, fill=white, below=0cm of customer_header.south, anchor=north, minimum height=1.4cm, minimum width=2cm] (customer_body) {\underline{email}\\name\\address\\phone};
     
     % Number attribute for stocks (bottom)
     \node[attribute, below=1cm of contains] (number2) {number};
@@ -115,7 +115,7 @@ How many tables will be created in the database for the model depicted in the be
     \node[decision, below=0.8cm of number2, fill=cyan!20] (stocks) {stocks};
     
     % Warehouse table
-    \node[box, fill=white, anchor=north, minimum height=1.2cm, minimum width=2cm, right=1.5cm of stocks] (warehouse_body) {code\\address\\phone};
+    \node[box, fill=white, anchor=north, minimum height=1.2cm, minimum width=2cm, right=1.5cm of stocks] (warehouse_body) {\underline{code}\\address\\phone};
     \node[box, fill=cyan!30, above=0cm of warehouse_body.north, minimum height=0.6cm, minimum width=2cm] (warehouse_header) {warehouse};
 
     % Lines
@@ -344,7 +344,7 @@ What is true about the below diagram?\par\vspace{0.5em}
 \begin{tikzpicture}[node distance=1.5cm]
     % match table
     \node[box, fill=cyan!30, minimum height=0.6cm, minimum width=2.5cm] (match_header) {match};
-    \node[box, fill=white, below=0cm of album_header.south, anchor=north, minimum height=1cm, minimum width=2.5cm] (match_body) {\underline{match\_id}\\date\\stadium\\opponent\\own\_score\\opp\_score};
+    \node[box, fill=white, below=0cm of match_header.south, anchor=north, minimum height=1cm, minimum width=2.5cm] (match_body) {\underline{match\_id}\\date\\stadium\\opponent\\own\_score\\opp\_score};
 
     % played diamond
     \node[decision, fill=cyan!30, right=1.5cm of match_body, inner sep=0.09cm] (played) {played};
