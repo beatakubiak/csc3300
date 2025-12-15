@@ -1,6 +1,403 @@
-\documentclass[12pt]{exam}
+\documentclass[12pt, addpoints, answers]{exam}
 \input{preamble.tex}
 
+% Header/footer formatting
+\pagestyle{headandfoot}
+\runningheadrule
+\firstpageheadrule
+\firstpageheader{Database Management Systems}{Comprehensive Bonus}{Fall 2025}
+\runningheader{}{Comprehensive Bonus}{}
+\runningfooter{}{}{}
+
 \begin{document}
-TODO
+\noindent Name:\ \makebox[3in]{\hrulefill}\hfill Points Scored: \underline{\hspace{3em}} / \numpoints
+\begin{questions}
+
+% ------------------ TRUE/FALSE SECTION ------------------
+\section*{Part I — True/False}
+
+\begin{minipage}{\linewidth}
+\question[3]
+True or False: An instructor can teach two different course sections, in a given semester and year, in two different classrooms in the same time slot.\par\vspace{0.5em}
+\begin{checkboxes}
+    \CorrectChoice True
+    \choice False
+    \CorrectChoice Prefer Not To Answer
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\begin{minipage}{\linewidth}
+\question[3]
+True or False: Below commands will run, when invoked subsequently, on any instance of the University database.\par\vspace{0.5em}
+\begin{verbatim}
+insert into department values ('Sanitation', 'BrunerHall', '70000');
+insert into instructor values ('1', 'Brown', 'Sanitation', '100000');
+insert into student values ('100', 'Blue', 'Sanitation', '120');
+insert into takes values ('100', 'CS-101', '1', 'Fall', '2009', null);
+insert into teaches values ('1', 'CS-101', '1', 'Fall', '2009');
+\end{verbatim}
+\begin{checkboxes}
+    \choice True
+    \CorrectChoice False
+    \CorrectChoice Prefer Not To Answer
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\begin{minipage}{\linewidth}
+\question[3]
+True or False: SQL prevents any update to the database that violates an integrity constraint.\par\vspace{0.5em}
+\begin{checkboxes}
+    \CorrectChoice True
+    \choice False
+    \CorrectChoice Prefer Not To Answer
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\begin{minipage}{\linewidth}
+\question[3]
+True or False: Below query returns at most one tuple on any instance of the University database.\par\vspace{0.5em}
+\begin{verbatim}
+select course_id from course where course_id = 128
+\end{verbatim}
+\begin{checkboxes}
+    \choice True
+    \CorrectChoice False
+    \CorrectChoice Prefer Not To Answer
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\begin{minipage}{\linewidth}
+\question[3]
+True or False: The following two inserts can be invoked, one after another, on a database instance with no tuples in any of the tables.\par\vspace{0.5em}
+\begin{verbatim}
+insert into course values ('3300', 'DBMS', null, 3);
+insert into section values ('3300', '001', 'Fall', 2022, null, null, 'A');
+\end{verbatim}
+\begin{checkboxes}
+    \CorrectChoice True
+    \choice False
+    \CorrectChoice Prefer Not To Answer
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\begin{minipage}{\linewidth}
+\question[3]
+True or False: There is no way of telling if a given person is a student and an instructor at the same time.\par\vspace{0.5em}
+\begin{checkboxes}
+    \CorrectChoice True
+    \choice False
+    \CorrectChoice Prefer Not To Answer
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\begin{minipage}{\linewidth}
+\question[3]
+True or False: If a course, with id '2710', doesn’t have a prerequisite, 
+then there is no tuple in the \textit{prereq} table with value '2710' for the attribute \textit{prereq\_id.}\par\vspace{0.5em}
+\begin{checkboxes}
+    \choice True
+    \CorrectChoice False
+    \CorrectChoice Prefer Not To Answer
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\begin{minipage}{\linewidth}
+\question[3]
+True or False: \{\textit{ID, course\_id, sec\_id, semester, year, grade}\} is a candidate key of the relation \textit{takes}.\par\vspace{0.5em}
+\begin{checkboxes}
+    \choice True
+    \CorrectChoice False
+    \CorrectChoice Prefer Not To Answer
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\begin{minipage}{\linewidth}
+\question[3]
+True or False: A student can be registered for more than one section of the same course in the given semester and year.\par\vspace{0.5em}
+\begin{checkboxes}
+    \CorrectChoice True
+    \choice False
+    \CorrectChoice Prefer Not To Answer
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\begin{minipage}{\linewidth}
+\question[3]
+True or False: The below two queries are equivalent. 
+In other words, the below two queries return the same data regardless of what is the database instance.\par\vspace{0.5em}
+\begin{verbatim}
+select dept_name, avg(budget)
+from department
+group by dept_name;
+
+select dept_name, budget
+from department;
+\end{verbatim}
+\begin{checkboxes}
+    \CorrectChoice True
+    \choice False
+    \CorrectChoice Prefer Not To Answer
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\begin{minipage}{\linewidth}
+\question[3]
+True or False: The below query works on any database instance.\par\vspace{0.5em}
+\begin{verbatim}
+select * from
+course, section
+where course.course_id = section.sec_id;
+\end{verbatim}
+\begin{checkboxes}
+    \CorrectChoice True
+    \choice False
+    \CorrectChoice Prefer Not To Answer
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\begin{minipage}{\linewidth}
+\question[3]
+True or False: If the \textit{grade} attribute of the relation \textit{takes} was part of the current primary key of this relation, 
+then a student could have more than one grade recorded for the same course section in the same semester and year, 
+as long as each grade is different.\par\vspace{0.5em}
+\begin{checkboxes}
+    \CorrectChoice True
+    \choice False
+    \CorrectChoice Prefer Not To Answer
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\begin{minipage}{\linewidth}
+\question[3]
+True or False: True or False: A tuple is inserted into the \textit{instructor} only if the value of the \textit{ID} attribute of this tuple is 
+equal to the value of the \textit{i\_id} attribute of some tuple in the \textit{advisor} relation.\par\vspace{0.5em}
+\begin{checkboxes}
+    \choice True
+    \CorrectChoice False
+    \CorrectChoice Prefer Not To Answer
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\begin{minipage}{\linewidth}
+\question[3]
+True or False: \textit{Id} of a course can be 'GoodLuck'.\par\vspace{0.5em}
+\begin{checkboxes}
+    \CorrectChoice True
+    \choice False
+    \CorrectChoice Prefer Not To Answer
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\begin{minipage}{\linewidth}
+\question[2]
+It can be the case that in the database there are only the following 2 tuples:\par\vspace{0.5em}
+\begin{tabular}{|l|l|l|l|}
+\hline
+\multicolumn{4}{|c|}{\textbf{student}} \\
+\hline
+ID & name & dept\_name & tot\_cred \\
+\hline
+0 & Green & Comp. Sci. & 3 \\
+\hline
+\end{tabular}
+\par\vspace{1em}
+\begin{tabular}{|l|l|l|l|l|l|}
+\hline
+\multicolumn{6}{|c|}{\textbf{takes}} \\
+\hline
+ID & course\_id & sec\_id & semester & year & grade \\
+\hline
+0 & 3300 & 002 & Spring & 2023 & A \\
+\hline
+\end{tabular}
+
+\vspace{0.5em}
+\begin{checkboxes}
+    \choice True
+    \CorrectChoice False
+    \CorrectChoice Prefer Not To Answer
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\begin{minipage}{\linewidth}
+\question[3]
+True or False: If \textit{room\_no} attribute of a \textit{classroom} relation was removed from a primary key (not a table though), 
+then in each building on campus there could be at most one classroom.\par\vspace{0.5em}
+\begin{checkboxes}
+    \CorrectChoice True
+    \choice False
+    \CorrectChoice Prefer Not To Answer
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\begin{minipage}{\linewidth}
+\question[3]
+True or False: The database doesn’t keep track of past advisors of students.\par\vspace{0.5em}
+\begin{checkboxes}
+    \CorrectChoice True
+    \choice False
+    \CorrectChoice Prefer Not To Answer
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\begin{minipage}{\linewidth}
+\question[3]
+True or False: The delete statements at the beginning of the insert file smallRelationsInsertFile\_MySQL.sql 
+can be executed in any order without causing foreign key constraint violations.\par\vspace{0.5em}
+\begin{checkboxes}
+    \choice True
+    \CorrectChoice False
+    \CorrectChoice Prefer Not To Answer
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\begin{minipage}{\linewidth}
+\question[3]
+True or False: The following query returns information about courses that are in the catalog of the Computer Science Department.\par\vspace{0.5em}
+\begin{verbatim}
+select * from course where course_id like 'CS%'
+\end{verbatim}
+\begin{checkboxes}
+    \choice True
+    \CorrectChoice False
+    \CorrectChoice Prefer Not To Answer
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+% ------------------ MULTIPLE CHOICE SECTION ------------------
+
+\section*{Part II — Multiple choice (choose one)}
+
+\begin{minipage}{\linewidth}
+\question[3]
+Relation \textit{section} has: \textbf{section}?\par\vspace{0.5em}
+\begin{checkboxes} 
+    \CorrectChoice one primary key and two foreign keys.
+    \choice four primary keys and two foreign keys.
+    \choice four primary keys and 3 foreign keys.
+    \choice one primary key and 3 foreign keys.
+    \CorrectChoice Prefer Not To Answer
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\begin{minipage}{\linewidth}
+\question[3]
+What is the minimal number of tuples that need to be added to the empty University database (none of the relations has any tuples) 
+before a course section can be inserted (tuple can be inserted to the relation \textit{section}).\par\vspace{0.5em}
+\begin{checkboxes} 
+    \choice 0
+    \CorrectChoice 1
+    \choice 2
+    \choice 5
+    \CorrectChoice Prefer Not To Answer
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\begin{minipage}{\linewidth}
+\question[4]
+Which query returns sorted data from the \textit{time\_slot} relation by \textit{time\_slot\_id} and then \textit{day}.\par\vspace{0.5em}
+\begin{checkboxes} 
+    \choice \begin{verbatim}
+select *
+from time_slot
+order by time_slot_id, day;
+    \end{verbatim}
+    \CorrectChoice \begin{verbatim}
+with temp(day, no) as
+((select 'W', 3)
+union
+(select 'H', 4)
+union
+(select 'F', 5)
+union
+(select 'M', 1)
+union
+(select 'T', 2)
+)
+select *
+from time_slot natural join temp
+order by time_slot_id, no;
+    \end{verbatim}
+    \choice \begin{verbatim}
+with temp(day, no) as
+((select 'W', 3)
+union
+(select 'H', 4)
+union
+(select 'F', 5)
+union
+(select 'M', 1)
+union
+(select 'T', 2)
+)
+select *
+from time_slot natural join temp
+order by no, time_slot_id;
+    \end{verbatim}
+    \choice \begin{verbatim}
+select *
+from time_slot
+order by day, time_slot_id;
+    \end{verbatim}
+    \CorrectChoice Prefer Not To Answer
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\begin{minipage}{\linewidth}
+\question[3]
+Based on the "E-R Diagram for a University Enterprise," how many foreign keys should the relation corresponding to the \textit{student} entity set have?\par\vspace{0.5em}
+\begin{checkboxes} 
+    \choice 0
+    \choice 1
+    \CorrectChoice 2
+    \choice 4
+    \CorrectChoice Prefer Not To Answer
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\begin{minipage}{\linewidth}
+\question[4]
+Which of the following SQL queries correctly returns information about how many course sections were offered or created for each course, 
+including courses that may have zero sections?\par\vspace{0.5em}
+\begin{checkboxes} 
+    \choice select course\_id, count(sec\_id) from section group by course\_id
+    \CorrectChoice select course\_id, count(sec\_id) from course natural left outer join section group by course\_id
+    \choice select course\_id, count(sec\_id) from course natural right outer join section group by course\_id
+    \choice select course\_id, count(*) from course natural left outer join section group by course\_id
+    \CorrectChoice Prefer Not To Answer
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\begin{minipage}{\linewidth}
+\question[6]
+Which of the following SQL queries returns the \textit{course\_id}(s) for which one section was created in the Spring 2010 semester?\par\vspace{0.5em}
+\begin{checkboxes} 
+    \CorrectChoice \begin{verbatim}
+select course_id 
+from section
+where semester = 'Spring' and year = 2010
+group by course_id
+having count(*) = 1
+    \end{verbatim}
+    \choice \begin{verbatim}
+select course_id from section where sec_id in(
+select sec_id
+from section
+where semester = 'Spring' and year = 2010
+group by sec_id
+having count(*) = 1)
+    \end{verbatim}
+    \choice \begin{verbatim}
+select course_id from (
+select course_id, (select count(sec_id) from section as s1 where 
+s1.course_id = s2.course_id) as number_of_sections
+from section as s2
+where semester = 'Spring' AND year = 2010) as temp
+where number_of_sections = 1
+    \end{verbatim}
+    \CorrectChoice Prefer Not To Answer
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\end{questions}
 \end{document}
