@@ -1,6 +1,622 @@
-\documentclass[12pt]{exam}
+\documentclass[12pt, addpoints, answers]{exam}
 \input{preamble.tex}
 
+% Header/footer formatting
+\pagestyle{headandfoot}
+\runningheadrule
+\firstpageheadrule
+\firstpageheader{Database Management Systems}{Ch 3 Review}{Fall 2025}
+\runningheader{}{Ch 3 Review}{}
+\runningfooter{}{}{}
+
 \begin{document}
-TODO
+\noindent Name:\ \makebox[3in]{\hrulefill}\hfill Points Scored: \underline{\hspace{3em}} / \numpoints
+\begin{questions}
+
+% ------------------ TRUE/FALSE SECTION ------------------
+\section*{Part I — True/False}
+
+\begin{minipage}{\linewidth}
+\question[3]
+True or False: The following two queries are equivalent, that is, they produce the same result, for any instance of the University Database:\par\vspace{0.5em}
+\begin{enumerate}
+    \item select distinct course\_id from course
+    \item select course\_id from course
+\end{enumerate}
+\begin{checkboxes}
+    \CorrectChoice True
+    \choice False
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\begin{minipage}{\linewidth}
+\question[2]
+True or False: A query with an aggregate function in the 'select' part of it and without a 'group by' statement returns only one tuple.\par\vspace{0.5em}
+\begin{checkboxes}
+    \CorrectChoice True
+    \choice False
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\begin{minipage}{\linewidth}
+\question[2]
+True or False: Below query returns ids of courses that have prerequisites, if any.\par\vspace{0.5em}
+\begin{verbatim}
+select * from course where course_id in (select * from prereq)
+\end{verbatim}
+\begin{checkboxes}
+    \choice True
+    \CorrectChoice False
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\begin{minipage}{\linewidth}
+\question[2]
+True or False: Below query returns courses that have more than one direct prerequisite.\par\vspace{0.5em}
+\begin{verbatim}
+select * from course where (select count(course_id) from 
+prereq where prereq.course_id = course.course_id) >= 2
+\end{verbatim}
+\begin{checkboxes}
+    \CorrectChoice True
+    \choice False
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\begin{minipage}{\linewidth}
+\question[2]
+True or False: Below query can return a tuple with value 0 for the attribute \textit{classroom\_no}.\par\vspace{0.5em}
+\begin{verbatim}
+select building, count(distinct room_number) as classroom_no
+from classroom
+group by building
+\end{verbatim}
+\begin{checkboxes}
+    \choice True
+    \CorrectChoice False
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\begin{minipage}{\linewidth}
+\question[2]
+True or False: The query "select * from takes, teaches, advisor" returns a table with 13 columns. \par\vspace{0.5em}
+\begin{checkboxes}
+    \CorrectChoice True
+    \choice False
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\begin{minipage}{\linewidth}
+\question[2]
+True or False: The below query works on any database instance.\par\vspace{0.5em}
+\begin{verbatim}
+select * from
+course, section
+where course.course_id = section.sec_id
+\end{verbatim}
+\begin{checkboxes}
+    \CorrectChoice True
+    \choice False
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+
+% ------------------ MULTIPLE CHOICE SECTION ------------------
+
+\section*{Part II — Multiple choice (choose one)}
+
+\begin{minipage}{\linewidth}
+\question[2]
+What is the minimal number of tables that need to be reached out to in order to retrieve ids and names of instructors 
+along with ids and titles of courses they taught, that come from a different department than the one they are associated with?\par\vspace{0.5em}
+E.g. If an instructor with id 5 and name Green from Math Dept. taught a course with id CSC3300 and title DBMS from the CS. Dept., 
+then the below tuple should be included in the result of the query.\par\vspace{0.5em}
+\begin{tabular}{|l|l|l|l|}
+\hline
+\textit{ID} & \textit{name} & \textit{course\_id} & \textit{title} \\
+\hline
+5 & Green & CSC3300 & DBMS \\
+\hline
+\end{tabular}
+\begin{checkboxes} 
+    \CorrectChoice 3
+    \choice 4
+    \choice 5
+    \choice 2
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\begin{minipage}{\linewidth}
+\question[2]
+What does the following SQL query return?\par\vspace{0.5em}
+\begin{verbatim}
+select i_id, count(s_id) 
+from advisor 
+group by i_id
+\end{verbatim}
+\begin{checkboxes} 
+    \choice For each instructor the number of students he advises.
+    \choice For each advisor the number of students he advises.
+    \choice For each student the number of his advisors.
+    \CorrectChoice None of the other options.
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\begin{minipage}{\linewidth}
+\question[4]
+Which query is not equivalent to the remaining ones?\par\vspace{0.5em}
+\begin{checkboxes} 
+    \choice \begin{verbatim}
+select d.dept_name, d.building, c.course_id, c.title
+from department as d, course as c
+where d.dept_name = c.dept_name
+    \end{verbatim}
+    \choice \begin{verbatim}
+select d.dept_name, d.building, c.course_id, c.title
+from department as d join course as c using (dept_name)
+    \end{verbatim}
+    \choice \begin{verbatim}
+select d.dept_name, d.building, c.course_id, c.title
+from department as d inner join course as c on (d.dept_name=c.dept_name)
+    \end{verbatim}
+    \CorrectChoice \begin{verbatim}
+select d.dept_name, d.building, c.course_id, c.title
+from department as d right outer join course as c on (d.dept_name=c.dept_name)
+    \end{verbatim}
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\begin{minipage}{\linewidth}
+\question[4]
+Assume that there is only one tuple in the \textbf{section} relation and no tuples in both \textbf{takes} and \textbf{student} relations. 
+What is the minimal number of tuples that have to be added to the database so that the below query returns 2 tuples?\par\vspace{0.5em}
+\begin{verbatim}
+select * from student natural join takes
+\end{verbatim}
+\begin{checkboxes} 
+    \choice 2
+    \choice 3
+    \CorrectChoice 4
+    \choice 5
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\begin{minipage}{\linewidth}
+\question[3]
+Choose the SQL query that is guaranteed to encounter an error due to issues with its structure or syntax.\par\vspace{0.5em}
+\begin{checkboxes} 
+    \choice \begin{verbatim}
+select course_id, sec_id, count(distinct ID)
+from takes
+group by course_id, sec_id
+    \end{verbatim}
+    \choice \begin{verbatim}
+select count(distinct ID)
+from takes
+group by course_id, sec_id
+    \end{verbatim}
+    \choice \begin{verbatim}
+select course_id, sec_id
+from takes
+group by course_id, sec_id
+    \end{verbatim}
+    \CorrectChoice \begin{verbatim}
+select course_id, sec_id, semester, year, count(distinct ID)
+from takes
+group by course_id, sec_id
+    \end{verbatim}
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\begin{minipage}{\linewidth}
+\question[4]
+If table department has 5 tuples and table course has 3 tuples, which query returns the largest number of tuples?\par\vspace{0.5em}
+\begin{checkboxes} 
+    \CorrectChoice \begin{verbatim}
+select * 
+from course, department
+    \end{verbatim}
+    \choice \begin{verbatim}
+select * 
+from course, department
+where course.dept_name = department.dept_name
+    \end{verbatim}
+    \choice \begin{verbatim}
+select dept_name from course
+union
+select dept_name from department
+    \end{verbatim}
+    \choice \begin{verbatim}
+select dept_name from course
+intersect
+select dept_name from department;
+    \end{verbatim}
+
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+% ------------------ MULTIPLE SELECT SECTION ------------------
+\section*{Part III — Multiple select (select all that apply)}
+
+\begin{minipage}{\linewidth}
+\question[6]
+Which SQL queries return only the IDs and titles of Comp. Sci. courses offered in Spring 2010?\par\vspace{0.5em}
+(Select all that apply)\par\vspace{0.5em}
+\begin{checkboxes} 
+    \CorrectChoice \begin{verbatim}
+select course.course_id, title
+from course, section
+where course.course_id = section.course_id
+and course.dept_name = 'Comp. Sci.'
+and section.semester = 'Spring'
+and section.year = 2010
+    \end{verbatim}
+    \choice \begin{verbatim}
+select course.course_id, title
+from course, section, department
+where course.course_id = section.course_id
+and department.dept_name = 'Comp. Sci.'
+and section.semester = 'Spring'
+and section.year = 2010
+    \end{verbatim}
+    \choice \begin{verbatim}
+select course_id, title
+from course
+where dept_name = 'Comp. Sci.'
+and semester = 'Spring'
+and year = 2010
+    \end{verbatim}
+    \choice \begin{verbatim}
+select course.course_id, title
+from course, section
+where course.dept_name = 'Comp. Sci.'
+and section.semester = 'Spring'
+and section.year = 2010
+    \end{verbatim}
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\begin{minipage}{\linewidth}
+\question[6]
+Which SQL queries retrieve the IDs and names of students along with their advisors' IDs and names?\par\vspace{0.5em}
+(Select all that apply)\par\vspace{0.5em}
+\begin{checkboxes} 
+    \CorrectChoice \begin{verbatim}
+select s.ID, s.name, i.ID, i.name
+from student as s, instructor as i, advisor as a
+where a.s_ID = s.ID 
+and a.i_ID= i.ID
+    \end{verbatim}
+    \CorrectChoice \begin{verbatim}
+select s.ID, s.name, i.ID, i.name
+from student as s, instructor as i, advisor as a
+where a.s_ID = s.ID 
+and a.i_ID= i.ID
+and a.i_ID is not null
+    \end{verbatim}
+    \choice \begin{verbatim}
+select s.ID, s.name, i.ID, i.name
+from student as s, instructor as i, advisor as a, teaches as tc, takes as tk
+where a.s_ID = s.ID 
+and a.i_ID= i.ID
+and tc.course_id = tk.course_id
+and tc.sec_id = tk.sec_id
+and tc.semester = tk.semester
+and tc.year = tk.year
+and tc.ID = i.ID
+and tk.ID = s.ID
+    \end{verbatim}
+    \choice \begin{verbatim}
+select s.ID, s.name, i.ID, i.name
+from student as s, instructor as i, teaches as tc, takes as tk
+where tc.course_id = tk.course_id
+and tc.sec_id = tk.sec_id
+and tc.semester = tk.semester
+and tc.year = tk.year
+and tc.ID = i.ID
+and tk.ID = s.ID
+    \end{verbatim}
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\begin{minipage}{\linewidth}
+\question[8]
+Select the query or queries that fetch the IDs and names of instructors from the Computer Science Department 
+who taught a course and its direct prerequisite during a specific semester and year.\par\vspace{0.5em}
+(Select all that apply)\par\vspace{0.5em}
+\begin{checkboxes} 
+    \choice \begin{verbatim}
+select i1.ID, i1.name
+from instructor i1 natural join teaches tc1 natural join course as c1, 
+instructor i2 natural join teaches t2 natural join course as c2,
+prereq
+where i1.ID = i2.ID
+and i1.dept_name = 'Comp. Sci.'
+and prereq.course_id = c1.course_id
+and prereq.prereq_id = c2.course_id
+    \end{verbatim}
+    \choice \begin{verbatim}
+select i1.ID, i1.name
+from instructor i1 natural join teaches tc1, course as c1, 
+instructor i2 natural join teaches tc2, course as c2,
+prereq
+where i1.ID = i2.ID
+and i1.dept_name = 'Comp. Sci.'
+and tc1.course_id = c1.course_id
+and tc2.course_id = c2.course_id
+and prereq.course_id = c1.course_id
+and prereq.prereq_id = c2.course_id
+    \end{verbatim}
+    \CorrectChoice \begin{verbatim}
+select i1.ID, i1.name
+from instructor i1 natural join teaches tc1, course as c1, 
+instructor i2 natural join teaches tc2, course as c2,
+prereq
+where i1.ID = i2.ID
+and i1.dept_name = 'Comp. Sci.'
+and tc1.course_id = c1.course_id
+and tc2.course_id = c2.course_id
+and prereq.course_id = c1.course_id
+and prereq.prereq_id = c2.course_id
+and tc1.semester = tc2.semester
+and tc1.year = tc2.year
+    \end{verbatim}
+    \choice \begin{verbatim}
+select i1.ID, i1.name
+from instructor i1 natural join teaches tc1 natural join course as c1 
+natural join instructor i2 natural join teaches tc2 natural join course as c2,
+prereq
+where i1.dept_name = 'Comp. Sci.'
+and prereq.course_id = c1.course_id
+and prereq.prereq_id = c2.course_id
+    \end{verbatim}
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\begin{minipage}{\linewidth}
+\question[8]
+Retrieve all course sections (identified by \textit{course\_id, sec\_id, semester}, and \textit{year}) 
+where the total enrollment exceeds the seating capacity of the assigned classroom.\par\vspace{0.5em}
+(Select all that apply)\par\vspace{0.5em}
+\begin{checkboxes} 
+    \CorrectChoice \begin{verbatim}
+select course_id, sec_id, semester, year
+from section natural join takes natural join classroom
+group by course_id, sec_id, semester, year, capacity
+having capacity < count(ID)
+    \end{verbatim}
+    \CorrectChoice \begin{verbatim}
+select section.course_id, section.sec_id, section.semester, section.year
+from section, takes, classroom
+where section.course_id = takes.course_id
+and section.sec_id = takes.sec_id
+and section.semester = takes.semester
+and section.year = takes.year
+and section.building = classroom.building
+and section.room_number = classroom.room_number
+group by course_id, sec_id, semester, year, capacity
+having capacity < count(ID)
+    \end{verbatim}
+    \CorrectChoice \begin{verbatim}
+with temp (course_id, sec_id, semester, year, capacity, students_no) as
+(select course_id, sec_id, semester, year, capacity, count(ID)
+from section natural join takes natural join classroom
+group by course_id, sec_id, semester, year, capacity)
+select course_id, sec_id, semester, year
+from temp where capacity < students_no
+    \end{verbatim}
+    \choice \begin{verbatim}
+with temp (course_id, sec_id, semester, year, students_no) as
+(select course_id, sec_id, semester, year, count(ID)
+from section natural join takes
+group by course_id, sec_id, semester, year)
+select course_id, sec_id, semester, year
+from temp natural join classroom
+where capacity < students_no
+    \end{verbatim}
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\begin{minipage}{\linewidth}
+\question[8]
+Information about instructors with the highest salary, including their \textit{ID, name, dept\_name}, and \textit{salary.}\par\vspace{0.5em}
+(Select all that apply)\par\vspace{0.5em}
+\begin{checkboxes} 
+    \choice \begin{verbatim}
+select *
+from instructor i1
+where salary > all (select salary from instructor i2 where i1.ID <> i2.ID)
+    \end{verbatim}
+    \CorrectChoice \begin{verbatim}
+select *
+from instructor
+where salary in (select max(salary) from instructor)
+    \end{verbatim}
+    \choice \begin{verbatim}
+select ID, name, dept_name, salary
+from instructor natural join (select max(salary) from instructor) as temp
+    \end{verbatim}
+    \CorrectChoice \begin{verbatim}
+select ID, name, dept_name, salary
+from instructor, (select max(salary) highest_salary from instructor) as temp
+where instructor.salary = temp.highest_salary
+    \end{verbatim}
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\begin{minipage}{\linewidth}
+\question[8]
+Students (their \textit{ID, name, dept\_name, tot\_cred}) who don't have advisors.\par\vspace{0.5em}
+(Select all that apply)\par\vspace{0.5em}
+\begin{checkboxes} 
+    \choice \begin{verbatim}
+select *
+from student
+where ID not in (select i_id from advisor)
+    \end{verbatim}
+    \choice \begin{verbatim}
+select ID, name, dept_name, tot_cred
+from student natural join advisor
+where i_id is null
+    \end{verbatim}
+    \choice \begin{verbatim}
+select ID, name, dept_name, tot_cred
+from student natural join advisor natural join instructor
+where ID is null
+    \end{verbatim}
+    \choice \begin{verbatim}
+with temp(ID) as
+(select s_id
+from advisor
+where i_id is null)
+select *
+from student natural join temp
+    \end{verbatim}
+    \CorrectChoice \begin{verbatim}
+select *
+from student left outer join advisor on (student.ID = advisor.s_ID)
+where advisor.s_id is null
+    \end{verbatim}
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\begin{minipage}{\linewidth}
+\question[8]
+Select the query or queries that provide information about courses with prerequisites from other departments, 
+including the \textit{course\_id, title}, and \textit{dept\_name} of a course along with its prerequisite's \textit{course\_id, title}, 
+and \textit{dept\_name}.\par\vspace{0.5em}
+(Select all that apply)\par\vspace{0.5em}
+\begin{checkboxes} 
+    \CorrectChoice \begin{verbatim}
+select c.course_id, c.title, c.dept_name, p.course_id, p.title, p.dept_name
+from course c, prereq, course p
+where c.course_id = prereq.course_id and prereq.prereq_id = p.course_id
+and c.dept_name <> p.dept_name
+    \end{verbatim}
+    \choice \begin{verbatim}
+select c.course_id, c.title, c.dept_name, p.course_id, p.title, p.dept_name
+from course c, prereq p
+where c.course_id = p.course_id
+and c.dept_name <> p.dept_name
+    \end{verbatim}
+    \choice \begin{verbatim}
+select c.course_id, c.title, c.dept_name, p.course_id, p.title, p.dept_name
+from course c natural join prereq p
+where c.dept_name <> p.dept_name
+    \end{verbatim}
+    \choice \begin{verbatim}
+select c.course_id, c.title, c.dept_name, p.course_id, p.title, p.dept_name
+from course c, prereq p
+where c.course_id = p.course_id
+and c.course_id = p.prereq_id
+and c.dept_name <> p.dept_name
+    \end{verbatim}
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\begin{minipage}{\linewidth}
+\question[8]
+Select the query or queries that provide information about course sections (specified by their \textit{course\_id, sec\_id, semester}, and \textit{year}) 
+along with the capacity of the room assigned for instruction and the count of students who enrolled in that specific course section.\par\vspace{0.5em}
+(Select all that apply)\par\vspace{0.5em}
+\begin{checkboxes} 
+    \CorrectChoice \begin{verbatim}
+select course_id, sec_id, semester, year, capacity, count(*)
+from section natural join takes natural join classroom
+group by course_id, sec_id, semester, year, capacity
+    \end{verbatim}
+    \CorrectChoice \begin{verbatim}
+select course_id, sec_id, semester, year, capacity, no
+from
+(select course_id, sec_id, semester, year, count(*) as no
+from section natural join takes natural join classroom
+group by course_id, sec_id, semester, year) as temp1 
+natural join
+(select * from section natural join classroom) as temp2;
+    \end{verbatim}
+    \choice \begin{verbatim}
+select course_id, sec_id, semester, year, capacity, no
+from
+(select course_id, sec_id, semester, year, count(*) as no
+from section natural join takes natural join classroom
+group by course_id, sec_id, semester, year) as temp1 
+natural join
+(select * from classroom) as temp2;
+    \end{verbatim}
+    \choice \begin{verbatim}
+select course_id, sec_id, semester, year, 
+(select capacity from classroom where section.room_number = classroom.room_number) 
+as capacity, count(*) as no
+from section natural join takes natural join classroom
+group by course_id, sec_id, semester, year
+    \end{verbatim}
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\begin{minipage}{\linewidth}
+\question[4]
+Which query or queries return IDs of students along with IDs of their instructors?\par\vspace{0.5em}
+(Select all that apply)\par\vspace{0.5em}
+\begin{checkboxes} 
+    \choice \begin{verbatim}
+select s.ID, i.ID
+from instructor as i
+natural join teaches as tc
+natural join takes as tk
+natural join student as s
+    \end{verbatim}
+    \CorrectChoice \begin{verbatim}
+select s.ID, i.ID
+from instructor as i
+natural join teaches as tc,
+takes as tk
+natural join student as s
+where
+tk.course_id = tc.course_id
+and tk.sec_id = tc.sec_id
+and tk.semester = tc.semester
+and tk.year = tc.year
+    \end{verbatim}
+    \CorrectChoice \begin{verbatim}
+select s.ID, i.ID
+from instructor as i
+natural join teaches as tc
+join takes as tk
+natural join student as s
+using (course_id, sec_id, semester, year)
+    \end{verbatim}
+    \CorrectChoice \begin{verbatim}
+select s_id, i_id from
+(select id as i_id, course_id, sec_id, semester, year
+from instructor as i
+natural join teaches as tc) as inst
+natural join
+(select id as s_id, course_id, sec_id, semester, year
+from takes as tk
+natural join student as s) as stud
+    \end{verbatim}
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\begin{minipage}{\linewidth}
+\question[4]
+In which query or queries ‘group by’ part is redundant?\par\vspace{0.5em}
+(Select all that apply)\par\vspace{0.5em}
+\begin{checkboxes} 
+    \choice \begin{verbatim}
+select i_id from student, advisor where ID = s_id group by i_id
+    \end{verbatim}
+    \choice \begin{verbatim}
+select name from student, advisor where ID = s_id group by name
+    \end{verbatim}
+    \CorrectChoice \begin{verbatim}
+select ID from student, advisor where ID = s_id group by ID
+    \end{verbatim}
+    \choice \begin{verbatim}
+select ID from student, advisor group by ID
+    \end{verbatim}
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\end{questions}
 \end{document}
