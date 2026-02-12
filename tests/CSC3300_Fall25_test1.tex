@@ -1,0 +1,121 @@
+\documentclass{article}
+\usepackage[margin=0.1in]{geometry}
+
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,shapes.callouts}
+
+\begin{document}
+
+\section*{Part I — True/False}
+\begin{enumerate}
+  \item \textbf{T/F:} In the University database, there can be a \texttt{classroom} in which no course sections were ever taught.
+  \item \textbf{T/F:} In the University database, each instructor can serve as an advisor to at most one student.
+  \item \textbf{T/F:} SQL prevents any insert to the database that violates an integrity constraint.
+  \item \textbf{T/F:} A student can be registered for more than one section of the same course in a given semester and year.
+  \item \textbf{T/F:} If the attribute \texttt{room\_number} of the \texttt{classroom} table were removed from the \texttt{PRIMARY KEY} (but not removed from the table), then in each building on campus there could be at most one classroom.
+  \item \textbf{T/F:} It can be the case that in the database there are only the following two tuples:
+
+  \medskip
+  \noindent\texttt{student}
+  \begin{center}
+  \begin{tabular}{|c|c|c|c|}
+  \hline
+  \textbf{ID} & \textbf{name} & \textbf{dept\_name} & \textbf{tot\_cred} \\\hline
+  0 & Green & Comp.\ Sci. & 3 \\\hline
+  \end{tabular}
+  \end{center}
+
+  \noindent\texttt{takes}
+  \begin{center}
+  \begin{tabular}{|c|c|c|c|c|c|}
+  \hline
+  \textbf{ID} & \textbf{course\_id} & \textbf{sec\_id} & \textbf{semester} & \textbf{year} & \textbf{grade} \\\hline
+  0 & 3300 & 002 & Spring & 2023 & A \\\hline
+  \end{tabular}
+  \end{center}
+
+  \item \textbf{T/F:} In the University database, a \texttt{course\_id} can be an empty string (\texttt{''}).
+  \item \textbf{T/F:} In the University database, courses with the same name (i.e., the same \texttt{title}) can only exist if they are offered by distinct departments.
+  \item \textbf{T/F:} In the University database, a \texttt{classroom} can have 10000 seats.
+  \item \textbf{T/F:} In the University database, the number of tuples in the \texttt{advisor} table can exceed the number of tuples in the \texttt{student} table.
+  \item \textbf{T/F:} The University database maintains a record of all past advisors for each student.
+  \item \textbf{T/F:} The University database allows multiple \texttt{classroom}s in the same building to share the same \texttt{room\_number}.
+  \item \textbf{T/F:} A tuple is inserted into the \texttt{advisor} table only if the value of its \texttt{i\_ID} attribute equals the value of the \texttt{ID} attribute of some tuple in the \texttt{instructor} table.
+
+\end{enumerate}
+
+\section*{Part II — Multiple choice (choose one)}
+\begin{enumerate}
+  \item With only 6 tuples in the \texttt{instructor} table, 2 tuples in the \texttt{section} table, and no tuples in the \texttt{teaches} table, what is the maximum number of tuples that can be added to \texttt{teaches} without violating any \emph{foreign key} constraints?
+  \begin{enumerate}
+    \item[(A)] 2
+    \item[(B)] 4
+    \item[(C)] 6
+    \item[(D)] 12
+  \end{enumerate}
+  \item Assume that there are no tuples in any of the relation instances of the University database. What is the minimal number of tuples that need to be added to the database \emph{before} one tuple can be added to the table \texttt{section}?
+  \begin{enumerate}
+    \item[(A)] 5
+    \item[(B)] 0
+    \item[(C)] 1
+    \item[(D)] 2
+  \end{enumerate}
+\end{enumerate}
+
+\section*{Part III — Multiple select (select all that apply)}
+\begin{enumerate}
+  \item An ISBN (International Standard Book Number) is a unique identifier for books, allowing them to be easily identified and tracked in databases and systems worldwide. An ISBN is assigned to each edition and variation (e.g., hardcover, paperback, e-book) of a book.
+
+\medskip
+
+\noindent
+Consider the following specification of user requirements for a library database: For each book copy, the following data is stored: title (\texttt{title}), edition (\texttt{edition}), number of pages (\texttt{pages\_no}), barcode (\texttt{barcode}), variation (e.g., hardcover, paperback) (\texttt{variation}), and ISBN (\texttt{isbn}). When a member checks out a book copy, its barcode is scanned and linked to the member's account. When the book copy is returned, the barcode is scanned again, and the book is marked as available for borrowing.
+
+\medskip
+
+\noindent
+To organize this data, assume the following relational database schema:
+\begin{verbatim}
+book(title, edition, pages_no, variation, isbn)
+book_copy(isbn, barcode)
+\end{verbatim}
+
+\noindent
+Assume that the attribute \texttt{isbn} in the table \texttt{book} holds the same data (has the same meaning) as the attribute \texttt{isbn} in the table \texttt{book\_copy}.
+
+\medskip
+
+\noindent
+Which of the following statements are true?
+\begin{enumerate}
+  \item[(A)] \{\texttt{isbn}\} is a candidate key in the table \texttt{book}.
+  \item[(B)] \{\texttt{isbn}, \texttt{edition}, \texttt{variation}\} is a candidate key in the table \texttt{book}.
+  \item[(C)] If \texttt{isbn} was the primary key of the table \texttt{book}, then \texttt{isbn} could be a foreign key in the table \texttt{book\_copy}.
+  \item[(D)] The \texttt{title} of a book may be stored redundantly in this database.
+\end{enumerate}
+
+  \item In which order can the following commands be invoked on an empty University database instance?
+
+\begin{verbatim}
+0  insert into instructor values ('98345', 'Kim', 'Elec. Eng.', '80000')
+1  insert into classroom values ('Taylor', '3128', '70')
+2  insert into department values ('Elec. Eng.', 'Taylor', '85000')
+3  insert into section values ('EE-181', '1', 'Spring', '2009', 'Taylor', '3128', 'C')
+4  insert into student values ('70557', 'Snow', 'Physics', '0')
+5  insert into course values ('EE-181', 'Intro. to Digital Systems', 'Elec. Eng.', '3')
+6  insert into department values ('Physics', 'Watson', '70000')
+7  insert into time_slot values ('C', 'M', '11', '0', '11', '50')
+8  insert into takes values ('70557', 'EE-181', '1', 'Spring', '2009', 'B')
+9  insert into teaches values ('98345', 'EE-181', '1', 'Spring', '2009')
+\end{verbatim}
+
+  \begin{enumerate}
+    \item[(A)] 6, 2, 1, 5, 0, 4, 7, 3, 8, 9
+    \item[(B)] 2, 6, 5, 1, 0, 4, 7, 3, 9, 8
+    \item[(C)] 2, 0, 5, 4, 3, 1, 7, 6, 8, 9
+    \item[(D)] 6, 2, 0, 4, 5, 1, 7, 3, 8, 9
+  \end{enumerate}
+
+\end{enumerate}
+
+\end{document}
