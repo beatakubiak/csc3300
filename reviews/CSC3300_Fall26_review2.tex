@@ -1,0 +1,359 @@
+\documentclass[12pt]{exam}
+\usepackage[margin=0.1in]{geometry}
+
+%\documentclass[12pt]{exam}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{enumitem}
+\usepackage{multicol}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,shapes.callouts}
+
+\newcommand{\tfq}[3]{%
+  \question[#1]\textbf{T/F:} #2%
+  % Only show the choices when printing answers/keys
+  \ifprintanswers
+    \par\begin{oneparchoices}
+      #3
+    \end{oneparchoices}
+  \fi
+}
+
+\makeatletter
+\newcommand{\TFQ@choices}{} % temp holder
+
+\newenvironment{tfqverb}[2]{%
+  \def\TFQ@choices{#2}% store choices for use at end
+  \question[#1]\textbf{T/F:}\ %
+}{%
+  \ifprintanswers
+    \par\begin{oneparchoices}\TFQ@choices\end{oneparchoices}
+  \fi
+}
+\makeatother
+
+\printanswers
+% optional styling for the correct choice:
+\CorrectChoiceEmphasis{\bfseries}    % make the correct choice bold
+% or e.g. \CorrectChoiceEmphasis{\color{red}\bfseries}
+
+
+\newcommand{\SQLBlock}[1]{%
+  \par\noindent
+  \fbox{%
+    \begin{minipage}[t]{0.97\linewidth}\ttfamily\small
+      #1
+    \end{minipage}%
+  }%
+}
+
+
+
+\begin{document}
+\section*{Review 2}
+
+\begin{questions}
+%---------------------------------TRUE/FALSE---------------------------------
+\section*{Part I — True/False}
+
+{
+  \renewcommand{\choicelabel}{}
+  \tfq{2}{A query with an aggregate function in the 'select' part of it and without a 'group by' statement returns only one tuple.}{\CorrectChoice True \choice False}
+  \begin{tfqverb}{2}{\CorrectChoice True \choice False}
+  Below query returns courses \((\mathit{course\_id}, \mathit{title}, \mathit{dept\_name}, \mathit{credits})\) that have more than one direct prerequisite.
+  \begin{verbatim}
+    select * 
+    from course 
+    where (select count(course_id) 
+           from prereq 
+           where prereq.course_id = course.course_id) >= 2;
+  \end{verbatim}
+  \end{tfqverb}
+  \begin{tfqverb}{2}{\choice True \CorrectChoice False}
+  Definition of the \textbf{prereq} table could be changed from
+  \begin{verbatim}
+    create table prereq
+    (course_id varchar(8),
+    prereq_id varchar(8),
+    primary key (course_id, prereq_id),
+    foreign key (course_id) references course(course_id) on delete cascade,
+    foreign key (prereq_id) references course(course_id));
+  \end{verbatim}
+  to
+  \begin{verbatim}
+    create table prereq
+    (course_id varchar(8),
+    prereq_id varchar(8),
+    primary key (course_id, prereq_id),
+    foreign key (course_id) references course(course_id) on delete cascade,
+    foreign key (prereq_id) references course(course_id) on delete cascade);
+  \end{verbatim}
+  \end{tfqverb}
+  \begin{tfqverb}{2}{\CorrectChoice True \choice False}
+  Consider the following scenario involving a view definition and an insertion operation. 
+  Assume the insertion succeeds (no other instructor has id \texttt{'25566'} and a \texttt{Biology} department exists). 
+  The count of rows returned by the last command remains unchanged before and after the insertion.
+  \begin{verbatim}
+  create view history_instructors as
+  select * from instructor where dept_name = 'History';
+
+  insert into history_instructors values
+  ('25566', 'Brown', 'Biology', 100000);
+
+  select count(*) from history_instructors;
+  \end{verbatim}
+  \end{tfqverb}
+  \tfq{2}{Deletion of a tuple from the \textbf{department} relation may result in the deletion of some tuples from other relations.}{\choice True \CorrectChoice False}
+  \tfq{2}{Once a transaction has executed commit work, its effects can no longer be undone by rollback work.}{\CorrectChoice True \choice False}
+  \begin{tfqverb}{2}{\CorrectChoice True \choice False}
+  In the result of the provided query, there might be instructors whose information \((\mathit{ID}, \mathit{name}, \mathit{dept\_name}, \mathit{salary})\) is not included.
+  \begin{verbatim}
+  select * from instructor natural left outer join teaches;
+  \end{verbatim}
+  \end{tfqverb}
+  \begin{tfqverb}{2}{\choice True \CorrectChoice False}
+  Below query can return a tuple with value 0 for the attribute \(\mathit{classroom\_no}\).
+  \begin{verbatim}
+  select building, count(distinct room_number) as classroom_no
+  from classroom
+  group by building;
+  \end{verbatim}
+  \end{tfqverb}
+
+}
+
+
+%---------------------------------MC---------------------------------
+\section*{Part II — Multiple choice (choose one)}
+\question[2] Assume that there is only one tuple in the \textbf{section} relation and no tuples in both \textbf{takes} and \textbf{student} relations. What is the minimal number of tuples that have to be added to the database so that the query below returns 2 tuples?
+
+\begin{verbatim}
+select * from student natural join takes;
+\end{verbatim}
+
+\begin{choices}
+  \choice 2
+  \choice 3
+  \CorrectChoice 4
+  \choice 5
+\end{choices}
+
+
+
+
+%---------------------------------MS---------------------------------
+\section*{Part III — Multiple select (select one or more)}
+\question[4] Which SQL queries retrieve the IDs and titles of \textbf{Comp. Sci.} courses offered in \textbf{Spring 2010}?
+\begin{choices}
+
+  \CorrectChoice
+\begin{verbatim}
+select course.course_id, title
+from course, section
+where course.course_id = section.course_id
+  and course.dept_name = 'Comp. Sci.'
+  and section.semester = 'Spring'
+  and section.year = 2010;
+\end{verbatim}
+
+  \choice
+\begin{verbatim}
+select course.course_id, title
+from course, section
+where course.dept_name = 'Comp. Sci.'
+  and section.semester = 'Spring'
+  and section.year = 2010;
+\end{verbatim}
+
+  \choice
+\begin{verbatim}
+select course.course_id, title
+from course, section, department
+where course.course_id = section.course_id
+  and department.dept_name = 'Comp. Sci.'
+  and section.semester = 'Spring'
+  and section.year = 2010;
+\end{verbatim}
+
+  \choice
+\begin{verbatim}
+select course_id, title
+from course
+where dept_name = 'Comp. Sci.'
+  and semester = 'Spring'
+  and year = 2010;
+\end{verbatim}
+
+\end{choices}
+
+\question[5] Students (their \(\mathit{ID}, \mathit{name}, \mathit{dept\_name}, \mathit{tot\_cred}\)) who don't have advisors.
+\begin{choices}
+
+  \choice
+\begin{verbatim}
+with temp(ID) as
+  (select s_id
+   from advisor
+   where i_id is null)
+select *
+from student natural join temp;
+\end{verbatim}
+
+  \choice
+\begin{verbatim}
+select ID, name, dept_name, tot_cred
+from student natural join advisor
+where i_id is null;
+\end{verbatim}
+
+  \CorrectChoice
+\begin{verbatim}
+select ID, name, dept_name, tot_cred
+from student left outer join advisor
+  on (student.ID = advisor.s_id)
+where advisor.s_id is null;
+\end{verbatim}
+
+  \choice
+\begin{verbatim}
+select *
+from student
+where ID not in (select i_id from advisor);
+\end{verbatim}
+
+  \choice
+\begin{verbatim}
+select ID, name, dept_name, tot_cred
+from student natural join advisor natural join instructor
+where ID is null;
+\end{verbatim}
+
+\end{choices}
+
+\question[4] Retrieve all course sections (identified by \((\mathit{course\_id}, \mathit{sec\_id}, \mathit{semester}, \mathit{year})\)) where the total enrollment exceeds the seating capacity of the assigned classroom. \emph{(Select all that apply.)}
+
+\begin{choices}
+
+  \CorrectChoice
+\begin{verbatim}
+select s.course_id, s.sec_id, s.semester, s.year
+from section s
+join takes t
+  on s.course_id = t.course_id
+ and s.sec_id    = t.sec_id
+ and s.semester  = t.semester
+ and s.year      = t.year
+join classroom c
+  on s.building = c.building
+ and s.room_number = c.room_number
+group by s.course_id, s.sec_id, s.semester, s.year, c.capacity
+having count(t.ID) > c.capacity;
+\end{verbatim}
+
+  \CorrectChoice
+\begin{verbatim}
+with enroll(course_id, sec_id, semester, year, students_no) as (
+  select course_id, sec_id, semester, year, count(*)
+  from takes
+  group by course_id, sec_id, semester, year
+)
+select s.course_id, s.sec_id, s.semester, s.year
+from enroll e
+join section s using (course_id, sec_id, semester, year)
+join classroom c
+  on s.building = c.building and s.room_number = c.room_number
+where e.students_no > c.capacity;
+\end{verbatim}
+
+  \choice
+\begin{verbatim}
+with temp(course_id, sec_id, semester, year, students_no) as (
+  select course_id, sec_id, semester, year, count(ID)
+  from section natural join takes
+  group by course_id, sec_id, semester, year
+)
+select course_id, sec_id, semester, year
+from temp natural join classroom
+where capacity < students_no;
+\end{verbatim}
+
+  \choice
+\begin{verbatim}
+select course_id, sec_id, semester, year
+from section natural join takes
+group by course_id, sec_id, semester, year
+having count(*) > capacity;
+\end{verbatim}
+
+\end{choices}
+
+\question[4] Assume the following roles/grants were executed on the University database server for users \texttt{Grey}, \texttt{Amit}, \texttt{Green}, and \texttt{Brown}. Which user(s) have sufficient privileges to move all \textbf{Computer Science} department students who enrolled in \texttt{CS-190} in \textbf{Spring 2009} to section \texttt{2} of the course (assume section 2 already exists)? In other words, which user(s) can successfully execute the query below?
+
+
+\begin{verbatim}
+update takes
+set sec_id = 2
+where id in (select id from student where dept_name = 'Comp. Sci.')
+  and course_id = 'CS-190'
+  and semester = 'Spring'
+  and year = 2009;
+\end{verbatim}
+
+Executed Commands:
+\begin{verbatim}
+create role 'teaching_assistant'@'localhost';
+create role 'lecturer'@'localhost';
+create role 'dean'@'localhost';
+
+grant select on university.takes to 'teaching_assistant'@'localhost';
+grant update on university.takes to 'teaching_assistant'@'localhost';
+
+grant select on university.student to 'lecturer'@'localhost';
+
+grant select on university.instructor to 'dean'@'localhost';
+grant 'teaching_assistant'@'localhost' to 'lecturer'@'localhost';
+grant 'lecturer'@'localhost'        to 'dean'@'localhost';
+
+grant 'dean'@'localhost' to 'Grey'@'localhost';
+grant 'dean'@'localhost' to 'Amit'@'localhost';
+grant update on university.instructor to 'Amit'@'localhost';
+
+grant update on university.student to 'Brown'@'localhost';
+grant 'lecturer'@'localhost' to 'Brown'@'localhost';
+
+grant 'teaching_assistant'@'localhost' to 'Green'@'localhost';
+\end{verbatim}
+
+Hint: To test this scenario in MySQL, make sure to enable the default roles for each user by executing:
+\begin{verbatim}
+SET DEFAULT ROLE ALL TO 'Brown'@'localhost';
+SET DEFAULT ROLE ALL TO 'Grey'@'localhost';
+SET DEFAULT ROLE ALL TO 'Amit'@'localhost';
+SET DEFAULT ROLE ALL TO 'Green'@'localhost';
+\end{verbatim}
+
+Important: To correctly test this scenario, each user must run the following two commands&nbsp;after logging in, before executing the UPDATE query:
+
+1. Activate all granted roles for the current session:
+SET ROLE ALL;
+
+2. Select the appropriate database:
+USE university;
+
+\begin{choices}
+  \CorrectChoice \texttt{Grey}
+  \CorrectChoice \texttt{Amit}
+  \choice        \texttt{Green}
+  \CorrectChoice \texttt{Brown}
+\end{choices}
+
+
+
+
+
+\end{questions}
+
+
+\end{document}

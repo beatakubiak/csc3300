@@ -1,0 +1,240 @@
+\documentclass[12pt]{exam}
+\usepackage[margin=0.1in]{geometry}
+
+%\documentclass[12pt]{exam}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{enumitem}
+\usepackage{multicol}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,shapes.callouts}
+
+\newcommand{\tfq}[3]{%
+  \question[#1]\textbf{T/F:} #2%
+  % Only show the choices when printing answers/keys
+  \ifprintanswers
+    \par\begin{oneparchoices}
+      #3
+    \end{oneparchoices}
+  \fi
+}
+
+\makeatletter
+\newcommand{\TFQ@choices}{} % temp holder
+
+\newenvironment{tfqverb}[2]{%
+  \def\TFQ@choices{#2}% store choices for use at end
+  \question[#1]\textbf{T/F:}\ %
+}{%
+  \ifprintanswers
+    \par\begin{oneparchoices}\TFQ@choices\end{oneparchoices}
+  \fi
+}
+\makeatother
+
+\printanswers
+% optional styling for the correct choice:
+\CorrectChoiceEmphasis{\bfseries}    % make the correct choice bold
+% or e.g. \CorrectChoiceEmphasis{\color{red}\bfseries}
+
+\begin{document}
+
+
+\begin{center}
+\textbf{\Large Review 1 — Database Management Systems}
+
+\textbf{CSC 3300 \quad Spring 2026}
+\end{center}
+
+\begin{questions}
+%---------------------------------TRUE/FALSE---------------------------------
+\section*{Part I — True/False}
+
+{
+  \renewcommand{\choicelabel}{}
+
+  \tfq{2}{In a relation instance, all tuples must have non-\emph{null} values for attributes that are part of the primary key.}{\CorrectChoice True \choice False}
+
+  \tfq{2}{The \textbf{takes} relation has exactly five foreign-key attributes.}{\choice True \CorrectChoice False}
+
+  \tfq{2}{In the University Database, a course can have itself as a prerequisite.}{\CorrectChoice True \choice False}
+
+  \tfq{2}{In the \textbf{section} relation, the attributes \(course\_id\) and \(sec\_id\) must always have distinct values from one another.}{\choice True \CorrectChoice False}
+
+  \tfq{2}{In the University Database, the \(course\_id\) can be \texttt{'GoodLuck'}.}{\CorrectChoice True \choice False}
+
+  % ---- USE THE VERBATIM-SAFE ENV ON ITS OWN (not inside \tfq) ----
+  \begin{tfqverb}{2}{\CorrectChoice True \choice False}
+  When invoked subsequently, the following sequence of commands will execute
+  successfully on a database instance with no tuples in any of the tables:
+\begin{verbatim}
+insert into course  values ('3300', 'DBMS', null, 3);
+insert into section values ('3300', '001', 'Fall', 2022, null, null, 'A');
+\end{verbatim}
+  \end{tfqverb}
+
+\tfq{2}{%
+In any instance of the University Database, if the \textbf{instructor} relation contains 0 tuples,
+then the \textbf{teaches} relation also contains 0 tuples.
+}{\CorrectChoice True \choice False}
+
+\tfq{3}{%
+Consider the following modifications to the University Database schema:
+\begin{itemize}
+  \item Remove the \textbf{teaches} table
+  \item Add an attribute \(\mathit{i\_id}\) to the \textbf{section} table
+  \item Make \(\mathit{i\_id}\) a foreign key referencing the \textbf{instructor} table
+\end{itemize}
+\noindent In the modified schema, each section can be taught by at most one instructor.
+}{\CorrectChoice True \choice False}
+
+}
+
+
+%---------------------------------MC---------------------------------
+\section*{Part II — Multiple choice (choose one)}
+\question[2] Assume that there are no tuples in any of the relation instances of the University Database. 
+What is the minimal number of tuples that need to be added to the database before one tuple can be added 
+to the table \textbf{teaches}?
+\begin{choices}
+  \choice 3
+  \CorrectChoice 2
+  \choice 5
+  \choice 4
+\end{choices}
+
+\question[3] What is the key structure of the \textbf{section} relation?
+\begin{choices}
+  \CorrectChoice It has one primary key and two foreign keys.
+  \choice It has four primary keys and three foreign keys.
+  \choice It has four primary keys and two foreign keys.
+  \choice It has one primary key (with four attributes) and three foreign keys.
+\end{choices}
+
+%---------------------------------MS---------------------------------
+\section*{Part III — Multiple select (select all that apply)}
+\question[4] Under the condition that the insertion does not violate any primary key constraints, into which table(s) can a tuple \emph{always} be inserted, regardless of the current database instance?
+\begin{checkboxes}
+  \CorrectChoice \textbf{course}
+  \choice \textbf{advisor}
+  \CorrectChoice \textbf{classroom}
+  \choice \textbf{prereq}
+\end{checkboxes}
+
+
+\question[4] Which SQL queries retrieve the IDs and titles of \textbf{Comp. Sci.} courses offered in \textbf{Spring 2010}?
+\begin{checkboxes}
+
+  \CorrectChoice
+\begin{verbatim}
+select course.course_id, title
+from course, section
+where course.course_id = section.course_id
+  and course.dept_name = 'Comp. Sci.'
+  and section.semester = 'Spring'
+  and section.year = 2010;
+\end{verbatim}
+
+  \choice
+\begin{verbatim}
+select course.course_id, title
+from course, section
+where course.dept_name = 'Comp. Sci.'
+  and section.semester = 'Spring'
+  and section.year = 2010;
+\end{verbatim}
+
+  \choice
+\begin{verbatim}
+select course.course_id, title
+from course, section, department
+where course.course_id = section.course_id
+  and department.dept_name = 'Comp. Sci.'
+  and section.semester = 'Spring'
+  and section.year = 2010;
+\end{verbatim}
+
+  \choice
+\begin{verbatim}
+select course_id, title
+from course
+where dept_name = 'Comp. Sci.'
+  and semester = 'Spring'
+  and year = 2010;
+\end{verbatim}
+
+\end{checkboxes}
+
+
+
+\question[4] Which SQL queries retrieve the IDs and names of students along with their advisors' IDs and names?
+\begin{checkboxes}
+
+  \choice
+\begin{verbatim}
+select s.ID, s.name, i.ID, i.name
+from student as s, instructor as i, teaches as tc, takes as tk
+where tc.course_id = tk.course_id
+  and tc.sec_id = tk.sec_id
+  and tc.semester = tk.semester
+  and tc.year = tk.year
+  and tc.ID = i.ID
+  and tk.ID = s.ID;
+\end{verbatim}
+
+  \CorrectChoice
+\begin{verbatim}
+select s.ID, s.name, i.ID, i.name
+from student as s, instructor as i, advisor as a
+where a.s_ID = s.ID
+  and a.i_ID = i.ID
+  and a.i_ID is not null;
+\end{verbatim}
+
+  \CorrectChoice
+\begin{verbatim}
+select s.ID, s.name, i.ID, i.name
+from student as s, instructor as i, advisor as a
+where a.s_ID = s.ID
+  and a.i_ID = i.ID;
+\end{verbatim}
+
+  \choice
+\begin{verbatim}
+select s.ID, s.name, i.ID, i.name
+from student as s, instructor as i, advisor as a, teaches as tc, takes as tk
+where a.s_ID = s.ID
+  and a.i_ID = i.ID
+  and tc.course_id = tk.course_id
+  and tc.sec_id = tk.sec_id
+  and tc.semester = tk.semester
+  and tc.year = tk.year
+  and tc.ID = i.ID
+  and tk.ID = s.ID;
+\end{verbatim}
+
+\end{checkboxes}
+
+
+\question[4] For the schema below, which statements are true?
+\begin{verbatim}
+create table instructor (
+  id         char(5),
+  name       varchar(20),
+  dept_name  varchar(20),
+  salary     numeric(8,2)
+);
+\end{verbatim}
+\begin{checkboxes}
+  \CorrectChoice Creates a table named \texttt{instructor} in the current database (and would fail if a table with that name already exists).
+  \choice The attribute \texttt{ID} uniquely identifies a tuple in \texttt{instructor}.
+  \CorrectChoice The \texttt{ID} of an instructor can be \texttt{'Hola'}.
+  \CorrectChoice The \texttt{name} of an instructor can be \texttt{'Anna M. Brown'}.
+\end{checkboxes}
+
+\end{questions}
+
+
+\end{document}
