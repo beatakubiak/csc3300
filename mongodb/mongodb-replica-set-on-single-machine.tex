@@ -1,0 +1,143 @@
+\documentclass[9pt]{article}
+
+\usepackage[margin=0.2in]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{hyperref}
+
+\setlength{\parindent}{0pt}  % <-- removes all paragraph indentation
+
+% Simple JavaScript definition for listings (enough for our examples)
+\lstdefinelanguage{JavaScript}{
+  keywords={break, case, catch, continue, debugger, default, delete, do, else,
+    finally, for, function, if, in, instanceof, new, return, switch, this, throw,
+    try, typeof, var, void, while, with, const, let},
+  sensitive=true,
+  morecomment=[l]{//},
+  morecomment=[s]{/*}{*/},
+  morestring=[b]",
+  morestring=[b]'
+}
+
+% Highlight 'fields' and 'allFields' differently inside code
+\lstset{
+  basicstyle=\ttfamily\small,
+  breaklines=true,
+  columns=fullflexible,
+  showstringspaces=false,        % hides visible space markers in strings
+  emph={fields},                      % group 1
+  emphstyle=\color{blue}\bfseries,
+  emph={[2]allFields},                % group 2
+  emphstyle={[2]\color{red}\bfseries}
+}
+
+\begin{document}
+
+\noindent
+\textbf{Database Management Systems}%
+\hfill%
+\textit{Creating a MongoDB Replica Set on a Single Machine}\\
+Beata Kubiak, Instructor
+
+\medskip
+
+A MongoDB ``cluster'' is made of \texttt{mongod} processes (servers), not
+necessarily physical machines. Multiple MongoDB servers can run on the same
+computer, as long as each process uses its own data directory.
+
+Each MongoDB server process (each \texttt{mongod}) needs its own separate data
+directory because:
+\begin{itemize}
+    \item They are separate servers, even when running on the same machine.
+    \item Each server stores its own physical copy of the replicated data.
+    \item If they shared the same directory, they would corrupt each other's files.
+\end{itemize}
+
+This setup allows us to fully simulate a multi-node cluster on a single machine.
+
+\section*{1. Create Data Directories}
+
+Create three directories for the three replica-set members:
+
+\begin{verbatim}
+e:\mongodb\rs1\
+e:\mongodb\rs2\
+e:\mongodb\rs3\
+\end{verbatim}
+
+Each directory belongs to one MongoDB node.
+
+\section*{2. Start Three mongod Instances}
+
+Start each server in its own terminal:
+
+\begin{verbatim}
+mongod.exe --port 27017 --dbpath e:\mongodb\rs1 --replSet rs0
+mongod.exe --port 27018 --dbpath e:\mongodb\rs2 --replSet rs0
+mongod.exe --port 27019 --dbpath e:\mongodb\rs3 --replSet rs0
+\end{verbatim}
+
+All three processes share the replica set name \texttt{rs0}, which tells MongoDB
+they should eventually join the same replica set.
+
+\section*{3. Initiate the Replica Set}
+
+Connect to one of the nodes (for example, port 27017):
+
+\begin{verbatim}
+mongosh --port 27017
+\end{verbatim}
+
+Then run:
+
+\begin{verbatim}
+rs.initiate({
+  _id: "rs0",
+  members: [
+    { _id: 0, host: "localhost:27017" },
+    { _id: 1, host: "localhost:27018" },
+    { _id: 2, host: "localhost:27019" }
+  ]
+})
+\end{verbatim}
+
+This command tells MongoDB the exact list of servers that belong to the replica set,
+establishes communication between the nodes, and triggers an election of a primary
+and secondaries.
+
+\section*{4. Replica Set Behavior}
+
+Once the replica set is initiated:
+\begin{itemize}
+    \item The nodes exchange heartbeats.
+    \item They share their oplogs.
+    \item They elect a primary.
+    \item The remaining nodes become secondaries.
+    \item The nodes synchronize data.
+    \item Read/write concerns begin to apply.
+    \item Failover becomes possible.
+\end{itemize}
+
+At this point, you have a three-node replica set running on one machine.
+
+\section*{5. Restoring Data for Replication}
+
+To make all three nodes contain the same database, restore the data only on the
+primary node (typically the one on port 27017). The secondaries automatically
+replicate the data from the primary.
+
+To restore only the \texttt{sample\_mflix} database from your archive:
+
+\begin{verbatim}
+mongorestore --port=27017 --archive=sampledata.archive --nsInclude="sample_mflix.*"
+\end{verbatim}
+
+This writes the \texttt{sample\_mflix} data into the primary. After the restore
+completes, the secondaries detect the changes via the oplog and copy the data
+automatically.
+
+
+\end{document}

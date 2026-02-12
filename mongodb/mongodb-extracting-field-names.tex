@@ -1,0 +1,149 @@
+\documentclass[9pt]{article}
+
+\usepackage[margin=0.2in]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{hyperref}
+
+\setlength{\parindent}{0pt}  % <-- removes all paragraph indentation
+
+% Simple JavaScript definition for listings (enough for our examples)
+\lstdefinelanguage{JavaScript}{
+  keywords={break, case, catch, continue, debugger, default, delete, do, else,
+    finally, for, function, if, in, instanceof, new, return, switch, this, throw,
+    try, typeof, var, void, while, with, const, let},
+  sensitive=true,
+  morecomment=[l]{//},
+  morecomment=[s]{/*}{*/},
+  morestring=[b]",
+  morestring=[b]'
+}
+
+% Highlight 'fields' and 'allFields' differently inside code
+\lstset{
+  basicstyle=\ttfamily\small,
+  breaklines=true,
+  columns=fullflexible,
+  emph={fields},                      % group 1
+  emphstyle=\color{blue}\bfseries,
+  emph={[2]allFields},                % group 2
+  emphstyle={[2]\color{red}\bfseries}
+}
+
+\begin{document}
+
+\noindent
+\textbf{Database Management Systems}%
+\hfill%
+\textit{Understanding an Aggregation Pipeline for Extracting Field Names in MongoDB}\\
+Beata Kubiak, Instructor
+
+\medskip
+
+\section*{Aggregation Pipeline for Listing Field Names}
+
+\noindent
+We use the following aggregation pipeline:
+\begin{lstlisting}[language=JavaScript]
+db.movies.aggregate([
+  { $project: { fields: { $objectToArray: "$$ROOT" } } },
+  { $unwind: "$fields" },
+  { $group: { _id: null, allFields: { $addToSet: "$fields.k" } } }
+])
+\end{lstlisting}
+
+\subsection*{Step 1: \texttt{\$project} with \texttt{\$objectToArray}}
+
+We use
+\begin{lstlisting}[language=JavaScript]
+$project: { fields: { $objectToArray: "$$ROOT" } }
+\end{lstlisting}
+
+This turns a document like
+\begin{lstlisting}[language=JavaScript]
+{"_id": ...,
+  "title": "...",
+  "year": 1999}
+\end{lstlisting}
+
+into
+\begin{lstlisting}[language=JavaScript]
+{"fields": [
+    { "k": "_id",   "v": ... },
+    { "k": "title", "v": "..." },
+    { "k": "year",  "v": 1999 }]}
+\end{lstlisting}
+
+So the whole document \texttt{\$\$ROOT} is converted into an array of
+key--value pairs under the new field \texttt{\textcolor{blue}{fields}}.
+
+\subsection*{Step 2: \texttt{\$unwind} on \texttt{"\$fields"}}
+
+Next we apply
+\begin{lstlisting}[language=JavaScript]
+$unwind: "$fields"
+\end{lstlisting}
+
+This takes the array in \texttt{\textcolor{blue}{fields}} and turns it into multiple documents:
+
+\begin{lstlisting}[language=JavaScript]
+{ fields: { k: "_id",   v: ...   } }
+{ fields: { k: "title", v: "..." } }
+{ fields: { k: "year",  v: 1999  } }
+\end{lstlisting}
+
+Each key--value pair becomes its own document with a single field
+\texttt{\textcolor{blue}{fields}} holding an object \texttt{\{ k: ..., v: ... \}}.
+
+\subsection*{Step 3: \texttt{\$group} to collect all field names}
+
+Finally we use
+\begin{lstlisting}[language=JavaScript]
+$group: { _id: null, allFields: { $addToSet: "$fields.k" } }
+\end{lstlisting}
+
+Explanation:
+\begin{itemize}
+  \item \texttt{\_id: null} means ``put all documents into a single group''. We do not
+        want separate groups; we want one combined result.
+  \item \texttt{\$addToSet: "\$fields.k"} takes the value of \texttt{fields.k}
+        (the field name) from each document and adds it to the set
+        \texttt{\textcolor{red}{allFields}}. Using a \emph{set} automatically removes duplicates.
+  \item \texttt{\$addToSet} eliminates duplicates, but it only works as part of a \texttt{\$group} stage, which is what gathers values from multiple documents.
+\end{itemize}
+
+The result is a single document of the form
+\begin{lstlisting}[language=JavaScript]
+{
+  "_id": null,
+  allFields: [
+    "_id",
+    "title",
+    "year",
+    // ... all other distinct field names ...
+  ]
+}
+\end{lstlisting}
+
+This gives us the list of every field name that appears in any document
+in the collection.
+
+\section*{Which words are ``keywords'' here?}
+
+In the context of this aggregation pipeline:
+
+\begin{itemize}
+  \item \textbf{MongoDB aggregation operators (``Mongo keywords''):}
+    \texttt{\$project}, \texttt{\$unwind}, \texttt{\$group},
+    \texttt{\$objectToArray}, \texttt{\$addToSet}.
+    These all start with \texttt{\$} and have special meaning to MongoDB.
+  \item \textbf{System variable:} \texttt{\$\$ROOT} is built-in and refers to the current document.
+  \item \textbf{User-chosen names:}
+    \texttt{\textcolor{blue}{fields}} and
+    \texttt{\textcolor{red}{allFields}} are created by us; we could rename them.
+\end{itemize}
+
+\end{document}
