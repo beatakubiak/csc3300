@@ -1,4 +1,14 @@
+\DocumentMetadata{
+  pdfstandard=ua-2,
+  lang=en-US
+}
+
 \documentclass[12pt,landscape]{article}
+
+\usepackage{tagpdf}
+\tagpdfsetup{activate-all,interwordspace=true}
+
+
 \usepackage[left=0.1in, right=0.1in, top=0.6in,bottom=0.1in]{geometry}
 \usepackage{enumitem}
 \usepackage{amsmath}
@@ -22,9 +32,11 @@
 
 \begin{document}
 
-\begin{center}
-{\huge\bfseries Schema Diagram for University Database}
+\tagstructbegin{tag=H1}
+\section*{Schema Diagram for University Database}
+\tagstructend
 
+\begin{center}
 \vspace{0.5cm}
 \begin{tikzpicture}[node distance=2cm]
     % Takes table
