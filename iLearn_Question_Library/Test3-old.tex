@@ -211,24 +211,24 @@ Choose tables from which tuples can not be deleted via deletes from other tables
 \question[4]
 Assume that all the below commands were run on a University database and server with users: Grey, Amit, Green and Brown. 
 Which users, if any, have permission to find out for each student of the 'Comp. Sci.' 
-Department the number of course sections he failed (received a grade 'F' for).\par\vspace{0.5em}
-
-\texttt{create role teaching\_assistant;}\par
-\texttt{create role lecturer;}\par
-\texttt{create role dean;}\par\vspace{0.5em}
-\texttt{grant select on takes to teaching\_assistant;}\par
-\texttt{grant update on takes to teaching\_assistant;}\par\vspace{0.5em}
-\texttt{grant select on student to lecturer;}\par
-\texttt{grant select on instructor to dean;}\par
-\texttt{grant teaching\_assistant to lecturer;}\par
-\texttt{grant lecturer to dean;}\par\vspace{0.5em}
-\texttt{grant dean to Grey;}\par
-\texttt{grant dean to Amit;}\par
-\texttt{grant update on instructor to Amit;}\par\vspace{0.5em}
-\texttt{grant lecturer to Brown;}\par
-\texttt{grant update on student to Brown;}\par\vspace{0.5em}
-\texttt{grant teaching\_assistant to Green;}\par
-
+Department the number of course sections he failed (received a grade 'F' for).\par
+\begin{verbatim}
+    create role teaching_assistant;
+    create role lecturer;
+    create role dean;
+    grant select on takes to teaching_assistant;
+    grant update on takes to teaching_assistant;
+    grant select on student to lecturer;
+    grant select on instructor to dean;
+    grant teaching_assistant to lecturer;
+    grant lecturer to dean;
+    grant dean to Grey;
+    grant dean to Amit;
+    grant update on instructor to Amit;
+    grant lecturer to Brown;
+    grant update on student to Brown;
+    grant teaching_assistant to Green;
+\end{verbatim}
 (Select all that apply)\par\vspace{0.5em}
 \begin{checkboxes}
     \CorrectChoice Amit
@@ -292,29 +292,31 @@ Which query/queries will use some index?\par\vspace{0.5em}
 \begin{minipage}{\linewidth}
 \question[4]
 Considering the provided (below) commands executed on a University database and server with users Grey, Amit, Green, and Brown, 
-which user(s) have the authority to enter student's \textbf{grade}, for some course section, and also update his \textbf{tot\_cred}.\par\vspace{0.5em}
-
-\texttt{create role 'teaching\_assistant'@'localhost';}\par
-\texttt{create role 'lecturer'@'localhost';}\par
-\texttt{create role 'dean'@'localhost';}\par\vspace{0.5em}
-\texttt{grant select on university.takes to 'teaching\_assistant'@'localhost';}\par
-\texttt{grant update on university.takes to 'teaching\_assistant'@'localhost';}\par\vspace{0.5em}
-\texttt{grant select on university.student to 'lecturer'@'localhost';}\par
-\texttt{grant select on university.instructor to 'dean'@'localhost';}\par
-\texttt{grant 'teaching\_assistant'@'localhost' to 'lecturer'@'localhost';}\par
-\texttt{grant 'lecturer'@'localhost' to 'dean'@'localhost';}\par\vspace{0.5em}
-\texttt{grant 'dean'@'localhost' to 'Grey'@'localhost';}\par
-\texttt{grant 'dean'@'localhost' to 'Amit'@'localhost';}\par
-\texttt{grant update on university.instructor to 'Amit'@'localhost';}\par\vspace{0.5em}
-\texttt{grant 'lecturer'@'localhost' to 'Brown'@'localhost';}\par
-\texttt{grant update on university.student to 'Brown'@'localhost';}\par
-\texttt{grant 'teaching\_assistant'@'localhost' to 'Green'@'localhost';}\par\vspace{0.5em}
-
-\textbf{Hint: } To test it in MYSQL you need to invoke the following commands.\par\vspace{0.5em}
-SET DEFAULT ROLE ALL TO 'Brown'@'localhost';\par
-SET DEFAULT ROLE ALL TO 'Grey'@'localhost';\par
-SET DEFAULT ROLE ALL TO 'Amit'@'localhost';\par
-SET DEFAULT ROLE ALL TO 'Green'@'localhost'\par
+which user(s) have the authority to enter student's \textbf{grade}, for some course section, and also update his \textbf{tot\_cred}.\par
+\begin{verbatim}
+    create role 'teaching_assistant'@'localhost';
+    create role 'lecturer'@'localhost';
+    create role 'dean'@'localhost';
+    grant select on university.takes to 'teaching_assistant'@'localhost';
+    grant update on university.takes to 'teaching_assistant'@'localhost';
+    grant select on university.student to 'lecturer'@'localhost';
+    grant select on university.instructor to 'dean'@'localhost';
+    grant 'teaching_assistant'@'localhost' to 'lecturer'@'localhost';
+    grant 'lecturer'@'localhost' to 'dean'@'localhost';
+    grant 'dean'@'localhost' to 'Grey'@'localhost';
+    grant 'dean'@'localhost' to 'Amit'@'localhost';
+    grant update on university.instructor to 'Amit'@'localhost';
+    grant 'lecturer'@'localhost' to 'Brown'@'localhost';
+    grant update on university.student to 'Brown'@'localhost';
+    grant 'teaching_assistant'@'localhost' to 'Green'@'localhost';
+\end{verbatim}
+\textbf{Hint: } To test it in MYSQL you need to invoke the following commands.\par
+\begin{verbatim}
+    SET DEFAULT ROLE ALL TO 'Brown'@'localhost';\par
+    SET DEFAULT ROLE ALL TO 'Grey'@'localhost';\par
+    SET DEFAULT ROLE ALL TO 'Amit'@'localhost';\par
+    SET DEFAULT ROLE ALL TO 'Green'@'localhost'\par
+\end{verbatim}
 (More on that in the MYSQL documentation under MySQL :: MySQL 8.0 Reference Manual :: 8.2.10 Using Roles .)\par\vspace{0.5em}
 You \textbf{must} do the following \textbf{after logging in as each user} (Amit, Grey, Brown, or Green):\par\vspace{0.5em}
 \textbf{Activate all roles granted to the user}: SET ROLE ALL;\par

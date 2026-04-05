@@ -76,11 +76,10 @@ True or False: In the University Database, the course ID can be 'GoodLuck'.
 \begin{minipage}{\linewidth}
 \question[2]
 True or False: When invoked subsequently, the following sequence of commands will execute successfully on a database instance with no tuples in any of the tables:
-\begin{enumerate}
-  \item \texttt{insert into course values ('3300', 'DBMS', null, 3);}
-  \item \parbox[t]{0.9\linewidth}{\ttfamily
-    insert into section values ('3300', '001', 'Fall', 2022, null, null, 'A');}
-\end{enumerate}
+\begin{verbatim}
+  insert into course values ('3300', 'DBMS', null, 3);
+  insert into section values ('3300', '001', 'Fall', 2022, null, null, 'A');
+\end{verbatim}
 \begin{checkboxes}
     \CorrectChoice True
     \choice False
