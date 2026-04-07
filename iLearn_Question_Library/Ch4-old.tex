@@ -254,14 +254,14 @@ create index studentName_index on student(name)
 
 \begin{minipage}{\linewidth}
 \question[3]
-What is the effect of addition of:\par
+What is the effect of adding the following constraint:\par
 \begin{verbatim}
 unique (s_ID, i_ID)
 \end{verbatim}
 to the definition of the \textbf{advisor} relation?\par\vspace{0.5em}
 \begin{checkboxes}
-    \CorrectChoice None.
-    \choice Every student is able to have at most one advisor and every instructor is able to have at most one advisee
+    \CorrectChoice The constraint does not impose any additional restrictions.
+    \choice Every student is able to have at most one advisor and every instructor is able to have at most one advisee.
     \choice \textbf{i\_ID} attribute can't have value null.
     \choice \textbf{s\_ID} and \textbf{i\_ID} can not both be null.
 \end{checkboxes}
@@ -349,12 +349,11 @@ Which of the given SQL statements are allowed on the view?\par\vspace{0.5em}
 \end{minipage}\vspace{1em}
 
 \begin{samepage}
-\question[8]
+\question[4]
 Considering the commands shown below were executed on a University database server with users Grey, Amit, Green, and Brown,
-which user(s) have the authority to move all Computer Science Department students who enrolled in CS-190 during the Spring 2009 
+which users have the authority to move all Computer Science Department students who enrolled in CS-190 during the Spring 2009 
 semester to section 2 of the course (assume section 2 has already been created)?\par\vspace{0.5em}
-In other words, which user(s) can successfully execute the following query?\par
-(Select all that apply)\par\vspace{0.5em}
+In other words, which users can successfully execute the following query?\par\vspace{0.5em}
 \begin{verbatim}
 update takes
 set sec_id = 2
@@ -398,14 +397,19 @@ SET DEFAULT ROLE ALL TO  'Amit'@'localhost';
 SET DEFAULT ROLE ALL TO  'Green'@'localhost';
 \end{verbatim}
 (More on that in the MYSQL documentation under MySQL :: MySQL 8.0 Reference Manual :: 8.2.10 Using Roles .)
-Important: To correctly test this scenario, each user must run the following two commands after logging in, before executing the UPDATE query:\par\vspace{0.5em}
-\begin{verbatim}
-1. Activate all granted roles for the current session:
-SET ROLE ALL;
 
-2. Select the appropriate database:
+Important: To correctly test this scenario, each user must run the following two commands after logging in, before executing the UPDATE query:\par\vspace{0.5em}
+\begin{enumerate}
+    \item Activate all granted roles for the current session:
+    \begin{verbatim}
+SET ROLE ALL;
+    \end{verbatim}
+
+    \item Select the appropriate database:
+    \begin{verbatim}
 USE university;
-\end{verbatim}
+    \end{verbatim}
+\end{enumerate}
 \begin{checkboxes}
     \CorrectChoice Amit
     \CorrectChoice Brown
@@ -453,9 +457,11 @@ end
 \end{verbatim}
 
 \begin{checkboxes}
-\CorrectChoice The following query will result in as many updates of some \textit{total\_credit} values of \textbf{student} 
+\CorrectChoice The following query will result in as many updates of some \textit{tot\_cred} values of \textbf{student} 
 as there are nulls for the \textit{grade} attribute of \textbf{takes}.
-\textit{update takes set grade = 'D' where grade = null}
+\begin{verbatim}
+update takes set grade = 'D' where grade is null
+\end{verbatim}
 
 \choice The trigger body will be executed at least once when the query \textit{delete from takes where grade is null} 
 is executed, provided some students have ungraded course sections.
@@ -501,11 +507,13 @@ id & course\_id & sec\_id & semester & year & grade \\
 '5' & '3300' & '1' & 'Fall' & 2024 & null \\
 \hline
 \end{tabular}
+
+The following update command will execute the body of the \textit{credits\_earned} trigger.
 \begin{verbatim}
 update student set tot_cred = tot_cred + 
 (select sum(credits) from course natural 
 join takes where takes.id = student.id and 
-student.id = '5' and grade = null)
+student.id = '5' and grade is null)
 \end{verbatim}
 \choice Assume that there are only the following tuples in the database.
 
@@ -551,7 +559,7 @@ id & course\_id & sec\_id & semester & year & grade \\
 
 The following update command will execute the body of the \textit{credits\_earned} trigger.
 \begin{verbatim}
-update takes set grade = 'D' where id = '5' and grade = null
+update takes set grade = 'D' where id = '5' and grade is null
 \end{verbatim}
 \end{checkboxes}
 \end{samepage}
