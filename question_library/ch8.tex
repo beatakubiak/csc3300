@@ -1,0 +1,107 @@
+\documentclass[12pt,answers]{exam}
+
+\input{preamble.tex}
+
+\begin{document}
+\noindent Name:\ \makebox[3in]{\hrulefill}
+\begin{questions}
+
+% ------------------ TRUE/FALSE SECTION ------------------
+\section*{Part I — True/False}
+
+\begin{minipage}{\linewidth}
+\question[2]
+Is it true that the following user requirements translate into the functional dependency shown below?
+
+User requirements:
+The database records for each car its VIN number, color, make, model, license\_plate, production\_year.
+VIN uniquely identifies the car.
+
+Proposed functional dependency:
+VIN \(\to\) color, make, model, license\_plate, production\_year
+\begin{checkboxes}
+    \CorrectChoice True
+    \choice False
+\end{checkboxes}
+\end{minipage}
+
+\begin{minipage}{\linewidth}
+\question[2]
+True or False: If $\alpha$, $\beta$, and $\gamma$ are sets of attributes, and the 
+functional dependencies $\alpha \to \beta$ and $\beta \to \gamma$ hold, then 
+the functional dependency $\alpha \to \gamma$ also holds.
+
+\begin{checkboxes}
+    \CorrectChoice True
+    \choice False
+\end{checkboxes}
+\end{minipage}
+
+
+\begin{minipage}{\linewidth}
+\question[2]
+True or False: If a schema is decomposed into 3NF using its functional dependencies, the resulting decomposition preserves those dependencies.
+
+\begin{checkboxes}
+    \CorrectChoice True
+    \choice False
+\end{checkboxes}
+\end{minipage}
+
+
+% ------------------ MULTIPLE CHOICE SECTION ------------------
+\section*{Part II — Multiple choice (choose one)}
+
+\begin{minipage}{\linewidth}
+\question[2]
+MongoDB is what type of database?
+
+\begin{checkboxes}
+    \choice Key–Value Database
+    \CorrectChoice Document Database
+    \choice Column-Family Database
+    \choice Graph Database
+\end{checkboxes}
+\end{minipage}
+
+
+
+
+
+\begin{minipage}{\linewidth}
+\question
+Which of the following functional dependencies are \emph{trivial}?  
+Assume \texttt{ID} is a unique student identifier and \texttt{name} is the student’s name (as in the University Database).
+
+\begin{checkboxes}
+    \CorrectChoice ID, name $\to$ ID
+    \CorrectChoice name $\to$ name
+    \choice ID $\to$ name
+    \choice name $\to$ ID
+\end{checkboxes}
+\end{minipage}
+
+
+
+
+\begin{minipage}{\linewidth}
+\question[4]
+Consider the relation with attributes $(A, B, C, D, E)$ and the functional dependency $D \to A, C, E$.
+Assume that $\{D\}$ and $\{C, E\}$ are superkeys of this relation.
+
+If we want the database to be in Boyce--Codd Normal Form (BCNF), what should be done?
+
+\begin{checkboxes}
+    \CorrectChoice Nothing; the relation already satisfies BCNF.
+    \choice The relation violates BCNF, and should be decomposed into $(D, A, C, E)$ and $(D, B)$.
+    \choice The relation violates BCNF, and should be decomposed into two relations (A, B, C, E) and (D, A, C, E).
+    \choice The relation violates BCNF, and should be decomposed into two relations (C, E, D) and (A, B, D).
+\end{checkboxes}
+\end{minipage}
+
+
+
+
+\end{questions}
+
+\end{document}

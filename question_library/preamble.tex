@@ -1,0 +1,22 @@
+\usepackage[left=0.1in, right=0.1in, top=0.6in,bottom=0.1in]{geometry}
+\usepackage{enumitem}
+\usepackage{amsmath}
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, arrows.meta, positioning}
+
+% --- Tikz set for diagram
+\tikzset{
+    box/.style={rectangle, draw, minimum width=1.8cm, minimum height=1cm, align=left, font=\small},
+    doublebox/.style={rectangle, draw, double, double distance=1.5pt, minimum width=2.5cm, minimum height=1cm, align=left, font=\small},
+    decision/.style={diamond, draw, minimum width=1cm, minimum height=1cm, align=center, aspect=2, font=\small},
+    doubledecision/.style={diamond, double, draw, minimum width=1cm, minimum height=1cm, align=center, aspect=2, font=\small},
+    attribute/.style={rectangle, draw, minimum width=1.5cm, minimum height=0.6cm, align=center, font=\small},
+    arrow/.style={-Stealth, thick},
+    doublearrow/.style={-Stealth, thick, double, double distance=1.5pt},
+    dashedline/.style={thick, dashed},
+    line/.style={thick},
+    doubleline/.style={thick, double, double distance=1.5pt}
+}
+
+% --- Make choices use open circles instead of letters ---
+\renewcommand{\choicelabel}{\raisebox{0.15ex}{$\bigcirc$}}

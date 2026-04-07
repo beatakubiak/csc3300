@@ -1,0 +1,113 @@
+\documentclass[12pt,answers]{exam}
+
+\input{preamble.tex}
+
+\begin{document}
+\noindent Name:\ \makebox[3in]{\hrulefill}
+\begin{questions}
+
+% ------------------ TRUE/FALSE SECTION ------------------
+\section*{Part I — True/False}
+
+\begin{minipage}{\linewidth}
+\question[2]
+True or False: TODO
+\begin{checkboxes}
+    \CorrectChoice True
+    \choice False
+\end{checkboxes}
+\end{minipage}
+
+% ------------------ MULTIPLE CHOICE SECTION ------------------
+\section*{Part II — Multiple choice (choose one)}
+
+\begin{minipage}{\linewidth}
+\question[2]
+Some documents in the movies collection of the sample\_mflix database have a cast field.
+One such document contains the following value for that field.
+In this case, cast is an array of strings.
+\begin{verbatim}
+"cast": [
+  "A.C. Abadie",
+  "Gilbert M. 'Broncho Billy' Anderson",
+  "George Barnes",
+  "Justus D. Barnes"
+]
+\end{verbatim}
+
+\begin{checkboxes}
+\CorrectChoice True
+\choice False
+\choice Prefer not to answer
+\end{checkboxes}
+\end{minipage}
+
+
+\begin{minipage}{\linewidth}
+\question[2]
+The type of a field in a MongoDB document can itself be a document.
+
+\begin{checkboxes}
+    \CorrectChoice True
+    \choice False
+    \choice Prefer not to answer
+\end{checkboxes}
+\end{minipage}
+
+\begin{minipage}{\linewidth}
+\question[2]
+What does \textbf{Consistency (C)} mean in the CAP theorem?
+
+\begin{checkboxes}
+    \choice The system continues processing reads and writes even when some nodes or groups of nodes cannot communicate with each other.
+    \choice During a network partition, the system allows reads and writes to proceed on any nodes that remain reachable.
+    \CorrectChoice All reads return the same, most up-to-date value, as if there were a single correct copy of the data.
+    \choice Prefer not to answer
+\end{checkboxes}
+\end{minipage}
+
+
+\begin{minipage}{\linewidth}
+\question[2]
+Consider the following aggregation query on the \texttt{sample\_mflix} database:
+
+\begin{verbatim}
+db.movies.aggregate([
+  {
+    $lookup: {
+      from: "comments",
+      localField: "_id",
+      foreignField: "movie_id",
+      as: "comments"
+    }
+  }
+]);
+\end{verbatim}
+
+To improve performance, which additional index would be most helpful?
+
+\begin{checkboxes}
+    \choice An index on \texttt{\_id} in the \texttt{movies} collection.
+    \CorrectChoice An index on \texttt{movie\_id} in the \texttt{comments} collection.
+    \choice An index on \texttt{\_id} in the \texttt{comments} collection.
+    \choice Prefer not to answer
+\end{checkboxes}
+
+\end{minipage}
+
+
+\question[2]
+What is the main purpose of sharding in MongoDB?
+
+\begin{checkboxes}
+    \CorrectChoice To distribute a large dataset across multiple servers so the system can scale beyond the limits of a single machine.
+    \choice To maintain multiple copies of the same data for redundancy.
+    \choice To ensure all queries always read from the most up-to-date copy of the data.
+    \choice Prefer not to answer
+\end{checkboxes}
+
+
+
+\end{questions}
+
+\end{document}

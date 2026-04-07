@@ -1,0 +1,80 @@
+% !TeX program = pdflatex
+\documentclass[12pt]{exam}
+
+\usepackage[margin=0.5in]{geometry}
+\usepackage{listings}
+\usepackage{tcolorbox}
+\usepackage{xcolor}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\newcommand{\emojifont}{}
+\setlength{\parindent}{0pt}
+
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{lightgray}{gray}{0.95}
+\lstset{
+  language=SQL,
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{blue},
+  commentstyle=\color{codegray},
+  backgroundcolor=\color{lightgray},
+  frame=none,
+  breaklines=true,
+  showstringspaces=false
+}
+
+\begin{document}
+\pagestyle{empty}
+
+\textbf{Database Management Systems} \hfill Referential Integrity with Triggers -- Worksheet 1 \\
+Beata Kubiak, Instructor
+
+\medskip
+
+Let's use triggers to ensure that each \texttt{time\_slot\_id} in the \texttt{section} table corresponds to a \texttt{time\_slot\_id} in the \texttt{time\_slot} table. The two triggers below were presented during the lecture and contribute to this goal. However, additional triggers are needed to fully enforce the constraint. Please implement them.
+
+Submit your work in a file named \texttt{CSC3300\_referential-integrity-with-triggers.sql} and upload it to the Dropbox in iLearn under the title \textbf{Bonus: Referential Integrity with Triggers}.
+
+\medskip
+
+\textbf{Trigger: Before Inserting into Section}
+\begin{tcolorbox}[colback=gray!5, colframe=black!60]
+\begin{lstlisting}
+create trigger timeslot_check1
+before insert on section
+for each row 
+begin
+    if (new.time_slot_id not in (
+        select time_slot_id
+        from time_slot))
+    then
+        SIGNAL sqlstate '45001' set message_text = "Cannot insert section: time_slot_id does not exist in time_slot.";
+    end if;
+end
+\end{lstlisting}
+\end{tcolorbox}
+
+\medskip
+
+\textbf{Trigger: After Deleting from Time\_Slot} % <-- underscore escaped
+\begin{tcolorbox}[colback=gray!5, colframe=black!60]
+\begin{lstlisting}
+create trigger timeslot_check2
+after delete on time_slot
+for each row 
+begin
+    if (old.time_slot_id not in (
+        select time_slot_id
+        from time_slot) and 
+        old.time_slot_id in (  
+        select time_slot_id
+        from section))
+    then
+        SIGNAL sqlstate '45001' set message_text = 
+        "Cannot delete this time slot: one or more course sections reference it.";
+    end if;
+end
+\end{lstlisting}
+\end{tcolorbox}
+
+\end{document}

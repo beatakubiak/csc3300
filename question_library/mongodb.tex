@@ -1,0 +1,409 @@
+\documentclass[12pt,answers]{exam}
+
+\input{preamble.tex}
+
+\begin{document}
+\noindent Name:\ \makebox[3in]{\hrulefill}
+\begin{questions}
+
+% ------------------ TRUE/FALSE SECTION ------------------
+\section*{Part I — True/False}
+
+\begin{minipage}{\linewidth}
+\question[2]
+True or False: In a replica set with more than one node, all nodes store the same user data.
+\begin{checkboxes}
+    \CorrectChoice True
+    \choice False
+\end{checkboxes}
+\end{minipage}
+
+\begin{minipage}{\linewidth}
+\question[2]
+True or False: In a replica set, one node serves as the primary and the remaining nodes, if any, act as secondaries.
+\begin{checkboxes}
+    \CorrectChoice True
+    \choice False
+\end{checkboxes}
+\end{minipage}
+
+\begin{minipage}{\linewidth}
+\question[2]
+True or False: When you run insertOne() on a secondary node, MongoDB writes the document but does not replicate it to other nodes.
+\begin{checkboxes}
+    \choice True
+    \CorrectChoice False
+\end{checkboxes}
+\end{minipage}
+
+\begin{minipage}{\linewidth}
+\question[2]
+True or False: When the primary node in a replica set comes back online after a failure, it automatically becomes the primary again.
+\begin{checkboxes}
+    \choice True
+    \CorrectChoice False
+\end{checkboxes}
+\end{minipage}
+
+\begin{minipage}{\linewidth}
+\question[2]
+True or False: In a replica set, one node may store only the movies collection from sample\_mflix, another node only the users collection, and another node the remaining collections of this database.
+\begin{checkboxes}
+    \choice True
+    \CorrectChoice False
+\end{checkboxes}
+\end{minipage}
+
+\begin{minipage}{\linewidth}
+\question[2]
+True or False: If a network partition occurs and some replicas cannot communicate, the system cannot guarantee both that every non-failed node continues responding to clients (availability) and that all responses reflect the same up-to-date value (consistency).
+\begin{checkboxes}
+    \CorrectChoice True
+    \choice False
+\end{checkboxes}
+\end{minipage}
+
+\begin{minipage}{\linewidth}
+\question[2]
+True or False: During a network partition, a partition-tolerant system continues trying to process both reads and writes on the available nodes.
+\begin{checkboxes}
+    \CorrectChoice True
+    \choice False
+\end{checkboxes}
+\end{minipage}
+
+\begin{minipage}{\linewidth}
+\question[2]
+True or False: Every document in MongoDB must contain an \_id field.
+\begin{checkboxes}
+    \CorrectChoice True
+    \choice False
+\end{checkboxes}
+\end{minipage}
+
+\begin{minipage}{\linewidth}
+\question[2]
+True or False: The following two MongoDB queries return the same data:
+\begin{verbatim}
+db.movies.find({ year: 1984 })
+db.movies.aggregate([{ $match: { year: 1984 } }])
+\end{verbatim}
+\begin{checkboxes}
+    \CorrectChoice True
+    \choice False
+\end{checkboxes}
+\end{minipage}
+
+\begin{minipage}{\linewidth}
+\question[2]
+True or False: When an index is created on a field in MongoDB, no two documents can have the same value for that field.\\
+\textbf{Hint:}
+To check indexes on a collection, use:
+\begin{verbatim}
+db.collection.getIndexes()
+\end{verbatim}
+
+To create an index on a field, use:
+\begin{verbatim}
+db.collection.createIndex({ fieldName: 1 })
+\end{verbatim}
+\begin{checkboxes}
+    \choice True
+    \CorrectChoice False
+\end{checkboxes}
+\end{minipage}
+
+\begin{minipage}{\linewidth}
+\question[2]
+True or False: In the \texttt{sample\_mflix} database, 
+a user cannot comment on the same movie more than once.
+
+\begin{checkboxes}
+    \choice True
+    \CorrectChoice False
+\end{checkboxes}
+\end{minipage}
+
+\begin{minipage}{\linewidth}
+\question[2]
+True or False: In a collection of student documents at TTU, the value of the \texttt{\_id} field may be set to each student's T-number (e.g., \texttt{T12345678}). MongoDB allows the \texttt{\_id} field to contain any unique value, so a T-number can validly serve as the \texttt{\_id} of a student document.
+
+\begin{checkboxes}
+    \CorrectChoice True
+    \choice False
+\end{checkboxes}
+\end{minipage}
+
+\begin{minipage}{\linewidth}
+\question[2]
+True or False: In MongoDB, an index can be created on multiple fields.
+
+\begin{checkboxes}
+    \CorrectChoice True
+    \choice False
+\end{checkboxes}
+\end{minipage}
+
+\begin{minipage}{\linewidth}
+\question[2]
+True or False: During a network partition, a distributed system may still happen to provide both availability and consistency in some cases, but it \emph{cannot guarantee} both at the same time. It must choose which guarantee to sacrifice True or False: During a network partition, a distributed system may still happen to provide both availability and consistency in some cases, but it cannot guarantee both at the same time. It must choose which guarantee to sacrifice when some servers cannot communicate.
+
+\begin{checkboxes}
+    \CorrectChoice True
+    \choice False
+\end{checkboxes}
+\end{minipage}
+
+
+
+\begin{minipage}{\linewidth}
+\question[2]
+True or False: In a sharded cluster, one shard may store only the \texttt{movies} collection from \texttt{sample\_mflix}, another shard may store only the \texttt{users} collection, and another shard may store the remaining collections of the database.
+
+\begin{checkboxes}
+    \CorrectChoice True
+    \choice False
+\end{checkboxes}
+\end{minipage}
+
+\begin{minipage}{\linewidth}
+\question[2]
+True or False: In a three-node replica set running on a single server, 
+the node listening on the lowest port number is always elected as the primary member.
+
+\begin{checkboxes}
+    \choice True
+    \CorrectChoice False
+\end{checkboxes}
+\end{minipage}
+
+
+
+
+
+
+% ------------------ MULTIPLE CHOICE SECTION ------------------
+\section*{Part II — Multiple choice (choose one)}
+
+\begin{minipage}{\linewidth}
+\question[2]
+MongoDB is what type of database?
+
+\begin{checkboxes}
+    \choice Key–Value Database
+    \CorrectChoice Document Database
+    \choice Column-Family Database
+    \choice Graph Database
+\end{checkboxes}
+\end{minipage}
+
+
+\begin{minipage}{\linewidth}
+\question[2]
+What will MongoDB do if you try to insert the following document to the \texttt{movies} collection?
+\begin{verbatim}
+{
+  "first_name": "John",
+  "last_name": "Smith",
+  "email": "abc@def.g"
+}
+\end{verbatim}
+
+\begin{checkboxes}
+    \choice Reject it because \_id is missing.
+    \choice Reject it because the document is not a movie.
+    \CorrectChoice Insert it and automatically add an \_id field.
+    \choice Insert it without an \_id field.
+\end{checkboxes}
+\end{minipage}
+
+
+
+
+\begin{minipage}{\linewidth}
+\question[4]
+Consider the following MongoDB aggregation query:
+
+\begin{verbatim}
+db.comments.aggregate([
+  {
+    $lookup: {
+      from: "movies",
+      localField: "movie_id",
+      foreignField: "_id",
+      as: "movie_info"
+    }
+  },
+  {
+    $lookup: {
+      from: "users",
+      localField: "email",
+      foreignField: "email",
+      as: "user_info"
+    }
+  }
+]);
+\end{verbatim}
+
+What does this query return?
+
+\begin{checkboxes}
+    \CorrectChoice For each comment, the comment document together with information
+    about the movie it refers to (if any) and the user who wrote it (if any).
+    \choice For each comment where both a matching movie and a matching user exist,
+    the comment plus information about that movie and that user; comments without matches are excluded.
+    \choice For each movie–user pair, all information about the movie and the user,
+    together with any matching comment data, if such data exists.
+    \choice For each movie–user pair, all information about the movie and the user,
+    but only if the user commented on that movie.
+\end{checkboxes}
+\end{minipage}
+
+
+
+\begin{minipage}{\linewidth}
+\question[4]
+Which of the following MongoDB queries return documents containing \emph{only} the movie title?
+
+\begin{verbatim}
+(1) db.movies.aggregate([
+      {
+        $project: {
+          title: 1
+        }
+      }
+    ])
+
+(2) db.movies.aggregate([
+      {
+        $project: {
+          _id: 0,
+          title: 1
+        }
+      }
+    ])
+
+(3) db.movies.find(
+      { title: { $exists: true } },
+      { _id: 0 }
+    )
+
+(4) db.movies.find(
+      { title: { $exists: true } },
+      { _id: 0, title: 1 }
+    )
+\end{verbatim}
+
+\begin{checkboxes}
+    \choice Query (1)
+    \CorrectChoice Query (2)
+    \choice Query (3)
+    \CorrectChoice Query (4)
+\end{checkboxes}
+\end{minipage}
+
+
+
+\begin{minipage}{\linewidth}
+\question
+Some documents in the \texttt{movies} collection of the \texttt{sample\_mflix} database have a 
+\texttt{cast} field, which is an array of strings.  
+What is true about the result of the following query?
+
+\begin{verbatim}
+db.movies.aggregate([
+  { $unwind: "$cast" }
+])
+\end{verbatim}
+
+\begin{checkboxes}
+    \choice If a movie has 4 entries in its cast array, the query returns 4 separate documents for that movie.
+    \choice Movies that do not have a cast field will not appear in the result.
+    \choice For movies that do have a cast field, all their original fields are preserved in the output documents, so no information about those movies is lost.
+    \choice The query produces a list of all entries appearing in all cast arrays across the collection, possibly with repetitions.
+\end{checkboxes}
+\end{minipage}
+
+\begin{minipage}{\linewidth}
+\question[4]
+Which of the following functional dependencies hold on the University Database?
+
+\begin{verbatim}
+(1) time_slot_id -> course_id, sec_id, semester, year
+
+(2) s_id -> i_id
+
+(3) ID, course_id, sec_id, semester, year -> grade
+    (where ID is a student identifier)
+
+(4) course_id, sec_id, semester, year -> ID
+    (where ID is an instructor identifier)
+\end{verbatim}
+
+\begin{checkboxes}
+    \choice (1)
+    \CorrectChoice (2)
+    \CorrectChoice (3)
+    \choice (4)
+\end{checkboxes}
+\end{minipage}
+
+
+
+
+
+\begin{minipage}{\linewidth}
+\question[4]
+Consider the following MongoDB aggregation query:
+
+\begin{verbatim}
+db.users.aggregate([
+  {
+    $lookup: {
+      from: "comments",
+      localField: "email",
+      foreignField: "email",
+      as: "temp"
+    }
+  },
+  {
+    $project: {
+      _id: 0,
+      email: 1,
+      "temp.text": 1
+    }
+  }
+]);
+\end{verbatim}
+
+Which of the following statements are true about this query?
+
+\begin{checkboxes}
+    \CorrectChoice Each output document contains the user's \texttt{email} and a
+    \texttt{temp} array whose elements are documents with a single
+    field \texttt{text} holding the comment text.
+
+    \CorrectChoice Users who have never written a comment still appear in the
+    result, but their \texttt{temp} field is an empty array.
+
+    \choice The query returns only users who have written at least one comment.
+
+    \CorrectChoice The \texttt{\_id} field of the user documents does not appear
+    in the output.
+\end{checkboxes}
+\end{minipage}
+
+
+
+
+
+
+
+
+
+
+
+
+\end{questions}
+
+\end{document}

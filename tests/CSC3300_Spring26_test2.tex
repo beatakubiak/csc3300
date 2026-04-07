@@ -1,0 +1,345 @@
+\documentclass[12pt]{exam}
+\usepackage[margin=0.1in]{geometry}
+
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{enumitem}
+\usepackage{multicol}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,shapes.callouts}
+
+\newcommand{\tfq}[3]{%
+  \question[#1]\textbf{T/F:} #2%
+  % Only show the choices when printing answers/keys
+  \ifprintanswers
+    \par\begin{oneparchoices}
+      #3
+    \end{oneparchoices}
+  \fi
+}
+
+
+
+\makeatletter
+\newcommand{\TFQ@choices}{} % temp holder
+
+\newenvironment{tfqverb}[2]{%
+  \def\TFQ@choices{#2}% store choices for use at end
+  \question[#1]\textbf{T/F:}%
+}{%
+  \ifprintanswers
+    \par\begin{oneparchoices}\TFQ@choices\end{oneparchoices}
+  \fi
+}
+\makeatother
+
+\printanswers
+% optional styling for the correct choice:
+\CorrectChoiceEmphasis{\bfseries}    % make the correct choice bold
+% or e.g. \CorrectChoiceEmphasis{\color{red}\bfseries}
+
+\usepackage{fancyvrb}
+\newsavebox{\verbbox}
+
+\begin{document}
+
+
+\begin{center}
+\textbf{\Large Test 2 — Database Management Systems}
+
+\textbf{CSC 3300 \quad Spring 2026}
+\end{center}
+
+\begin{questions}
+%---------------------------------TRUE/FALSE---------------------------------
+\section*{Part I — True/False}
+\tfq{3}{If the attribute \texttt{room\_number} of the \texttt{classroom} table was removed from the \texttt{PRIMARY KEY} (but not removed from the table), then in each building on campus there could be at most one classroom.}{\CorrectChoice True \choice False}
+\tfq{3}{A tuple is inserted into the \texttt{instructor} relation only if the value of the \textit{ID} attribute of this tuple is equal to the value of the \textit{i\_id} attribute of some tuple in the \texttt{advisor} relation.}{\choice True \CorrectChoice False}
+\begin{tfqverb}{3}{\choice True \CorrectChoice False}
+Below query returns at most one tuple on any instance of the University database.
+
+\begin{verbatim}
+select course_id
+from course
+where course_id = 128;
+\end{verbatim}
+\end{tfqverb}
+\tfq{2}{The \texttt{section} relation has exactly 3 foreign keys.}{\choice True \CorrectChoice False}
+
+\begin{tfqverb}{3}{\CorrectChoice True \choice False}
+The following query returns IDs of students along with IDs of instructors who taught that student in more than two course sections.
+
+\begin{verbatim}
+select takes.ID, teaches.ID 
+from takes join teaches using (course_id, sec_id, semester, year)
+group by takes.ID, teaches.ID 
+having count(teaches.ID) > 2
+\end{verbatim}
+\end{tfqverb}
+
+%---------------------------------MC---------------------------------
+\section*{Part II — Multiple choice (choose one)}
+
+% \begin{minipage}{\linewidth}
+% \question[3]
+% What is the minimal number of tables that need to be reached out to in order to retrieve \textit{IDs} and \textit{names} of students and \textit{ID}'s and \textit{names} of their teachers (past or present)?
+% \begin{choices}
+%   \choice 3
+%   \CorrectChoice 4
+%   \choice 5
+%   \choice 2
+% \end{choices}
+% \end{minipage}\vspace{1em}
+
+\begin{minipage}{\linewidth}
+\question[3]
+What is the minimal number of tables that need to be reached out to in order to retrieve \textit{IDs} and names of instructors along with \textit{IDs} and titles of courses they taught, that come from a different department than the one they are associated with?
+
+E.g. If an instructor with id 5 and name Green from Math Dept. taught a course with id CSC3300 and title DBMS from the CS Dept., then the below tuple should be included in the result of the query.
+
+\begin{center}
+\begin{tabular}{|c|c|c|c|}
+\hline
+\textit{ID} & \textit{name} & \textit{course\_id} & \textit{title} \\
+\hline
+5 & Green & CSC3300 & DBMS \\
+\hline
+\end{tabular}
+\end{center}
+
+\begin{checkboxes}
+  \choice 4
+  \choice 2
+  \CorrectChoice 3
+  \choice 5
+\end{checkboxes}
+
+\end{minipage}\vspace{1em}
+
+%---------------------------------MS---------------------------------
+\section*{Part III — Multiple select (select all that apply)}
+
+\begin{minipage}{\linewidth}
+\question[4] Choose superkeys of the relation \texttt{takes}.\par\vspace{0.5em}
+
+\begin{checkboxes}
+\choice $\{\textit{ID}, \textit{course\_id}, \textit{sec\_id}, \textit{semester}, \textit{year}\}$
+\CorrectChoice $\{\textit{ID}, \textit{grade}\}$
+\CorrectChoice $\{\textit{course\_id}, \textit{sec\_id}, \textit{semester}, \textit{year}\}$
+\choice $\{\textit{ID}, \textit{course\_id}, \textit{sec\_id}, \textit{semester}, \textit{year}, \textit{grade}\}$
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+
+\begin{minipage}{\linewidth}
+\question[4]
+An ISBN (International Standard Book Number) is a unique identifier for books, allowing them to be easily identified and tracked in databases and systems worldwide. An ISBN is assigned to each edition and variation (e.g., hardcover, paperback, e-book) of a book.
+
+Consider the following specification of user requirements for a Library Database: For each book copy, the following data is stored: title (\textit{title}), edition (\textit{edition}), number of pages (\textit{pages\_no}), barcode (\textit{barcode}), variation (e.g., hardcover, paperback) (\textit{variation}), and ISBN (\textit{isbn}). When a member checks out a book copy, its barcode is scanned and linked to the member’s account. When the book copy is returned, the barcode is scanned again, and the book is marked as available for borrowing.
+
+To organize this data, assume the following relational database schema:
+
+\begin{center}
+\texttt{BOOK (title, edition, pages\_no, variation, isbn)}\\
+\texttt{BOOK\_COPY (isbn, barcode)}
+\end{center}
+
+Assume that the attribute \textit{isbn} in the BOOK table holds the same data (has the same meaning) as the attribute \textit{isbn} in the BOOK\_COPY table.
+
+Which of the following statements are true?\par\vspace{0.5em}
+
+\begin{checkboxes}
+\CorrectChoice $\{\textit{isbn}\}$ is a candidate key in the BOOK table.
+\CorrectChoice If $\{\textit{isbn}\}$ was the primary key of BOOK, then $\{\textit{isbn}\}$ could be a foreign key in the BOOK\_COPY table.
+\CorrectChoice $\{\textit{barcode}\}$ is a candidate key in the BOOK\_COPY table.
+\CorrectChoice If multiple editions or variations of the same book exist, the title may appear in multiple tuples in the BOOK table.
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+
+\begin{minipage}{\linewidth}
+\question[8]
+IDs, names, and major departments (\texttt{dept\_name}) of students who have not received a grade of \texttt{A} in any of their courses.\par\vspace{0.5em}
+
+\begin{checkboxes}
+\CorrectChoice
+\begin{verbatim}
+select ID, name, dept_name
+from student
+where not exists (
+  select *
+  from takes
+  where student.ID = takes.ID and grade='A')
+\end{verbatim}
+
+\CorrectChoice
+\begin{verbatim}
+select ID, name, dept_name
+from student
+where 'A' <> all (
+  select grade
+  from takes
+  where student.ID = takes.ID)
+\end{verbatim}
+
+\choice
+\begin{verbatim}
+select ID, name, dept_name
+from student
+where exists (
+  select *
+  from takes
+  where grade <> 'A')
+\end{verbatim}
+
+\choice
+\begin{verbatim}
+select ID, name, dept_name
+from student
+where not exists (
+  select *
+  from takes
+  where student.ID = takes.ID and not (grade='A'))
+\end{verbatim}
+
+\end{checkboxes}
+\end{minipage}
+
+\begin{minipage}{\linewidth}
+\question[8]
+Which query or queries return \textit{IDs}, \textit{names}, and \textit{dept\_names} of students that didn’t take any course sections?\par\vspace{0.5em}
+
+\begin{checkboxes}
+\choice
+\begin{verbatim}
+select student.ID, name, dept_name
+from student, takes
+where student.ID <> takes.ID
+\end{verbatim}
+
+\CorrectChoice
+\begin{verbatim}
+select ID, name, dept_name
+from student
+where (select count(*) 
+       from takes 
+       where takes.ID = student.ID) = 0
+\end{verbatim}
+
+\CorrectChoice
+\begin{verbatim}
+select ID, name, dept_name
+from student
+where not exists (select * 
+                  from takes 
+                  where ID = student.ID)
+\end{verbatim}
+
+\CorrectChoice
+\begin{verbatim}
+select ID, name, dept_name
+from student
+where ID not in (select ID from takes)
+\end{verbatim}
+
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\begin{minipage}{\linewidth}
+\question[8]
+Which queries retrieve IDs and names of students who have taken at least one Comp. Sci. course.\par\vspace{0.5em}
+
+\begin{checkboxes}
+\choice
+\begin{verbatim}
+select ID, name
+from takes natural join course natural join student
+where dept_name = 'Comp. Sci.'
+group by ID, name
+having count(*) >= 1
+\end{verbatim}
+
+\CorrectChoice
+\begin{verbatim}
+select ID, name
+from student as s
+where (select count(*)
+      from takes natural join course
+      where dept_name = 'Comp. Sci.'
+      and s.ID = takes.ID) >= 1
+\end{verbatim}
+
+\CorrectChoice
+\begin{verbatim}
+select student.ID, name
+from (select ID
+      from takes natural join course
+      where dept_name = 'Comp. Sci.'
+      group by ID
+      having count(*) >= 1) as temp, student
+where temp.ID = student.ID
+\end{verbatim}
+
+\CorrectChoice
+\begin{verbatim}
+select ID, name
+from (select ID
+      from takes natural join course
+      where dept_name = 'Comp. Sci.'
+      group by ID
+      having count(*) >= 1) as temp natural join student
+\end{verbatim}
+
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\begin{minipage}{\linewidth}
+\question[8]
+Which of the following queries return the names of \textbf{all} buildings at the university? 
+Ignore any repeated building names in the results.\par\vspace{0.5em}
+
+\begin{checkboxes}
+\choice
+\begin{verbatim}
+select building
+from department natural join classroom;
+\end{verbatim}
+
+\CorrectChoice
+\begin{verbatim}
+select building
+from department natural join classroom
+union
+select building
+from department
+where building not in (select building from classroom)
+union
+select building
+from classroom
+where building not in (select building from department);
+\end{verbatim}
+
+\choice
+\begin{verbatim}
+select department.building
+from department join classroom;
+\end{verbatim}
+
+\CorrectChoice
+\begin{verbatim}
+select building
+from department
+left outer join classroom using (building)
+union
+select building
+from department
+right outer join classroom using (building);
+\end{verbatim}
+
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+
+\end{questions}
+\end{document}
