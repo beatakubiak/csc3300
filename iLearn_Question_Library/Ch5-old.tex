@@ -66,20 +66,22 @@ True or False: MySQL Connector/J implements the JDBC API.\par\vspace{0.5em}
 \question[4]
 True or False: The execution of this Java code snippet inserts exactly one record into the instructor table.\par\vspace{0.5em}
 \begin{verbatim}
-String id = "225";
-String name = "Green";
-String dept_name = "Comp. Sci.";
-BigDecimal salary = new BigDecimal(98000);
-PreparedStatement pstmt = conn.prepareStatement
-("insert into instructor values (?, ?, ?, ?)");
-pstmt.setString(1, id);
-pstmt.setString(2, name);
-pstmt.setString(3, dept_name);
-pstmt.setBigDecimal(4, salary);
-pstmt.executeUpdate();
-id = "226"
-pstmt.setString(1, id);
-pstmt.executeUpdate();
+	String id = "225";
+	String name = "Green";
+	String dept_name = "Comp. Sci.";
+	BigDecimal salary = new BigDecimal(98000);
+	PreparedStatement pstmt = conn.prepareStatement(
+        "insert into instructor values (?, ?, ?, ?)");
+	pstmt.setString(1, id);
+	pstmt.setString(2, name);
+	pstmt.setString(3, dept_name);
+	pstmt.setBigDecimal(4, salary);
+	pstmt.executeUpdate();
+	id = "226";
+	name = "Brown";
+	pstmt.setString(1, id);
+	pstmt.setString(2, name);
+	pstmt.executeUpdate();
 \end{verbatim}
 Assume the code runs successfully: there are no instructors with the given IDs and there is a 'Comp. Sci.' department.\par\vspace{0.5em}
 \begin{checkboxes}
