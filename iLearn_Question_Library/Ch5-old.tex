@@ -145,7 +145,7 @@ Which character is usually used first to check if SQL injection is possible?\par
 
 \begin{minipage}{\linewidth}
 \question[3]
-Which code snippet is vulnerable to SQL injection attacks?\par\vspace{0.5em}
+Which java code snippet is vulnerable to SQL injection attacks?\par\vspace{0.5em}
 \begin{checkboxes} 
     \CorrectChoice \begin{verbatim}
 String id = "225";
@@ -155,7 +155,7 @@ BigDecimal salary = new BigDecimal(98000);
 Statement stmt = conn.createStatement();
 stmt.executeUpdate("insert into instructor values 
 ('" + id + "', '" + name + "', '" + dept_name + "', " + salary + ")");
-    \end{verbatim}
+    \end{verbatim} %-- String name = "Green', 'Comp. Sci.', 3) -- ";
     \choice \begin{verbatim}
 String id = "225";
 String name = "Green";
@@ -197,7 +197,8 @@ insert into instructor values ('6667', TODO, 'Comp. Sci.', null)
 
 \begin{minipage}{\linewidth}
 \question[4]
-Consider the following function definition and the query that follows?\par\vspace{0.5em}
+Which statements are true regarding the following function and the query that follows?\par\vspace{0.5em}
+
 \begin{verbatim}
 create function instructors_no_fun
 (dept_name varchar(20))
@@ -208,16 +209,37 @@ select count(*) into d_count
 from instructor where instructor.dept_name = dept_name;
 return d_count;
 end
-
-select dept_name, instructors_no_fun(dept_name)
-from department
 \end{verbatim}
-Hint: If you get an error when creating the function, try running:\par\vspace{0.5em}
+
+{\footnotesize Note: To create a function in MySQL Workbench, wrap the function definition with
+
+\texttt{delimiter //} 
+
+before it, and 
+
+\texttt{// delimiter ;}
+
+after it.}
+
+\par\vspace{0.5em}
+
+{\footnotesize Hint: If you get an error when creating the function, try running}
 \begin{verbatim}
 SET GLOBAL log_bin_trust_function_creators = 1;
 \end{verbatim}
-This allows function creation when binary logging is enabled.\par\vspace{0.5em}
-(Select all that apply)\par\vspace{0.5em}
+{\footnotesize This allows function creation when binary logging is enabled.}
+
+\par\vspace{0.5em}
+
+Consider the following query:
+
+\begin{verbatim}
+select dept_name, instructors_no_fun(dept_name)
+from department;
+\end{verbatim}
+
+\par\vspace{0.5em}
+
 \begin{checkboxes}
     \CorrectChoice dept\_name, of type varchar(20), is the only parameter of the function instructors\_no\_fun.
     \CorrectChoice The query returns, for each department, the number of instructors associated with it.
@@ -228,7 +250,8 @@ This allows function creation when binary logging is enabled.\par\vspace{0.5em}
 
 \begin{minipage}{\linewidth}
 \question[4]
-Consider the following procedure definition and commands that follow?\par\vspace{0.5em}
+Which statements are true regarding the following procedure?\par\vspace{0.5em}
+
 \begin{verbatim}
 create procedure instructors_no_proc
 (in dept_name varchar(20), out d_count integer)
@@ -236,25 +259,40 @@ begin
 select count(*) into d_count 
 from instructor where instructor.dept_name = dept_name;
 end
-
-call instructors_no_proc('Comp. Sci.', @a)
-
-select @a
 \end{verbatim}
-(Select all that apply)\par\vspace{0.5em}
+
+{\footnotesize Note: To create a procedure in MySQL Workbench, wrap the procedure definition with
+
+\texttt{delimiter //} 
+
+before it, and 
+
+\texttt{// delimiter ;}
+
+after it.}
+
+\par\vspace{0.5em}
+
 \begin{checkboxes}
-    \CorrectChoice The last command is a scalar query.
-    \choice The following syntax is valid for calling the instructors\_no\_proc procedure:
+    \CorrectChoice The following command correctly calls the procedure:
     \begin{verbatim}
-    select instructors_no_proc('Comp. Sci.', @a)
+call instructors_no_proc('Comp. Sci.', @a);
     \end{verbatim}
-    \choice The following command calls the instructors\_no\_proc procedure correctly:
+
+    \choice The following command correctly calls the procedure:
     \begin{verbatim}
-    call instructors_no_proc('Comp. Sci.', 7)
+select instructors_no_proc('Comp. Sci.', @a);
     \end{verbatim}
+
+    \choice The following command correctly calls the procedure:
+    \begin{verbatim}
+call instructors_no_proc('Comp. Sci.', 7);
+    \end{verbatim}
+
     \choice The execution of instructors\_no\_proc procedure can result in a modification to the database data.
 \end{checkboxes}
 \end{minipage}\vspace{1em}
+
 
 \end{questions}
 \end{document}
