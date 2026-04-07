@@ -175,16 +175,21 @@ pstmt.executeUpdate();
 
 \begin{minipage}{\linewidth}
 \question[6]
-Which values, if any, can TODO be replaced with, so that the below query runs? (Select all that apply)\par\vspace{0.5em}
+Which values can TODO be replaced with so that the query below runs?\par\vspace{0.5em}
 \begin{verbatim}
-INSERT INTO instructor values ('6667', TODO, 'Comp. Sci.', null);
+insert into instructor values ('6667', TODO, 'Comp. Sci.', null)
 \end{verbatim}
-(Select all that apply)\par\vspace{0.5em}
+\par\vspace{0.5em}
 \begin{checkboxes}
-    \CorrectChoice (SELECT VERSION())
-    \CorrectChoice 'Green', null, null); -- (the two minus signs are followed by a space)
-    \CorrectChoice (select count(*) from information\_schema.schemata)
-    \choice '
+    \CorrectChoice \begin{verbatim} (select version()) \end{verbatim}
+    \CorrectChoice 
+    \begin{verbatim} 'Green', null, null); -- \end{verbatim}
+    \vspace{-0.5em}
+    {\footnotesize Note: assume there is a space after the two minus signs (\texttt{-- }).}
+    \CorrectChoice \begin{verbatim} (select count(*) from information_schema.schemata) \end{verbatim}
+    \choice \begin{verbatim}'\end{verbatim}
+    \vspace{-0.5em}
+    {\footnotesize Note: the above is a single quote.}
 \end{checkboxes}
 \end{minipage}\vspace{1em}
 

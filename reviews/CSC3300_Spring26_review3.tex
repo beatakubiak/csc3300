@@ -1,0 +1,196 @@
+\documentclass[12pt]{exam}
+\usepackage[margin=0.1in]{geometry}
+
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{enumitem}
+\usepackage{multicol}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,shapes.callouts}
+
+\newcommand{\tfq}[3]{%
+  \question[#1]\textbf{T/F:} #2%
+  % Only show the choices when printing answers/keys
+  \ifprintanswers
+    \par\begin{oneparchoices}
+      #3
+    \end{oneparchoices}
+  \fi
+}
+
+
+
+\makeatletter
+\newcommand{\TFQ@choices}{} % temp holder
+
+\newenvironment{tfqverb}[2]{%
+  \def\TFQ@choices{#2}% store choices for use at end
+  \question[#1]\textbf{T/F:}%
+}{%
+  \ifprintanswers
+    \par\begin{oneparchoices}\TFQ@choices\end{oneparchoices}
+  \fi
+}
+\makeatother
+
+%\printanswers
+% optional styling for the correct choice:
+\CorrectChoiceEmphasis{\bfseries}    % make the correct choice bold
+% or e.g. \CorrectChoiceEmphasis{\color{red}\bfseries}
+
+\usepackage{fancyvrb}
+\newsavebox{\verbbox}
+
+\begin{document}
+
+
+\begin{center}
+\textbf{\Large Review 3 — Database Management Systems}
+
+\textbf{CSC 3300 \quad Spring 2026}
+\end{center}
+
+\begin{questions}
+%---------------------------------TRUE/FALSE---------------------------------
+\section*{Part I — True/False}
+
+\begin{minipage}{\linewidth}
+\question[2]
+True or False: JDBC drivers implement the JDBC API.\par\vspace{0.5em}
+\begin{checkboxes}
+    \CorrectChoice True
+    \choice False
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\begin{minipage}{\linewidth}
+\question[2]
+True or False: A function has only input parameters and can return multiple values.\par\vspace{0.5em}
+\begin{checkboxes}
+    \choice True
+    \CorrectChoice False
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\begin{minipage}{\linewidth}
+\question[2]
+True or False: In a database management system, the execution of a trigger can cause another trigger to execute.\par\vspace{0.5em}
+\begin{checkboxes}
+    \CorrectChoice True
+    \choice False
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\begin{minipage}{\linewidth}
+\question[2]
+True or False: If f was a stored function with one parameter of type varchar(20) returning an integer, then the following command would work.\par\vspace{0.5em}
+select f('HelloThere') = 1;\par\vspace{0.5em}
+\begin{checkboxes}
+    \CorrectChoice True
+    \choice False
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\begin{minipage}{\linewidth}
+\question[4]
+True or False: The execution of this Java code snippet inserts exactly one record into the instructor table.\par\vspace{0.5em}
+\begin{verbatim}
+String id = "225";
+String name = "Green";
+String dept_name = "Comp. Sci.";
+BigDecimal salary = new BigDecimal(98000);
+PreparedStatement pstmt = conn.prepareStatement
+("insert into instructor values (?, ?, ?, ?)");
+pstmt.setString(1, id);
+pstmt.setString(2, name);
+pstmt.setString(3, dept_name);
+pstmt.setBigDecimal(4, salary);
+pstmt.executeUpdate();
+id = "226"
+pstmt.setString(1, id);
+pstmt.executeUpdate();
+\end{verbatim}
+Assume the code runs successfully: there are no instructors with the given IDs and there is a 'Comp. Sci.' department.\par\vspace{0.5em}
+\begin{checkboxes}
+    \choice True
+    \CorrectChoice False
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\begin{minipage}{\linewidth}
+\question[2]
+True or False: A trigger can only execute after a specified operation (INSERT, UPDATE, DELETE) has completed.\par\vspace{0.5em}
+\begin{checkboxes}
+    \choice True
+    \CorrectChoice False
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\begin{minipage}{\linewidth}
+\question[2]
+True or False: Dynamic SQL allows the program to construct an SQL query as a character string at runtime, submit the query, 
+and then retrieve the result into program variables a tuple at a time.\par\vspace{0.5em}
+\begin{checkboxes}
+    \CorrectChoice True
+    \choice False
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+
+
+%---------------------------------MC---------------------------------
+\section*{Part II — Multiple choice (choose one)}
+
+
+%---------------------------------MS---------------------------------
+\section*{Part III — Multiple select (select all that apply)}
+
+\begin{minipage}{\linewidth}
+\question[6]
+Which values, if any, can TODO be replaced with, so that the below query runs? (Select all that apply)\par\vspace{0.5em}
+\begin{verbatim}
+INSERT INTO instructor values ('6667', TODO, 'Comp. Sci.', null);
+\end{verbatim}
+(Select all that apply)\par\vspace{0.5em}
+\begin{checkboxes}
+    \CorrectChoice (SELECT VERSION())
+    \CorrectChoice 'Green', null, null); -- (the two minus signs are followed by a space)
+    \CorrectChoice (select count(*) from information\_schema.schemata)
+    \choice '
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\begin{minipage}{\linewidth}
+\question[4]
+Consider the following function definition and the query that follows?\par\vspace{0.5em}
+\begin{verbatim}
+create function instructors_no_fun
+(dept_name varchar(20))
+returns integer
+begin
+declare d_count integer;
+select count(*) into d_count 
+from instructor where instructor.dept_name = dept_name;
+return d_count;
+end
+
+select dept_name, instructors_no_fun(dept_name)
+from department
+\end{verbatim}
+Hint: If you get an error when creating the function, try running:\par\vspace{0.5em}
+\begin{verbatim}
+SET GLOBAL log_bin_trust_function_creators = 1;
+\end{verbatim}
+This allows function creation when binary logging is enabled.\par\vspace{0.5em}
+(Select all that apply)\par\vspace{0.5em}
+\begin{checkboxes}
+    \CorrectChoice dept\_name, of type varchar(20), is the only parameter of the function instructors\_no\_fun.
+    \CorrectChoice The query returns, for each department, the number of instructors associated with it.
+    \choice For departments with instructors, the query returns the instructor count.
+    \CorrectChoice The query runs function instructors\_no\_fun as many times as there are tuples in the table department.
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\end{questions}
+\end{document}

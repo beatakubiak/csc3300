@@ -1,0 +1,36 @@
+# LaTeX intermediate files
+*.aux
+*.bbl
+*.blg
+*.brf
+*.fls
+*.fdb_latexmk
+*.log
+*.out
+*.synctex.gz
+*.toc
+*.lof
+*.lot
+*.nav
+*.snm
+
+# LaTeX Workshop / VS Code
+*.pdf
+*.xdv
+*.dvi
+*.acn
+*.acr
+*.alg
+*.glg
+*.glo
+*.gls
+*.ist
+
+# Editors
+*~
+*.swp
+*.swo
+.DS_Store
+
+# VS Code project settings
+.vscode/

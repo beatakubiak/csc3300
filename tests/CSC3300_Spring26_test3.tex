@@ -1,0 +1,149 @@
+\documentclass[12pt]{exam}
+\usepackage[margin=0.1in]{geometry}
+
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{enumitem}
+\usepackage{multicol}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,shapes.callouts}
+
+\newcommand{\tfq}[3]{%
+  \question[#1]\textbf{T/F:} #2%
+  % Only show the choices when printing answers/keys
+  \ifprintanswers
+    \par\begin{oneparchoices}
+      #3
+    \end{oneparchoices}
+  \fi
+}
+
+
+
+\makeatletter
+\newcommand{\TFQ@choices}{} % temp holder
+
+\newenvironment{tfqverb}[2]{%
+  \def\TFQ@choices{#2}% store choices for use at end
+  \question[#1]\textbf{T/F:}%
+}{%
+  \ifprintanswers
+    \par\begin{oneparchoices}\TFQ@choices\end{oneparchoices}
+  \fi
+}
+\makeatother
+
+\printanswers
+% optional styling for the correct choice:
+\CorrectChoiceEmphasis{\bfseries}    % make the correct choice bold
+% or e.g. \CorrectChoiceEmphasis{\color{red}\bfseries}
+
+\usepackage{fancyvrb}
+\newsavebox{\verbbox}
+
+\begin{document}
+
+
+\begin{center}
+\textbf{\Large Test 2 — Database Management Systems}
+
+\textbf{CSC 3300 \quad Spring 2026}
+\end{center}
+
+\begin{questions}
+%---------------------------------TRUE/FALSE---------------------------------
+\section*{Part I — True/False}
+\begin{minipage}{\linewidth}
+\question[2]
+True or False: MySQL Connector/J implements the JDBC API.\par\vspace{0.5em}
+\begin{checkboxes}
+    \CorrectChoice True
+    \choice False
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\begin{minipage}{\linewidth}
+\question[2]
+True or False: Materialized views physically store the result set of a query, and their data can be updated periodically.\par\vspace{0.5em}
+\begin{checkboxes}
+    \CorrectChoice True
+    \choice False
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\begin{minipage}{\linewidth}
+\question[2]
+True or False: A primary key constraint automatically creates an index.\par\vspace{0.5em}
+\begin{checkboxes}
+    \CorrectChoice True
+    \choice False
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+%---------------------------------MC---------------------------------
+\section*{Part II — Multiple choice (choose one)}
+\begin{minipage}{\linewidth}
+\question[3]
+Which code snippet is vulnerable to SQL injection attacks?\par\vspace{0.5em}
+\begin{checkboxes} 
+    \CorrectChoice \begin{verbatim}
+String id = "225";
+String name = "Green";
+String dept_name = "Comp. Sci.";
+BigDecimal salary = new BigDecimal(98000);
+Statement stmt = conn.createStatement();
+stmt.executeUpdate("insert into instructor values 
+('" + id + "', '" + name + "', '" + dept_name + "', " + salary + ")");
+    \end{verbatim}
+    \choice \begin{verbatim}
+String id = "225";
+String name = "Green";
+String dept_name = "Comp. Sci.";
+BigDecimal salary = new BigDecimal(98000);
+PreparedStatement pstmt = conn.prepareStatement
+("insert into instructor values (?, ?, ?, ?)");
+pstmt.setString(1, id);
+pstmt.setString(2, name);
+pstmt.setString(3, dept_name);
+pstmt.setBigDecimal(4, salary);
+pstmt.executeUpdate();
+    \end{verbatim}
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+%---------------------------------MS---------------------------------
+\section*{Part III — Multiple select (select all that apply)}
+
+\begin{minipage}{\linewidth}
+\question[4]
+Consider the following procedure definition and commands that follow?\par\vspace{0.5em}
+\begin{verbatim}
+create procedure instructors_no_proc
+(in dept_name varchar(20), out d_count integer)
+begin
+select count(*) into d_count 
+from instructor where instructor.dept_name = dept_name;
+end
+
+call instructors_no_proc('Comp. Sci.', @a)
+
+select @a
+\end{verbatim}
+(Select all that apply)\par\vspace{0.5em}
+\begin{checkboxes}
+    \CorrectChoice The last command is a scalar query.
+    \choice The following syntax is valid for calling the instructors\_no\_proc procedure:
+    \begin{verbatim}
+    select instructors_no_proc('Comp. Sci.', @a)
+    \end{verbatim}
+    \choice The following command calls the instructors\_no\_proc procedure correctly:
+    \begin{verbatim}
+    call instructors_no_proc('Comp. Sci.', 7)
+    \end{verbatim}
+    \choice The execution of instructors\_no\_proc procedure can result in a modification to the database data.
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\end{questions}
+\end{document}
