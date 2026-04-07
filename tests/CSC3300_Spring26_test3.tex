@@ -54,6 +54,72 @@
 \begin{questions}
 %---------------------------------TRUE/FALSE---------------------------------
 \section*{Part I — True/False}
+
+\begin{minipage}{\linewidth}
+\question[2]
+True or False: Consider a view created with the following command.\par\vspace{0.5em}
+\begin{verbatim}
+create view faculty as
+select id, name, dept_name
+from instructor
+\end{verbatim}
+The following two queries return the same data for any instance of the University database.\par\vspace{0.5em}
+\begin{verbatim}
+select count(*) from instructor
+select count(*) from faculty
+\end{verbatim}
+\begin{checkboxes}
+    \choice True
+    \CorrectChoice False
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\begin{minipage}{\linewidth}
+\question[2]
+True or False: Once a transaction has executed commit work, its effects can no longer be undone by rollback work.\par\vspace{0.5em}
+\begin{checkboxes}
+    \CorrectChoice True
+    \choice False
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\begin{minipage}{\linewidth}
+\question[2]
+True or False: If we try to delete a tuple from the \textbf{advisor} relation, the tuple is not deleted. Instead, \textbf{i\_id} of this tuple is set to NULL.\par\vspace{0.5em}
+\begin{checkboxes}
+    \choice True
+    \CorrectChoice False
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\begin{minipage}{\linewidth}
+\question[2]
+True or False: Definition of the \textit{prereq} table could be changed from: \par\vspace{0.5em}
+\begin{verbatim}
+create table prereq
+(course_id        varchar(8), 
+prereq_id        varchar(8),
+primary key (course_id, prereq_id),
+foreign key (course_id) references course(course_id) on delete cascade,
+foreign key (prereq_id) references course(course_id)
+);
+\end{verbatim}
+to\par\vspace{0.5em}
+\begin{verbatim}
+create table prereq
+(course_id        varchar(8), 
+prereq_id        varchar(8),
+primary key (course_id, prereq_id),
+foreign key (course_id) references course(course_id) on delete cascade,
+foreign key (prereq_id) references course(course_id) on delete set null
+);
+\end{verbatim}
+\begin{checkboxes}
+    \choice True
+    \CorrectChoice False
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
 \begin{minipage}{\linewidth}
 \question[2]
 True or False: MySQL Connector/J implements the JDBC API.\par\vspace{0.5em}
@@ -81,8 +147,31 @@ True or False: A primary key constraint automatically creates an index.\par\vspa
 \end{checkboxes}
 \end{minipage}\vspace{1em}
 
+\begin{minipage}{\linewidth}
+\question[2]
+True or False: Deleting a tuple from the \textbf{instructor} relation can result in setting value(s) of some attribute(s) 
+of some tuples in the \textbf{advisor} relation to NULL.\par\vspace{0.5em}
+\begin{checkboxes}
+    \CorrectChoice True
+    \choice False
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+
 %---------------------------------MC---------------------------------
 \section*{Part II — Multiple choice (choose one)}
+
+\begin{minipage}{\linewidth}
+\question[3]
+What is the maximal number of tables from which tuple(s) can be automatically deleted with the deletion of a \textbf{student}?\par\vspace{0.5em}
+\begin{checkboxes}
+    \choice 1
+    \choice 0
+    \CorrectChoice 2
+    \choice 4
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
 \begin{minipage}{\linewidth}
 \question[3]
 Which code snippet is vulnerable to SQL injection attacks?\par\vspace{0.5em}
@@ -95,7 +184,7 @@ BigDecimal salary = new BigDecimal(98000);
 Statement stmt = conn.createStatement();
 stmt.executeUpdate("insert into instructor values 
 ('" + id + "', '" + name + "', '" + dept_name + "', " + salary + ")");
-    \end{verbatim}
+    \end{verbatim} %-- String name = "Green', 'Comp. Sci.', 3) -- ";
     \choice \begin{verbatim}
 String id = "225";
 String name = "Green";
@@ -116,8 +205,28 @@ pstmt.executeUpdate();
 \section*{Part III — Multiple select (select all that apply)}
 
 \begin{minipage}{\linewidth}
+\question[5]
+Consider the following view, named myView, defined in the University database.\par\vspace{0.5em}
+\begin{verbatim}
+create view myView(dept_name, course_id, amount) as
+       select dept_name, course_id, count(*)
+       from course natural join section
+       group by dept_name, course_id;
+\end{verbatim}
+Which of the given SQL statements are allowed on the view?\par\vspace{0.5em}
+\begin{checkboxes}
+    \CorrectChoice select dept\_name, course\_id from myView
+    \CorrectChoice select * from course where course\_id in (select course\_id from myView)
+    \CorrectChoice select course\_id, amount from myView where amount \texttt{=} (select min(amount) from myView)
+    \choice create view nextView(course\_id) as select course\_id, title from myView where amount \texttt{>=} 2
+    \choice insert into myView values ('Physics', 'PHY-101', 1)
+\end{checkboxes}
+\end{minipage}\vspace{1em}
+
+\begin{minipage}{\linewidth}
 \question[4]
-Consider the following procedure definition and commands that follow?\par\vspace{0.5em}
+Which statements are true regarding the following procedure?\par\vspace{0.5em}
+
 \begin{verbatim}
 create procedure instructors_no_proc
 (in dept_name varchar(20), out d_count integer)
@@ -125,22 +234,36 @@ begin
 select count(*) into d_count 
 from instructor where instructor.dept_name = dept_name;
 end
-
-call instructors_no_proc('Comp. Sci.', @a)
-
-select @a
 \end{verbatim}
-(Select all that apply)\par\vspace{0.5em}
+
+{\footnotesize Note: To create a procedure in MySQL Workbench, wrap the procedure definition with
+
+\texttt{delimiter //} 
+
+before it, and 
+
+\texttt{// delimiter ;}
+
+after it.}
+
+\par\vspace{0.5em}
+
 \begin{checkboxes}
-    \CorrectChoice The last command is a scalar query.
-    \choice The following syntax is valid for calling the instructors\_no\_proc procedure:
+    \CorrectChoice The following command correctly calls the procedure:
     \begin{verbatim}
-    select instructors_no_proc('Comp. Sci.', @a)
+call instructors_no_proc('Comp. Sci.', @a);
     \end{verbatim}
-    \choice The following command calls the instructors\_no\_proc procedure correctly:
+
+    \choice The following command correctly calls the procedure:
     \begin{verbatim}
-    call instructors_no_proc('Comp. Sci.', 7)
+select instructors_no_proc('Comp. Sci.', @a);
     \end{verbatim}
+
+    \choice The following command correctly calls the procedure:
+    \begin{verbatim}
+call instructors_no_proc('Comp. Sci.', 7);
+    \end{verbatim}
+
     \choice The execution of instructors\_no\_proc procedure can result in a modification to the database data.
 \end{checkboxes}
 \end{minipage}\vspace{1em}
